@@ -15,9 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+<<<<<<< HEAD
 from survey.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('add-family/', FcpFamilyMemberTabFormStep1View, name='add-family'),
+=======
+from django.conf.urls import include
+from django.conf import settings
+
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path(r'', include('survey.urls')),
+>>>>>>> 93e179f754681e6539346d1e260486800127cd81
 ]
