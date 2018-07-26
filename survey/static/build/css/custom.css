@@ -1,0 +1,52 @@
+/* Style the header with a grey background and some padding */
+html, body {
+    height: 100%;
+    direction: rtl;
+    font: 14px 'neo', serif !important;
+}
+.header {
+  box-shadow: 0 10px 10px rgba(0,0,0,0.22);
+  background-color: #fff;
+  padding: 13px 35px 17px 0px;
+}
+.date{
+    padding: 9px 35px 0 0 ;
+    color: #fff;
+    float: right;
+}
+.top-bar{
+      border-radius: 2px;
+    margin-bottom: 2px;
+     box-shadow: 0 10px 10px rgba(0,0,0,0.22);
+  background-color: #45429a;
+    height: 40px;
+}
+
+.socialicons{float: left;}
+.socialicons ul {
+    float: left;
+}
+.socialicons ul li {
+    padding: 5px;
+    display: inline-block;
+    text-align: center;
+    border: none !important;
+}
+.socialicons ul li a{
+    color: #fff;
+    font-size: 20px !important;
+
+}
+footer {
+    line-height: 50px;
+    color: #fff;
+    margin-top: 2px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    /* Height of the footer */
+      box-shadow: 0 -9px 5px -5px rgba(0,0,0,0.22);
+  background-color: #45429a;);
+    flex-shrink: 0;
+}
