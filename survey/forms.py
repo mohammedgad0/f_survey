@@ -11,6 +11,19 @@ class dropList(ModelChoiceField):
 class FcpFamilyMemberTabFormStep1(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FcpFamilyMemberTabFormStep1, self).__init__(*args, **kwargs)
+        self.fields['difficulty_1_degree'].empty_label = None
+        self.fields['difficulty_2_degree'].empty_label = None
+        self.fields['difficulty_3_degree'].empty_label = None
+        self.fields['difficulty_4_degree'].empty_label = None
+        self.fields['difficulty_5_degree'].empty_label = None
+        self.fields['difficulty_6_degree'].empty_label = None
+        self.fields['difficulty_7_degree'].empty_label = None
+        self.fields['nationality'].empty_label = None
+        self.fields['family_relation'].empty_label = None
+        self.fields['place_birth'].empty_label = None
+        self.fields['place_stay_previous'].empty_label = None
+        self.fields['place_stay'].empty_label = None
+        self.fields['gender'].empty_label = None
 
     member_name_first = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
     member_name_second = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
@@ -18,24 +31,24 @@ class FcpFamilyMemberTabFormStep1(forms.ModelForm):
     id_number_member = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
     age = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
     birth_month = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
-    birth_year = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))   
+    birth_year = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
     family_relation = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     gender = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=16,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     nationality = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=18,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     difficulty_1 = forms.BooleanField(label='النظر')
-    difficulty_1_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect(attrs={'class': 'form-control'}))
+    difficulty_1_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_2 = forms.BooleanField(label='السمع')
-    difficulty_2_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect(attrs={'class': 'form-control'}))
+    difficulty_2_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_3 = forms.BooleanField(label='الحركة')
-    difficulty_3_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة',widget=forms.RadioSelect(attrs={'class': 'form-control'}))
+    difficulty_3_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة',widget=forms.RadioSelect())
     difficulty_4 = forms.BooleanField(label='التزكر')
-    difficulty_4_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect(attrs={'class': 'form-control'}))
+    difficulty_4_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_5 = forms.BooleanField(label='العناية الشخصية')
-    difficulty_5_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect(attrs={'class': 'form-control'}))
+    difficulty_5_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_6 = forms.BooleanField(label='التخاطب والتواصل')
-    difficulty_6_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect(attrs={'class': 'form-control'}))
-    difficulty_7_txt = forms.TextInput(attrs={'label':'اخرى(توصيح)'})
-    difficulty_7_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect(attrs={'class': 'form-control'}))
+    difficulty_6_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect())
+    difficulty_7_txt = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
+    difficulty_7_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=True, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_8 = forms.BooleanField(label='لايوجد')
     place_birth = dropList(queryset=GenLookupListView.objects.filter(rp_id=2,lookup_id=27,l_list_active=1),to_field_name="lookup_list_id",required=True, label='مكان الميلاد', widget=forms.Select(attrs={'class': 'chosen form-control'}))
     place_stay_previous = dropList(queryset=GenLookupListView.objects.filter(rp_id=2,lookup_id=27,l_list_active=1),to_field_name="lookup_list_id",required=True, label='مكان الاقامة السابق', widget=forms.Select(attrs={'class': 'chosen form-control'}))
