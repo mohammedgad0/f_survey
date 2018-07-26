@@ -12,7 +12,13 @@ class FcpFamilyMemberTabFormStep1(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FcpFamilyMemberTabFormStep1, self).__init__(*args, **kwargs)
 
-    member_name_first = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))    
+    member_name_first = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
+    member_name_second = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
+    member_name_third = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
+    id_number_member = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
+    age = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
+    birth_month = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
+    birth_year = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))   
     family_relation = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     gender = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=16,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     nationality = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=18,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))

@@ -86,12 +86,12 @@
                         </div>
                       </div>
 
-                      <div class="col-md-12">
+                      <div class="col-md-6">
                         <div class="form-group">
 
                           {{ form_step1.birth_month }}
                           <label for="input" class="control-label">{{ _('Birth Month') }}</label>
-                          <!--<i class="bar"></i>-->
+                          <i class="bar"></i>
                         </div>
                       </div>
 
@@ -114,11 +114,17 @@
                       </div>
 
                       <div class="col-md-6">
+                        <!-- Default unchecked -->
+                        <div class="checkbox">
+                          <label>
+                           <input type="checkbox" checked="checked"/><i class="helper"></i>I'm the label from a checkbox
+                         </label>
+                       </div>
                         <div class="form-group">
 
                           {{ form_step1.difficulty_1 }}
                           <label for="input" class="control-label attachment">{{ _('Eyesight difficulty') }}</label>
-                          <i class="bar"></i>
+
                         </div>
                       </div>
 
@@ -279,7 +285,7 @@
         </form>
 
       </div>
-  
+
 
 
 {% endblock %}
