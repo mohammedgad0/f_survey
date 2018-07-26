@@ -33,12 +33,13 @@
 <body>
 
     {% block body %}
-      <div class="container-fluid">
+
       {% block header %}
           <header>
           {% include "header.html" %}
           </header>
           {% endblock header %}
+
         <div class="main_container">
 
 
@@ -54,7 +55,7 @@
             </footer>
           {% endblock footer %}
         </div>
-      </div>
+
       {% block javascripts %}
         <!-- jQuery -->
         <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
