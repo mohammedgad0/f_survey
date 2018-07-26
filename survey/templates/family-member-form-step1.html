@@ -1,13 +1,296 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block title %}Family Survey Form{% endblock title %}
 {% block stylesheets %}
   {{ block.super }}
-{% endblock stylesheets %}
+{% endblock %}
 
 {% block content %}
-{{ form_step1.as_p }}
-{% endblock content %}
+<div class="container-form">
+<!-- User query form added by Wisal, 7/17/08 -->
+  <button type='submit' onclick="location.href='#'" style="background-color: #58C0D8, border: 50vh solid #58C0D8;" class="button"><span><i class="fas fa-eye">{{ _('View all members') }}</i></span></button>
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <h2>{% trans 'Add Family Member' %}</h2>
+    </div>
+  </div>
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!--<fieldset class="scheduler-border">-->
+    <!-- <legend class="scheduler-border">{{ _('Your Query') }}</legend>-->
+
+          <fieldset class="scheduler-border">
+           <legend class="scheduler-border">{{ _('Member Information') }}</legend>
+                <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.member_name_first }}
+                    <label for="input" class="control-label">{{ _('First Name') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+                <!--  col-md-6   -->
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.member_name_second }}
+                    <label for="input" class="control-label">{{ _('Second Name') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+                <!--  col-md-6   -->
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.member_name_third }}
+                    <label for="input" class="control-label">{{ _('Third Name') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+                <!--  col-md-6   -->
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.id_number_member }}
+                    <label for="input" class="control-label">{{ _('ID Number') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+                <!--  col-md-6   -->
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.family_relation }}
+                    <label for="input" class="control-label">{{ _('Relation') }}</label>
+                    <i class="bar"></i>
+                    </div>
+                </div>
+                <!--  col-md-6   -->
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.gender }}
+                    <label for="input" class="control-label">{{ _('Gender') }}</label>
+                    <i class="bar"></i>
+                    </div>
+                </div>
+                <!--  col-md-6   -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    {{ form_step1.age }}
+                    <label for="input" class="control-label">{{ _('Age') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+
+                    {{ form_step1.birth_month }}
+                    <label for="input" class="control-label">{{ _('Birth Month') }}</label>
+                    <!--<i class="bar"></i>-->
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.birth_year }}
+                    <label for="input" class="control-label attachment">{{ _('Birth Year') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.nationality }}
+                    <label for="input" class="control-label attachment">{{ _('Nationality') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_1 }}
+                    <label for="input" class="control-label attachment">{{ _('Eyesight difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_1_degree }}
+                    <label for="input" class="control-label attachment">{{ _('Level of difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_2 }}
+                    <label for="input" class="control-label attachment">{{ _('Hearing power difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_2_degree }}
+                    <label for="input" class="control-label attachment">{{ _('Level of difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_3 }}
+                    <label for="input" class="control-label attachment">{{ _('Movement difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_3_degreee }}
+                    <label for="input" class="control-label attachment">{{ _('Level of difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_4 }}
+                    <label for="input" class="control-label attachment">{{ _('Memory difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_4_degree }}
+                    <label for="input" class="control-label attachment">{{ _('Level of difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_5 }}
+                    <label for="input" class="control-label attachment">{{ _('Personal care') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_5_degree }}
+                    <label for="input" class="control-label attachment">{{ _('Level of difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_6 }}
+                    <label for="input" class="control-label attachment">{{ _('Communincation') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_6_degree }}
+                    <label for="input" class="control-label attachment">{{ _('Level of difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_7_txt }}
+                    <label for="input" class="control-label attachment">{{ _('Other') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.difficulty_7_degree }}
+                    <label for="input" class="control-label attachment">{{ _('Level of difficulty') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.place_birth }}
+                    <label for="input" class="control-label attachment">{{ _('Place of Birth') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.place_stay_previous }}
+                    <label for="input" class="control-label attachment">{{ _('Previous place of stay') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+
+                    {{ form_step1.place_stay }}
+                    <label for="input" class="control-label attachment">{{ _('Current place of stay') }}</label>
+                    <i class="bar"></i>
+                  </div>
+                </div>
+
+              </div>
+          </fieldset>
+
+
+        </div>
+    <!--</fieldset>-->
+    <div class="button-container-form">
+        <button type="submit" class="button"><span>{{ _('Save') }}</span></button>
+    </div>
+
+  </form>
+
+</div>
+
+{% endblock %}
 
 {% block javascripts %}
   {{ block.super }}
-{% endblock javascripts %}
+<style>
+  $(document).ready(fucntion(){
+    $('#id_age').on('click', function(){
+        alert($(this).val());
+      });
+  });
+</style>
+
+{% endblock %}
