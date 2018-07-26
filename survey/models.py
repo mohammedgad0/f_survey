@@ -65,8 +65,8 @@ class FcpFamilyMemberTab(models.Model):
 
 
 class GenLookupListView(models.Model):
-    id = models.FloatField(primary_key=True)
-    rp_id = models.FloatField(blank=True, null=True)
+    #id = models.FloatField(primary_key=True)
+    rp_id = models.FloatField(blank=True, null=True, primary_key=True)
     column_name = models.CharField(max_length=250, blank=True, null=True)
     lookup_id = models.FloatField()
     lookup_name = models.CharField(max_length=255, blank=True, null=True)
@@ -84,7 +84,7 @@ class GenLookupListView(models.Model):
     col2 = models.CharField(max_length=500, blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'gen_lookup_list_view'
 
 

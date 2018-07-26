@@ -1,1 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Family Survey Form{% endblock title %}
+{% block stylesheets %}
+  {{ block.super }}
+{% endblock stylesheets %}
+
+{% block content %}
 {{ form_step1.as_p }}
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+{% endblock javascripts %}

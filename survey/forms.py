@@ -4,9 +4,10 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from survey.models import *
 #from django.forms.models import modelformset_factor
-class familyRelationsList(ModelChoiceField):
+class dropList(ModelChoiceField):
     def label_from_instance(self, obj):
-        return obj.type
+        return obj.list_name
+
 class FcpFamilyMemberTabFormStep1(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FcpFamilyMemberTabFormStep1, self).__init__(*args, **kwargs)
@@ -14,8 +15,10 @@ class FcpFamilyMemberTabFormStep1(forms.ModelForm):
 
     CHOICES = (('1', _('Employee'),), ('2', _('Department'),))
     # family_relation = familyRelationsList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    # family_relation = familyRelationsList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    family_relation = forms.ChoiceField(label=_('Assignto'),required=False,widget=forms.RadioSelect(attrs={'class':'form-check-input-task'}), choices=CHOICES)
+    family_relation = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    gender = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=16,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    nationality = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=18,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    difficulty = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=73,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     class Meta:
         model = FcpFamilyMemberTab
         fields = ['member_name_first',
@@ -28,4 +31,5 @@ class FcpFamilyMemberTabFormStep1(forms.ModelForm):
             'birth_month',
             'birth_year',
             'nationality',
+            'difficulty',
             ]
