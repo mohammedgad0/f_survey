@@ -10,7 +10,7 @@ app_name = 'survey'
 urlpatterns = [
     # Home
     path('', home, name='home'),
-    path('add-family/', FcpFamilyMemberTabFormStep1View, name='add-family'),
+    path('add-family/', add_family_member, name='add-family'),
     # Page to add house form
     path('add-house/', add_house, name='add-house'),
 

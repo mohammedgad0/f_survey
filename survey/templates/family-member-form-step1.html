@@ -10,18 +10,19 @@
 {% endblock stylesheets %}
 
 {% block content %}
-        <button type='submit' onclick="location.href='#'"  class="button"><span><i class="fas fa-eye">{{ _('View all members') }}</i></span></button>
+        <button type='submit' onclick="location.href='#'"  class="button"><span><i class="fa fas fa-users"></i> {{ _('View all members') }}</span></button>
 
       <div class="container-form">
       <!-- User query form added by Wisal, 7/17/08 -->
-        <div class="row">
+        <!--<div class="row">
           <div class="col-lg-12 text-center">
             <h2>{% trans 'Add Family Member' %}</h2>
           </div>
-        </div>
+        </div>-->
+        <form action="" method="post" id="family-survey-from">
               <fieldset class="scheduler-border">
-                 <legend class="scheduler-border">{{ _('Member Information') }}</legend>
-                 <form action="" method="post" id="family-survey-from">
+                 <legend class="scheduler-border"><i class="fas fa fa-user-plus"></i> {{ _('Add Family Member') }}</legend>
+
                    {% csrf_token %}
 
 
@@ -56,7 +57,7 @@
                         <div class="form-group">
 
                           {{ form_step1.id_number_member }}
-                          <label for="input" class="control-label">{{ _('ID Number') }}</label>
+                          <label for="input" class="control-label">{{ _('No. (National Identity / Residence / Visitor Limit) per person') }}</label>
                           <i class="bar"></i>
                         </div>
                       </div>
@@ -106,7 +107,7 @@
                       </div>
                       <div class="col-lg-12">
                     <fieldset class="scheduler-border">
-                        <legend  class="scheduler-border">Type of difficulty</legend>
+                        <legend  class="scheduler-border"><i class="fa fa-wheelchair" style="font-size:24px;"></i> {{ _('Difficulty type') }}</legend>
                       <div class="error" id="form_error"></div>
                       <div class="col-md-12">
                         <div class="checkbox require-one">
@@ -117,17 +118,19 @@
                        </div>
                       </div>
 
-                      <div class="col-md-2 levels level-1 id_difficulty_1">
-
+                      <div class="col-lg-12 levels level-1 id_difficulty_1">
+                        <span>{{ form_step1.difficulty_1_degree.label }}</span>
                         <div class="form-radio">
-                          <span>{{ form_step1.difficulty_1_degree.label }}</span>
+
                           {% for choice in form_step1.difficulty_1_degree %}
+                          <div class="col-lg-4">
                             <div class="radio">
                               <label>
                               {{ choice.tag }}
                               <i class="helper"></i>{{ choice.choice_label }}
                               </label>
                             </div>
+                          </div>
                           {% endfor %}
                         </div>
                       </div>
@@ -142,17 +145,20 @@
 
                       </div>
 
-                      <div class="col-md-2 levels level-2 id_difficulty_2">
+                      <div class="col-lg-12 levels level-2 id_difficulty_2">
+                        <span>{{ form_step1.difficulty_2_degree.label }}</span>
 
                         <div class="form-radio">
-                          <span>{{ form_step1.difficulty_2_degree.label }}</span>
+
                           {% for choice in form_step1.difficulty_2_degree %}
+                          <div class="col-lg-4">
                             <div class="radio">
                               <label>
                               {{ choice.tag }}
                               <i class="helper"></i>{{ choice.choice_label }}
                               </label>
                             </div>
+                          </div>
                           {% endfor %}
                         </div>
                       </div>
@@ -167,16 +173,17 @@
 
                       </div>
 
-                      <div class="col-md-2 levels level-3 id_difficulty_3">
-
+                      <div class="col-lg-12 levels level-3 id_difficulty_3">
+                        <span>{{ form_step1.difficulty_3_degree.label }}</span>
                         <div class="form-radio">
-                          <span>{{ form_step1.difficulty_3_degree.label }}</span>
                           {% for choice in form_step1.difficulty_3_degree %}
-                            <div class="radio">
-                              <label>
-                              {{ choice.tag }}
-                              <i class="helper"></i>{{ choice.choice_label }}
-                              </label>
+                            <div class="col-lg-4">
+                              <div class="radio">
+                                <label>
+                                {{ choice.tag }}
+                                <i class="helper"></i>{{ choice.choice_label }}
+                                </label>
+                              </div>
                             </div>
                           {% endfor %}
                         </div>
@@ -191,17 +198,19 @@
                        </div>
                       </div>
 
-                      <div class="col-md-2 levels level-4 id_difficulty_4">
+                      <div class="col-lg-12 levels level-4 id_difficulty_4">
+                        <span>{{ form_step1.difficulty_4_degree.label }}</span>
 
                         <div class="form-radio ">
-                          <span>{{ form_step1.difficulty_4_degree.label }}</span>
                           {% for choice in form_step1.difficulty_4_degree %}
+                          <div class="col-lg-4">
                             <div class="radio">
                               <label>
                               {{ choice.tag }}
                               <i class="helper"></i>{{ choice.choice_label }}
                               </label>
                             </div>
+                          </div>
                           {% endfor %}
                         </div>
                       </div>
@@ -216,17 +225,19 @@
 
                       </div>
 
-                      <div class="col-md-2 levels level-5 id_difficulty_5">
+                      <div class="col-lg-12 levels level-5 id_difficulty_5">
+                        <span>{{ form_step1.difficulty_5_degree.label }}</span>
 
                         <div class="form-radio ">
-                          <span>{{ form_step1.difficulty_5_degree.label }}</span>
                           {% for choice in form_step1.difficulty_5_degree %}
+                          <div class="col-lg-4">
                             <div class="radio">
                               <label>
                               {{ choice.tag }}
                               <i class="helper"></i>{{ choice.choice_label }}
                               </label>
                             </div>
+                          </div>
                           {% endfor %}
                         </div>
                       </div>
@@ -240,16 +251,18 @@
                        </div>
                       </div>
 
-                      <div class="col-md-2 levels level-6 id_difficulty_6">
+                      <div class="col-lg-12 levels level-6 id_difficulty_6">
+                        <span>{{ form_step1.difficulty_6_degree.label }}</span>
 
                         <div class="form-radio">
-                          <span>{{ form_step1.difficulty_6_degree.label }}</span>
                           {% for choice in form_step1.difficulty_6_degree %}
-                            <div class="radio">
-                              <label>
-                              {{ choice.tag }}
-                              <i class="helper"></i>{{ choice.choice_label }}
-                              </label>
+                            <div class="col-lg-4">
+                              <div class="radio">
+                                <label>
+                                {{ choice.tag }}
+                                <i class="helper"></i>{{ choice.choice_label }}
+                                </label>
+                              </div>
                             </div>
                           {% endfor %}
                         </div>
@@ -265,26 +278,28 @@
 
                       </div>
 
-                      <div class="col-md-12 difficulty-7-text">
+                      <div class="col-md-12 levels id_difficulty_other">
                         <div class="form-group">
 
                           {{ form_step1.difficulty_7_txt }}
-                          <label for="input" class="control-label attachment">{{ _('Difficulty type') }}</label>
+                          <label for="input" class="control-label attachment">{{ _('Type of difficulty') }}</label>
                           <i class="bar"></i>
                         </div>
                       </div>
 
-                      <div class="col-md-2 levels id_difficulty_7_txt">
-
+                      <div class="col-lg-12 levels id_difficulty_other">
+                        <span>{{ form_step1.difficulty_7_degree.label }}</span>
                         <div class="form-radio">
-                          <span>{{ form_step1.difficulty_7_degree.label }}</span>
+
                           {% for choice in form_step1.difficulty_7_degree %}
+                          <div class="col-lg-4">
                             <div class="radio">
                               <label>
                               {{ choice.tag }}
                               <i class="helper"></i>{{ choice.choice_label }}
                               </label>
                             </div>
+                          </div>
                           {% endfor %}
                         </div>
                       </div>
@@ -328,13 +343,14 @@
                         </div>
                       </div>
                     </div>
-                  <div class="col-md-12">
+                  </fieldset>
+
                     <div class="button-container-form">
                         <button type="submit" class="button"><span>{{ _('Save') }}</span></button>
                     </div>
-                </div>
+
                 </form>
-                </fieldset>
+
                 <!--</fieldset>-->
               </div>
 
@@ -390,14 +406,9 @@
 // hide all required sections initially
   $('.levels').hide();
   $('#resi-info').hide();
-  $('.difficulty-7-text').hide();
   $('#id_difficulty_8').prop('checked', true);
   $('#id_difficulty_8').attr('required', true);
 
-// toggle radios options incase of other selection
-  $('#id_difficulty_other').on('click', function(){
-      $('.difficulty-7-text').slideToggle('slow', 'linear');
-  });
 
 // hide or unhide residance info fields based on nationality
   $('#id_nationality').on('change', function(){
@@ -410,17 +421,21 @@
     }
   });
 
-//  enable toggle on all checkboxes
-  $('input[type="checkbox"], #id_difficulty_7_txt').not('#id_difficulty_8').on('change', function(){
+// enable toggle on all checkboxes when single field is used
+  $('input[type="checkbox"]').not('#id_difficulty_8').on('change', function(){
 
     var this_el_id = $(this).attr('id');
     $('.'+this_el_id).slideToggle('slow','linear');
 
     if($(this).is(':checked')){
       $('.'+this_el_id+ ' .form-radio .radio input[type="radio"]').attr('required', true);
+      $('.'+this_el_id+ ' .form-group input[type="text"]').attr('required', true);
     }
     else{
       $('.'+this_el_id+ ' .form-radio .radio input[type="radio"]').attr('required', false);
+      $('.'+this_el_id+ ' .form-radio .radio input[type="radio"]').attr('checked', false);
+      $('.'+this_el_id+ ' .form-group input[type="text"]').attr('required', false);
+      $('.'+this_el_id+ ' .form-group input[type="text"]').val("");
     }
 
 
@@ -435,6 +450,7 @@
       $('#id_difficulty_8').attr('required', true);
     }
 
+// control not found option when one or more checkboxes are selected.
     $('input[type="checkbox"]').not('#id_difficulty_8').each(function(){
 
       if($(this).is(':checked')){
@@ -443,6 +459,7 @@
         }
     });
 
+// control all checkboxes, radios and textfields when not found option is selected.
     $('#id_difficulty_8').on('change', function(){
 
       if($(this).is(':checked')){
@@ -452,6 +469,9 @@
           $(this).prop('checked', false);
           $(this).attr('required', false);
           $('.'+parent_el_id+ ' .form-radio .radio input[type="radio"]').attr('required', false);
+          $('.'+this_el_id+ ' .form-radio .radio input[type="radio"]').attr('checked', false);
+          $('.'+this_el_id+ ' .form-group input[type="text"]').attr('required', false);
+          $('.'+this_el_id+ ' .form-group input[type="text"]').val("");
           $('.'+$(this).attr('id')).slideUp('slow');
         });
       }
@@ -463,8 +483,8 @@
     //console.log(next_el);
   });
 
+// Auto age year calculate usin moment.js plugin included in base.html
   $('#id_age').on('change', function(){
-
     var dob_year = moment().subtract($(this).val(), 'years').calendar();
     var year = dob_year.split("/");
     $('#id_birth_year').val(year[2]);

@@ -3,8 +3,13 @@ from survey.forms import *
 from survey.models import *
 
 # Create your views here.
-def FcpFamilyMemberTabFormStep1View(request):
-    form = FcpFamilyMemberTabFormStep1
+def add_family_member(request):
+    form = FamilyMemberFormStep1
+    if request.method == 'POST':
+        form = FamilyMemberFormStep1(request.POST)
+        if form.is_valid():
+            form.save()
+
     context = {'form_step1':form}
     return render(request, 'family-member-form-step1.html', context)
 
