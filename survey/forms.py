@@ -93,6 +93,7 @@ class FamilyMemberFormStep1(forms.ModelForm):
 
 
 internet_connection =(
+    ('', _('Choice')),
     ('1', _('Connect')),
     ('2', _('Disconnect')),
 
@@ -100,7 +101,8 @@ internet_connection =(
 
 
 class AddHouse(forms.ModelForm):
-    internet_connection = forms.ChoiceField(choices=internet_connection)
+
+    internet_connection = forms.ChoiceField(choices=internet_connection, label=_('Internet connection'))
 
     class Meta:
         model = FcpFamilyTab
@@ -116,21 +118,25 @@ class AddHouse(forms.ModelForm):
             'electric_sources_txt': TextInput(attrs={'type': 'text'}),
             'water_sources_txt': TextInput(attrs={'type': 'text'}),
             'sewage_txt': TextInput(attrs={'type': 'text'}),
-            'housing_space': TextInput(attrs={'required': True, 'type': 'number'}),
-            'bed_room_count': TextInput(attrs={'required': True, 'type': 'number'}),
-            'other_room_count': TextInput(attrs={'required': True, 'type': 'number'}),
-            'kitchen_count': TextInput(attrs={'required': True, 'type': 'number'}),
-            'bath_room_count': TextInput(attrs={'required': True, 'type': 'number'}),
-            'mobile_count': TextInput(attrs={'required': True, 'type': 'number'}),
-            'telephone_count': TextInput(attrs={'required': True, 'type': 'number'}),
-            'internet_users_count': TextInput(attrs={'required': True, 'type': 'number'}),
-            'car_count': TextInput(attrs={'required': True, 'type': 'number'}),
-            'tv_count': TextInput(attrs={'required': True, 'type': 'number'}),
+            'housing_space': TextInput(attrs={'required': True, 'type': 'number', 'min': 0}),
+            'bed_room_count': TextInput(attrs={'required': True, 'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'other_room_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'kitchen_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'bath_room_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'mobile_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'telephone_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'internet_users_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'car_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'tv_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
         }
 
         labels = {
             'building_material_txt': _('building material text'),
             'housing_type_txt': _('Housing Type text'),
+            'holding_type_txt': _('holding type txt'),
+            'electric_sources_txt': _('electric sources txt'),
+            'water_sources_txt': _('water sources txt'),
+            'sewage_txt': _('sewage txt'),
             'housing_space': _('Housing space'),
             'internet_connection': _('Internet connection'),
             'mobile_count': _('Mobile Count'),
@@ -144,15 +150,19 @@ class AddHouse(forms.ModelForm):
             'bath_room_count': _('bath count'),
         }
 
-    def __init__(self, *args, **kwargs):
-        super(AddHouse, self).__init__(*args, **kwargs)
+        help_texts = {
+            'housing_space': 'يتم تدوين إجمالي مساحة مسطحات البناء للمسكن(بالمتر المربع)'
+        }
 
-        self.fields['housing_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=104, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing type'))
-        self.fields['building_material'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=9, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Building material'))
-        self.fields['housing_stay_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=175, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing stay type'))
-        self.fields['holding_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=13, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Holding type'))
-        self.fields['electric_sources'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=100, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Electric source'))
-        self.fields['water_sources'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=14, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Water source'))
-        self.fields['sewage'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=102, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Sewage source'))
-        self.fields['income_avg'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=176, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Income avg'))
-        self.fields['housing_act_economic'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=34, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label= _('Housing act economic'))
+    def __init__(self, *args, **kwargs):
+        empty = _('Choice')
+        super(AddHouse, self).__init__(*args, **kwargs)
+        self.fields['housing_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=104, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing type'), empty_label=empty)
+        self.fields['building_material'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=9, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Building material'), empty_label=empty)
+        self.fields['housing_stay_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=175, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing stay type'), empty_label=empty)
+        self.fields['holding_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=13, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Holding type'), empty_label=empty)
+        self.fields['electric_sources'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=100, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Electric source'), empty_label=empty)
+        self.fields['water_sources'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=14, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Water source'), empty_label=empty)
+        self.fields['sewage'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=102, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Sewage source'), empty_label=empty)
+        self.fields['income_avg'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=176, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Income avg'), empty_label=empty)
+        self.fields['housing_act_economic'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=34, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label= _('Housing act economic'), empty_label=empty)
