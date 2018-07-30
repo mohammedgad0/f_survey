@@ -4,9 +4,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from survey.models import *
 #from django.forms.models import modelformset_factor
+
 class dropList(ModelChoiceField):
     def label_from_instance(self, obj):
-        return obj.list_name
+        return obj.code + '- ' + obj.list_name
+
 
 class FcpFamilyMemberTabFormStep1(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -88,3 +90,65 @@ class FcpFamilyMemberTabFormStep1(forms.ModelForm):
             'place_stay_previous',
             'place_stay',
             ]
+
+
+internet_connection =(
+    ('1', _('Connect')),
+    ('2', _('Disconnect')),
+
+)
+
+
+class AddHouse(forms.ModelForm):
+    internet_connection = forms.ChoiceField(choices=internet_connection)
+
+    class Meta:
+        model = FcpFamilyTab
+        fields = ('housing_type','housing_type_txt', 'building_material', 'building_material_txt', 'housing_space', 'housing_stay_type','housing_stay_type_txt',
+                  'bed_room_count', 'other_room_count', 'kitchen_count', 'bath_room_count', 'holding_type', 'holding_type_txt', 'electric_sources', 'electric_sources_txt',
+                  'water_sources', 'water_sources_txt', 'sewage', 'sewage_txt', 'mobile_count', 'telephone_count', 'internet_users_count', 'internet_connection',
+                  'car_count', 'tv_count', 'income_avg', 'housing_act_economic', 'death_status')
+
+        widgets = {
+            'housing_type_txt': TextInput(attrs={'type': 'text'}),
+            'housing_space': TextInput(attrs={'required': True, 'type': 'number'}),
+            'bed_room_count': TextInput(attrs={'required': True, 'type': 'number'}),
+            'other_room_count': TextInput(attrs={'required': True, 'type': 'number'}),
+            'kitchen_count': TextInput(attrs={'required': True, 'type': 'number'}),
+            'bath_room_count': TextInput(attrs={'required': True, 'type': 'number'}),
+            'mobile_count': TextInput(attrs={'required': True, 'type': 'number'}),
+            'telephone_count': TextInput(attrs={'required': True, 'type': 'number'}),
+            'internet_users_count': TextInput(attrs={'required': True, 'type': 'number'}),
+            'car_count': TextInput(attrs={'required': True, 'type': 'number'}),
+            'tv_count': TextInput(attrs={'required': True, 'type': 'number'}),
+        }
+
+        labels = {
+            'housing_type_txt': _('Housing Type text'),
+            'housing_space': _('Housing space'),
+            'internet_connection': _('Internet connection'),
+            'mobile_count': _('Mobile Count'),
+            'telephone_count': _('Telephone Count'),
+            'internet_users_count': _('Internet users count'),
+            'car_count': _('Car count'),
+            'tv_count': _('Tv count'),
+            'bed_room_count': _('Bed count'),
+            'other_room_count': _('other count'),
+            'kitchen_count': _('kitchen count'),
+            'bath_room_count': _('bath count'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(AddHouse, self).__init__(*args, **kwargs)
+
+        self.fields['housing_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=104, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing type'))
+        self.fields['building_material'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=9, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Building material'))
+        self.fields['housing_stay_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=175, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing stay type'))
+        self.fields['holding_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=13, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Holding type'))
+        self.fields['electric_sources'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=100, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Electric source'))
+        self.fields['water_sources'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=14, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Water source'))
+        self.fields['sewage'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=102, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Sewage source'))
+        self.fields['income_avg'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=176, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Income avg'))
+        self.fields['housing_act_economic'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=34, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label= _('Housing act economic'))
+
+
