@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}Family Survey Form{% endblock %}
+{% block stylesheets %}
+  {{ block.super }}
+  <style>
 
+  label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 10px; display:block }
+  </style>
+{% endblock stylesheets %}
 
 {% block content %}
         <button type='submit' onclick="location.href='#'"  class="button"><span><i class="fas fa-eye">{{ _('View all members') }}</i></span></button>
@@ -15,7 +21,7 @@
         </div>
               <fieldset class="scheduler-border">
                  <legend class="scheduler-border">{{ _('Member Information') }}</legend>
-                 <form action="" method="post">
+                 <form action="" method="post" id="family-survey-from">
                    {% csrf_token %}
 
 
@@ -84,15 +90,6 @@
                       <div class="col-md-6">
                         <div class="form-group">
 
-                          {{ form_step1.birth_month }}
-                          <label for="input" class="control-label">{{ _('Birth Month') }}</label>
-                          <i class="bar"></i>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group">
-
                           {{ form_step1.birth_year }}
                           <label for="input" class="control-label attachment">{{ _('Birth Year') }}</label>
                           <i class="bar"></i>
@@ -107,9 +104,12 @@
                           <i class="bar"></i>
                         </div>
                       </div>
-
+                      <div class="col-lg-12">
+                    <fieldset class="scheduler-border">
+                        <legend  class="scheduler-border">Type of difficulty</legend>
+                      <div class="error" id="form_error"></div>
                       <div class="col-md-12">
-                        <div class="checkbox">
+                        <div class="checkbox require-one">
                           <label>
                           {{ form_step1.difficulty_1 }}
                           <i class="helper"></i>{{ _('Eyesight difficulty') }}
@@ -132,7 +132,7 @@
                         </div>
                       </div>
 
-                      <div class="col-md-12">
+                      <div class="col-md-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_2 }}
@@ -157,7 +157,7 @@
                         </div>
                       </div>
 
-                      <div class="col-md-12">
+                      <div class="col-md-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_3 }}
@@ -182,7 +182,7 @@
                         </div>
                       </div>
 
-                      <div class="col-md-12">
+                      <div class="col-md-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_4 }}
@@ -206,7 +206,7 @@
                         </div>
                       </div>
 
-                      <div class="col-md-12">
+                      <div class="col-md-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_5 }}
@@ -231,7 +231,7 @@
                         </div>
                       </div>
 
-                      <div class="col-md-12">
+                      <div class="col-md-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_6 }}
@@ -255,11 +255,21 @@
                         </div>
                       </div>
 
-                      <div class="col-md-12 ">
+                      <div class="col-md-12">
+                        <div class="checkbox">
+                          <label>
+                          {{ form_step1.difficulty_other }}
+                          <i class="helper"></i>{{ _('Other') }}
+                         </label>
+                       </div>
+
+                      </div>
+
+                      <div class="col-md-12 difficulty-7-text">
                         <div class="form-group">
 
                           {{ form_step1.difficulty_7_txt }}
-                          <label for="input" class="control-label attachment">{{ _('Other') }}</label>
+                          <label for="input" class="control-label attachment">{{ _('Difficulty type') }}</label>
                           <i class="bar"></i>
                         </div>
                       </div>
@@ -279,23 +289,35 @@
                         </div>
                       </div>
 
-                      <div class="col-md-12">
-                        <div class="form-group">
-
-                          {{ form_step1.place_birth }}
-                          <label for="input" class="control-label attachment">{{ _('Place of Birth') }}</label>
-                          <i class="bar"></i>
-                        </div>
+                      <div class="col-md-12 require-one">
+                        <div class="checkbox">
+                          <label>
+                          {{ form_step1.difficulty_8 }}
+                          <i class="helper"></i>{{ _('Not Found') }}
+                         </label>
+                       </div>
                       </div>
+                    </fieldset>
+                  </div>
+                      <div  id="resi-info">
 
-                      <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="col-md-12">
+                          <div class="form-group">
 
-                          {{ form_step1.place_stay_previous }}
-                          <label for="input" class="control-label attachment">{{ _('Previous place of stay') }}</label>
-                          <i class="bar"></i>
+                            {{ form_step1.place_birth }}
+                            <label for="input" class="control-label attachment">{{ _('Place of Birth') }}</label>
+                            <i class="bar"></i>
+                          </div>
                         </div>
-                      </div>
+
+                        <div class="col-md-6">
+                          <div class="form-group">
+
+                            {{ form_step1.place_stay_previous }}
+                            <label for="input" class="control-label attachment">{{ _('Previous place of stay') }}</label>
+                            <i class="bar"></i>
+                          </div>
+                        </div>
 
                       <div class="col-md-6">
                         <div class="form-group">
@@ -305,7 +327,7 @@
                           <i class="bar"></i>
                         </div>
                       </div>
-
+                    </div>
                   <div class="col-md-12">
                     <div class="button-container-form">
                         <button type="submit" class="button"><span>{{ _('Save') }}</span></button>
@@ -321,16 +343,131 @@
 
 {% block javascripts %}
   {{ block.super }}
+<script src="/static/build/js/plugins/moment-with-locales.min.js"></script>
 <script>
+//
+// $.validator.addMethod('require-one', function(value) {
+//       if( $('input[type="checkbox"]').is(':checked') ){
+//         var parent_id = $('input[type="checkbox"]').attr('id');
+//         //console.log($('.'+parent_id+ ' .form-radio .radio input').attr('name') );
+//         if ( $('.'+parent_id+ ' .form-radio .radio input:checked').size() > 0){
+//           return true;
+//         }
+//
+//       }
+//
+// }, 'select at least one option.');
+//
+// var checkboxes = $('input[type="checkbox"]');
+//
+// var checkbox_names = $.map(checkboxes, function(e, i) {
+//   return $(e).attr("name")
+// }).join(" ");
+//
+// var radios = $('input[type="checkbox"] .form-radio .radio input');
+// checkbox_names = $.map(radios, function(e, i) {
+//   return $(e).attr("name")
+// }).join(" ");
+//
+// console.log(checkbox_names);
+// $("#family-survey-from").validate({
+//   groups: {
+//     checks: checkbox_names
+//   },
+//
+//
+//
+//   errorPlacement: function(error, element) {
+//     $('#form_error').html(error);
+//   },
+//   submitHandler: function(form) {
+//       //  alert('Form Submited');
+//       return true;
+//   }
+//
+// });
+
+// hide all required sections initially
   $('.levels').hide();
-  $('input[type="checkbox"]').on('change', function(){
+  $('#resi-info').hide();
+  $('.difficulty-7-text').hide();
+  $('#id_difficulty_8').prop('checked', true);
+  $('#id_difficulty_8').attr('required', true);
+
+// toggle radios options incase of other selection
+  $('#id_difficulty_other').on('click', function(){
+      $('.difficulty-7-text').slideToggle('slow', 'linear');
+  });
+
+// hide or unhide residance info fields based on nationality
+  $('#id_nationality').on('change', function(){
+    var nationality_code = $(this).val();
+    if (nationality_code == 1800001) {
+      $('#resi-info').slideToggle('slow','linear');
+    }
+    else{
+      $('#resi-info').hide();
+    }
+  });
+
+//  enable toggle on all checkboxes
+  $('input[type="checkbox"], #id_difficulty_7_txt').not('#id_difficulty_8').on('change', function(){
+
     var this_el_id = $(this).attr('id');
-    $('.'+this_el_id).fadeToggle('slow','linear');
+    $('.'+this_el_id).slideToggle('slow','linear');
+
+    if($(this).is(':checked')){
+      $('.'+this_el_id+ ' .form-radio .radio input[type="radio"]').attr('required', true);
+    }
+    else{
+      $('.'+this_el_id+ ' .form-radio .radio input[type="radio"]').attr('required', false);
+    }
+
+
+    if ( $('#'+this_el_id).is(':checked') )
+    {
+      $('#id_difficulty_8').prop('checked', false);
+      $('#id_difficulty_8').attr('required', false);
+    }
+    else
+    {
+      $('#id_difficulty_8').prop('checked', true);
+      $('#id_difficulty_8').attr('required', true);
+    }
+
+    $('input[type="checkbox"]').not('#id_difficulty_8').each(function(){
+
+      if($(this).is(':checked')){
+          $('#id_difficulty_8').prop('checked', false);
+          $('#id_difficulty_8').attr('required', false);
+        }
+    });
+
+    $('#id_difficulty_8').on('change', function(){
+
+      if($(this).is(':checked')){
+
+        $('input[type="checkbox"]').not('#id_difficulty_8').each(function(){
+          var parent_el_id = $(this).attr('id');
+          $(this).prop('checked', false);
+          $(this).attr('required', false);
+          $('.'+parent_el_id+ ' .form-radio .radio input[type="radio"]').attr('required', false);
+          $('.'+$(this).attr('id')).slideUp('slow');
+        });
+      }
+      else{
+        $('#id_difficulty_8').attr('required', true);
+      }
+    });
+
     //console.log(next_el);
   });
 
-  $('#id_age').on('click', function(){
+  $('#id_age').on('change', function(){
 
+    var dob_year = moment().subtract($(this).val(), 'years').calendar();
+    var year = dob_year.split("/");
+    $('#id_birth_year').val(year[2]);
   });
 
 </script>
