@@ -493,6 +493,7 @@
     var myear = year[2];
     //console.log(dob_year);
     var hyear = moment(myear, 'YYYY').endOf('iMonth').format('iYYYY');
+    $('#id_birth_year').val("");
     $('#id_birth_year').val(hyear);
   });
 
@@ -509,6 +510,7 @@
       current_year = m.format('iYYYY');
       age = (current_year - year) - 1;
     }
+    $('#id_age').val("");
     $('#id_age').val(age);
   });
 
