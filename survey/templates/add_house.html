@@ -5,6 +5,7 @@
 {{ block.super }}
     <style>
     .container-form{ padding: 1rem 2rem 0 !important;}
+    .house-details i{border-bottom: 1px solid #999 !important;}
     </style>
 {% endblock %}
 
@@ -51,6 +52,8 @@
                           {{ form.housing_space }}
                           <label for="input" class="control-label">{{ form.housing_space.label_tag }}</label>
                           <i class="bar"></i>
+                            <small id="emailHelp" class="form-text text-muted">{{ form.housing_space.help_text }}</small>
+
                         </div>
                       </div>
 
@@ -69,7 +72,7 @@
                           </div>
                       </div>
                         <!-- end column -->
-                <fieldset class="scheduler-border">
+                <fieldset class="scheduler-border house-details">
                  <legend class="scheduler-border">{{ _('House detail') }}</legend>
                     <div class="row">
                     <div class="col-md-3">
@@ -256,26 +259,6 @@
   {{ block.super }}
     <script>
 
-  // hide and show based on selection
-  {#$('#id_housing_type').on('change', function(){#}
-  {#  var code = $(this).val();#}
-  {#  if (code == 10400006) {#}
-  {#      $('#id_housing_type').parent().parent().removeClass('col-md-4')#}
-  {#      $('#id_housing_type').parent().parent().addClass('col-md-2')#}
-  {#      $('#id_housing_type_txt').attr('required', true)#}
-  {#      $('#id_housing_type_txt').parent().parent().removeClass('col-md-4')#}
-  {#      $('#id_housing_type_txt').parent().parent().addClass('col-md-2')#}
-  {#      $('#id_housing_type_txt').parent().parent().slideToggle('slow','linear');#}
-  {#  }#}
-  {#  else{#}
-  {#    $('#id_housing_type').parent().parent().removeClass('col-md-2')#}
-  {#    $('#id_housing_type').parent().parent().addClass('col-md-4')#}
-  {#    $('#id_housing_type_txt').parent().parent().hide();#}
-  {#    $('#id_housing_type_txt').attr('required', false)#}
-  {#    $('#id_housing_type_txt').val(" ")#}
-  {#  }#}
-  {#//{);#}
-
   $('select').on('change', function() {
       var select_id = $(this).attr('id');
       console.log(select_id)
@@ -312,9 +295,6 @@
                                $('#'+ select_id + '_txt').val("")
                      }
   })
-
-
-
 
     </script>
 {% endblock %}
