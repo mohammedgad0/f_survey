@@ -144,7 +144,7 @@ msgstr "عرض جميع أفراد الأسرة"
 
 #: .\survey\templates\family-member-form-step1.html:19
 msgid "Add Family Member"
-msgstr "اضافة فرد"
+msgstr "إضافة بيانات للفرد"
 
 #: .\survey\templates\family-member-form-step1.html:23
 msgid "Member Information"

@@ -10,9 +10,9 @@ class dropList(ModelChoiceField):
         return obj.code + '- ' + obj.list_name
 
 
-class FcpFamilyMemberTabFormStep1(forms.ModelForm):
+class FamilyMemberFormStep1(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(FcpFamilyMemberTabFormStep1, self).__init__(*args, **kwargs)
+        super(FamilyMemberFormStep1, self).__init__(*args, **kwargs)
         self.fields['difficulty_1_degree'].empty_label = None
         self.fields['difficulty_2_degree'].empty_label = None
         self.fields['difficulty_3_degree'].empty_label = None
