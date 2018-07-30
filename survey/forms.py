@@ -111,6 +111,11 @@ class AddHouse(forms.ModelForm):
 
         widgets = {
             'housing_type_txt': TextInput(attrs={'type': 'text'}),
+            'building_material_txt': TextInput(attrs={'type': 'text'}),
+            'holding_type_txt': TextInput(attrs={'type': 'text'}),
+            'electric_sources_txt': TextInput(attrs={'type': 'text'}),
+            'water_sources_txt': TextInput(attrs={'type': 'text'}),
+            'sewage_txt': TextInput(attrs={'type': 'text'}),
             'housing_space': TextInput(attrs={'required': True, 'type': 'number'}),
             'bed_room_count': TextInput(attrs={'required': True, 'type': 'number'}),
             'other_room_count': TextInput(attrs={'required': True, 'type': 'number'}),
@@ -124,6 +129,7 @@ class AddHouse(forms.ModelForm):
         }
 
         labels = {
+            'building_material_txt': _('building material text'),
             'housing_type_txt': _('Housing Type text'),
             'housing_space': _('Housing space'),
             'internet_connection': _('Internet connection'),

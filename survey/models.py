@@ -3,6 +3,17 @@ from django.db import models
 # Create your models here.
 
 
+class AuthUserTab(models.Model):
+    id_number = models.FloatField(primary_key=True, unique=True)
+    token_key = models.CharField(max_length=250, blank=True, null=True)
+    password = models.CharField(max_length=250, blank=True, null=True)
+    insert_date = models.DateField(blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'Auth_User_Tab'
+
+
 class FcpFamilyMemberTab(models.Model):
     f_m_id = models.FloatField(primary_key=True)
     sample_id = models.FloatField()

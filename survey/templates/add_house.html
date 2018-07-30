@@ -23,8 +23,15 @@
                           <label for="input" class="control-label">{{ form.housing_type.label_tag }}</label>
                           <i class="bar"></i>
                           </div>
-                      </div>
                         <!-- end column -->
+                            <!-- start hidden field -->
+                        <div class="form-group" style="display: none;">
+                          {{ form.housing_type_txt }}
+                          <label for="input" class="control-label">{{ form.housing_type_txt.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                            <!-- End hidden field -->
                             <!-- start column -->
                          <div class="col-md-4">
                         <div class="form-group">
@@ -32,8 +39,13 @@
                           <label for="input" class="control-label">{{ form.building_material.label_tag }}</label>
                           <i class="bar"></i>
                           </div>
-                      </div>
                         <!-- end column -->
+                        <div class="form-group" style="display: none;">
+                          {{ form.building_material_txt }}
+                          <label for="input" class="control-label">{{ form.building_material_txt.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
                          <div class="col-md-4">
                         <div class="form-group">
                           {{ form.housing_space }}
@@ -41,22 +53,10 @@
                           <i class="bar"></i>
                         </div>
                       </div>
-                        <!-- start hidden field -->
-                        <div class="col-md-4">
-                        <div class="form-group">
-                          {{ form.housing_type_txt }}
-                          <label for="input" class="control-label">{{ form.housing_type_txt.label_tag }}</label>
-                          <i class="bar"></i>
-                        </div>
-                      </div>
-                       <div class="col-md-4">
-                        <div class="form-group">
-                          {{ form.housing_space }}
-                          <label for="input" class="control-label">{{ form.housing_space.label_tag }}</label>
-                          <i class="bar"></i>
-                        </div>
-                      </div>
-                        <!-- End hidden field -->
+
+
+
+
                         </div>
 
                         <div class="row">
@@ -108,15 +108,22 @@
                         </div>
 
                         <div class="row">
-                                                     <!-- start column -->
+                          <!-- start column -->
                          <div class="col-md-3">
-                        <div class="form-group">
+                            <div class="form-group">
                           {{ form.holding_type }}
                           <label for="input" class="control-label">{{ form.holding_type.label_tag }}</label>
-                          <i class="bar"></i>
-                          </div>
-                      </div>
+                                <i class="bar"></i>
                         <!-- end column -->
+                         <!-- start hidden field -->
+                           <div class="form-group" style="display: none;">
+                          {{ form.holding_type_txt }}
+                          <label for="input" class="control-label">{{ form.holding_type_txt.label_tag }}</label>
+                          <i class="bar"></i>
+                                    </div>
+                                 </div>
+                         </div>
+                            <!-- End hidden field -->
                         <!-- start column -->
                          <div class="col-md-3">
                         <div class="form-group">
@@ -124,8 +131,15 @@
                           <label for="input" class="control-label">{{ form.electric_sources.label_tag }}</label>
                           <i class="bar"></i>
                           </div>
-                      </div>
                         <!-- end column -->
+                        <!-- start hidden field -->
+                        <div class="form-group" style="display: none;">
+                          {{ form.electric_sources_txt }}
+                          <label for="input" class="control-label">{{ form.electric_sources_txt.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                            <!-- End hidden field -->
                           <!-- start column -->
                          <div class="col-md-3">
                         <div class="form-group">
@@ -133,8 +147,15 @@
                           <label for="input" class="control-label">{{ form.water_sources.label_tag }}</label>
                           <i class="bar"></i>
                           </div>
-                      </div>
                         <!-- end column -->
+                       <!-- start hidden field -->
+                        <div class="form-group" style="display: none;">
+                          {{ form.water_sources_txt }}
+                          <label for="input" class="control-label">{{ form.water_sources_txt.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                            <!-- End hidden field -->
                          <!-- start column -->
                          <div class="col-md-3">
                         <div class="form-group">
@@ -142,8 +163,15 @@
                           <label for="input" class="control-label">{{ form.sewage.label_tag }}</label>
                           <i class="bar"></i>
                           </div>
-                      </div>
                         <!-- end column -->
+                         <!-- start hidden field -->
+                        <div class="form-group" style="display: none;">
+                          {{ form.sewage_txt }}
+                          <label for="input" class="control-label">{{ form.sewage_txt.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                            <!-- End hidden field -->
                         </div>
 
                         <div class="row">
@@ -226,4 +254,67 @@
 
 {% block javascripts %}
   {{ block.super }}
+    <script>
+
+  // hide and show based on selection
+  {#$('#id_housing_type').on('change', function(){#}
+  {#  var code = $(this).val();#}
+  {#  if (code == 10400006) {#}
+  {#      $('#id_housing_type').parent().parent().removeClass('col-md-4')#}
+  {#      $('#id_housing_type').parent().parent().addClass('col-md-2')#}
+  {#      $('#id_housing_type_txt').attr('required', true)#}
+  {#      $('#id_housing_type_txt').parent().parent().removeClass('col-md-4')#}
+  {#      $('#id_housing_type_txt').parent().parent().addClass('col-md-2')#}
+  {#      $('#id_housing_type_txt').parent().parent().slideToggle('slow','linear');#}
+  {#  }#}
+  {#  else{#}
+  {#    $('#id_housing_type').parent().parent().removeClass('col-md-2')#}
+  {#    $('#id_housing_type').parent().parent().addClass('col-md-4')#}
+  {#    $('#id_housing_type_txt').parent().parent().hide();#}
+  {#    $('#id_housing_type_txt').attr('required', false)#}
+  {#    $('#id_housing_type_txt').val(" ")#}
+  {#  }#}
+  {#//{);#}
+
+  $('select').on('change', function() {
+      var select_id = $(this).attr('id');
+      console.log(select_id)
+      switch (select_id) {
+          case 'id_housing_type':
+            var code = 10400006;
+            break;
+          case 'id_building_material':
+            var code = 900005;
+            break;
+          case 'id_holding_type':
+            var code = 1300004;
+            break;
+          case 'id_electric_sources':
+            var code = 10000004;
+            break;
+          case 'id_water_sources':
+            var code = 1400004;
+            break;
+          case 'id_sewage':
+            var code = 10200005;
+            break;
+            }
+                 var value_code = $(this).val();
+                 console.log(code)
+                 console.log(value_code)
+                     if (code == value_code) {
+                         $('#'+ select_id + '_txt').attr('required', true)
+                          $('#'+ select_id + '_txt').parent().slideToggle('slow','linear');
+                     }
+                     else{
+                               $('#'+ select_id + '_txt').parent().slideUp('slow', 'linear');
+                               $('#'+ select_id + '_txt').attr('required', false)
+                               $('#'+ select_id + '_txt').val("")
+                     }
+  })
+
+
+
+
+    </script>
 {% endblock %}

@@ -125,7 +125,9 @@ z-index: -1;
 -webkit-transform: scale(1);
       transform: scale(1);
 }
-
+.css-hide{
+    margin-top: 0 !important;
+}
 .button-container-form {
 text-align: left;
 }
@@ -234,17 +236,17 @@ line-height: 1;
 .form-group input[type="file"] ~ .bar {
 display: none;
 }
-/*.form-group select,*/
-/*.form-group input:focus,*/
-/*.form-group input:valid,*/
-/*.form-group input.form-file,*/
-/*.form-group input.has-value,*/
-/*.form-group textarea:focus,*/
-/*.form-group textarea:valid,*/
-/*.form-group textarea.form-file,*/
-/*.form-group textarea.has-value {*/
-/*color: #333;*/
-/*}*/
+.form-group select,
+.form-group input:focus,
+.form-group input:valid,
+.form-group input.form-file,
+.form-group input.has-value,
+.form-group textarea:focus,
+.form-group textarea:valid,
+.form-group textarea.form-file,
+.form-group textarea.has-value {
+color: #333;
+}
 .form-group select ~ .control-label,
 .form-group input:focus ~ .control-label,
 .form-group input:valid ~ .control-label,
