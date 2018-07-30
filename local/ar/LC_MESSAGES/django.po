@@ -1,0 +1,225 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-29 15:16+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: family_survey/settings.py:125
+msgid "English"
+msgstr ""
+
+#: family_survey/settings.py:126
+msgid "Arabic"
+msgstr ""
+
+#: survey/forms.py:94
+msgid "Connect"
+msgstr "متصل"
+
+#: survey/forms.py:95
+msgid "Disconnect"
+msgstr "غير متصل"
+
+#: survey/forms.py:124
+msgid "Housing type"
+msgstr "نوع المسكن"
+
+#: survey/forms.py:125
+msgid "Building material"
+msgstr "مادة البناء"
+
+#: survey/forms.py:126
+msgid "Housing space"
+msgstr "مساحة المسكن"
+
+#: survey/forms.py:127
+msgid "Housing stay type"
+msgstr "نوع الإقامة بالمسكن"
+
+#: survey/forms.py:128
+msgid "Holding type"
+msgstr "نوع الحيازة"
+
+#: survey/forms.py:129
+msgid "Electric source"
+msgstr "المصدر الرئيسي للكهرباء"
+
+#: survey/forms.py:130
+msgid "Water source"
+msgstr "المصدر الرئيسي للمياه"
+
+#: survey/forms.py:131
+msgid "Sewage source"
+msgstr "المصدر الرئيسي للصرف الصحي"
+
+#: survey/forms.py:132
+msgid "Internet connection"
+msgstr "الاتصال بشبكة الإنترنت"
+
+#: survey/forms.py:133
+msgid "Mobile Count"
+msgstr "عدد خطوط الهاتف النقال"
+
+#: survey/forms.py:134
+msgid "Telephone Count"
+msgstr "عدد خطوط الهاتف الثابت"
+
+#: survey/forms.py:135
+msgid "Internet users count"
+msgstr "عدد مستخدمي الإنترنت"
+
+#: survey/forms.py:136
+msgid "Car count"
+msgstr "عدد السيارات"
+
+#: survey/forms.py:137
+msgid "Tv count"
+msgstr "عدد أجهزة التلفزيون"
+
+#: survey/forms.py:138
+msgid "Bed count"
+msgstr "عدد غرف النوم"
+
+#: survey/forms.py:139
+msgid "other count"
+msgstr "عدد الغرف الأخرى"
+
+#: survey/forms.py:140
+msgid "kitchen count"
+msgstr "عدد المطابخ"
+
+#: survey/forms.py:141
+msgid "bath count"
+msgstr "عدد الحمامات"
+
+#: survey/forms.py:142
+msgid "Income avg"
+msgstr "متوسط الدخل الشهري لكافة أفراد الأسرة"
+
+#: survey/forms.py:143
+msgid "Housing act economic"
+msgstr "هل تمارس الأسرة او أحد أفرادها نشاط اقتصادي منزلي؟"
+
+#: survey/templates/add_house.html:15
+msgid "House Information"
+msgstr "بيانات المسكن"
+
+#: survey/templates/add_house.html:57
+msgid "House detail"
+msgstr "مكونات السكن"
+
+#: survey/templates/add_house.html:133
+msgid "Communications"
+msgstr "وسائل الاتصالات والنقل والترفيه للأسرة"
+
+#: survey/templates/add_house.html:198
+#: survey/templates/family-member-form-step1.html:311
+msgid "Save"
+msgstr "حفظ"
+
+#: survey/templates/family-member-form-step1.html:7
+msgid "View all members"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:13
+msgid "Add Family Member"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:17
+msgid "Member Information"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:25
+msgid "First Name"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:34
+msgid "Second Name"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:44
+msgid "Third Name"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:53
+msgid "ID Number"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:62
+msgid "Relation"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:71
+msgid "Gender"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:79
+msgid "Age"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:88
+msgid "Birth Month"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:97
+msgid "Birth Year"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:106
+msgid "Nationality"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:115
+msgid "Eyesight difficulty"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:139
+msgid "Hearing power difficulty"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:164
+msgid "Movement difficulty"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:189
+msgid "Memory difficulty"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:213
+msgid "Personal care"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:238
+msgid "Communincation"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:262
+msgid "Other"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:286
+msgid "Place of Birth"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:295
+msgid "Previous place of stay"
+msgstr ""
+
+#: survey/templates/family-member-form-step1.html:304
+msgid "Current place of stay"
+msgstr ""
