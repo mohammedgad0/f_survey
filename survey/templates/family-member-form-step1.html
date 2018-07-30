@@ -19,9 +19,10 @@
             <h2>{% trans 'Add Family Member' %}</h2>
           </div>
         </div>
+        <form action="" method="post" id="family-survey-from">
               <fieldset class="scheduler-border">
                  <legend class="scheduler-border">{{ _('Member Information') }}</legend>
-                 <form action="" method="post" id="family-survey-from">
+
                    {% csrf_token %}
 
 
@@ -56,7 +57,7 @@
                         <div class="form-group">
 
                           {{ form_step1.id_number_member }}
-                          <label for="input" class="control-label">{{ _('ID Number') }}</label>
+                          <label for="input" class="control-label">{{ _('No. (National Identity / Residence / Visitor Limit) per person') }}</label>
                           <i class="bar"></i>
                         </div>
                       </div>
@@ -106,7 +107,7 @@
                       </div>
                       <div class="col-lg-12">
                     <fieldset class="scheduler-border">
-                        <legend  class="scheduler-border">Type of difficulty</legend>
+                        <legend  class="scheduler-border">{{ _('Difficulty type') }}</legend>
                       <div class="error" id="form_error"></div>
                       <div class="col-md-12">
                         <div class="checkbox require-one">
@@ -281,7 +282,7 @@
                         <div class="form-group">
 
                           {{ form_step1.difficulty_7_txt }}
-                          <label for="input" class="control-label attachment">{{ _('Difficulty type') }}</label>
+                          <label for="input" class="control-label attachment">{{ _('Type of difficulty') }}</label>
                           <i class="bar"></i>
                         </div>
                       </div>
@@ -342,13 +343,14 @@
                         </div>
                       </div>
                     </div>
-                  <div class="col-md-12">
+                  </fieldset>
+
                     <div class="button-container-form">
                         <button type="submit" class="button"><span>{{ _('Save') }}</span></button>
                     </div>
-                </div>
+                 
                 </form>
-                </fieldset>
+
                 <!--</fieldset>-->
               </div>
 

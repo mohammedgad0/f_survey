@@ -295,6 +295,8 @@ left: 0;
 
 .radio {
 margin-bottom: 1rem;
+/* temp solution for direction:rtl on add-family form checkboxes and radios */
+float: right;
 }
 .radio .helper {
 position: absolute;
@@ -344,6 +346,8 @@ color: #337ab7;
 .checkbox {
 margin-top: 3rem;
 margin-bottom: 1rem;
+/* temp solution for direction:rtl on add-family form checkboxes and radios */
+float: right;
 }
 .checkbox .helper {
 color: #999;

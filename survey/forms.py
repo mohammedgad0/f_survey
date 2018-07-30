@@ -27,16 +27,16 @@ class FcpFamilyMemberTabFormStep1(forms.ModelForm):
         self.fields['place_stay'].empty_label = None
         self.fields['gender'].empty_label = None
 
-    member_name_first = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-    member_name_second = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-    member_name_third = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-    id_number_member = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-    age = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
+    member_name_first = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
+    member_name_second = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
+    member_name_third = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
+    id_number_member = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
+    age = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
     #birth_month = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
     birth_year = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-    family_relation = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=False,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    gender = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=16,l_list_active=1),to_field_name="lookup_list_id",required=False,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    nationality = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=18,l_list_active=1),to_field_name="lookup_list_id",required=False,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    family_relation = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    gender = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=16,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    nationality = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=18,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     difficulty_1 = forms.BooleanField(label='النظر', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
     difficulty_1_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=False, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_2 = forms.BooleanField(label='السمع', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
@@ -150,5 +150,3 @@ class AddHouse(forms.ModelForm):
         self.fields['sewage'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=102, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Sewage source'))
         self.fields['income_avg'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=176, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Income avg'))
         self.fields['housing_act_economic'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=34, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label= _('Housing act economic'))
-
-
