@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Family Survey Form{% endblock %}
+{% block stylesheets %}
+{{ block.super }}
+    <style>
+    .container-form{ padding: 1rem 2rem 0 !important;}
+    </style>
+{% endblock %}
+
+{% block content %}
+        <div class="container-form">
+<form action="" method="post" >
+              <fieldset class="scheduler-border">
+                 <legend class="scheduler-border"><i class="fa fa-home"></i> {{ _('House Information')}}</legend>
+
+                        {% csrf_token %}
+                        <div class="row r-1 ">
+                        <!-- start column -->
+                         <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.housing_type }}
+                          <label for="input" class="control-label">{{ form.housing_type.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+                        <!-- end column -->
+                            <!-- start column -->
+                         <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.building_material }}
+                          <label for="input" class="control-label">{{ form.building_material.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+                        <!-- end column -->
+                         <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.housing_space }}
+                          <label for="input" class="control-label">{{ form.housing_space.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                        <!-- start hidden field -->
+                        <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.housing_type_txt }}
+                          <label for="input" class="control-label">{{ form.housing_type_txt.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                       <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.housing_space }}
+                          <label for="input" class="control-label">{{ form.housing_space.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                        <!-- End hidden field -->
+                        </div>
+
+                        <div class="row">
+                         <!-- start column -->
+                         <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.housing_stay_type }}
+                          <label for="input" class="control-label">{{ form.housing_stay_type.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+                        <!-- end column -->
+                <fieldset class="scheduler-border">
+                 <legend class="scheduler-border">{{ _('House detail') }}</legend>
+                    <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                          {{ form.bed_room_count }}
+                          <label for="input" class="control-label">{{ form.bed_room_count.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+
+                        <div class="col-md-3">
+                        <div class="form-group">
+                          {{ form.other_room_count }}
+                          <label for="input" class="control-label">{{ form.other_room_count.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+
+                       <div class="col-md-3">
+                        <div class="form-group">
+                          {{ form.kitchen_count }}
+                          <label for="input" class="control-label">{{ form.kitchen_count.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+
+                       <div class="col-md-3">
+                        <div class="form-group">
+                          {{ form.bath_room_count }}
+                          <label for="input" class="control-label">{{ form.bath_room_count.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+                        </div>
+                      </fieldset>
+                        </div>
+
+                        <div class="row">
+                                                     <!-- start column -->
+                         <div class="col-md-3">
+                        <div class="form-group">
+                          {{ form.holding_type }}
+                          <label for="input" class="control-label">{{ form.holding_type.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+                        <!-- end column -->
+                        <!-- start column -->
+                         <div class="col-md-3">
+                        <div class="form-group">
+                          {{ form.electric_sources }}
+                          <label for="input" class="control-label">{{ form.electric_sources.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+                        <!-- end column -->
+                          <!-- start column -->
+                         <div class="col-md-3">
+                        <div class="form-group">
+                          {{ form.water_sources }}
+                          <label for="input" class="control-label">{{ form.water_sources.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+                        <!-- end column -->
+                         <!-- start column -->
+                         <div class="col-md-3">
+                        <div class="form-group">
+                          {{ form.sewage }}
+                          <label for="input" class="control-label">{{ form.sewage.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+                        <!-- end column -->
+                        </div>
+
+                        <div class="row">
+                  <fieldset class="scheduler-border">
+                 <legend class="scheduler-border">{{ _('Communications') }}</legend>
+                         <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.mobile_count }}
+                          <label for="input" class="control-label">{{ form.mobile_count.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                                 <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.telephone_count }}
+                          <label for="input" class="control-label">{{ form.telephone_count.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                        <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.internet_users_count }}
+                          <label for="input" class="control-label">{{ form.internet_users_count.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+
+                        <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.internet_connection }}
+                          <label for="input" class="control-label">{{ form.internet_connection.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                        <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.car_count }}
+                          <label for="input" class="control-label">{{ form.car_count.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                       <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.tv_count }}
+                          <label for="input" class="control-label">{{ form.tv_count.label_tag }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                   </fieldset>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                         <div class="form-group">
+                          {{ form.income_avg }}
+                          <label for="input" class="control-label">{{ form.income_avg.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                            </div>
+                            <div class="col-md-6">
+                           <div class="form-group">
+                          {{ form.housing_act_economic }}
+                          <label for="input" class="control-label">{{ form.housing_act_economic.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                            </div>
+                        </div>
+       </fieldset>
+                    <div class="button-container-form">
+                        <button type="submit" class="button"><span>{{ _('Save') }}</span></button>
+                    </div>
+
+                    </form>
+
+                <!--</fieldset>-->
+              </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+{% endblock %}

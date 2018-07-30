@@ -11,3 +11,9 @@ def FcpFamilyMemberTabFormStep1View(request):
 def home(request):
     context = {}
     return render(request, 'home.html', context)
+
+
+def add_house(request):
+    form = AddHouse()
+    context = {'form':form}
+    return render(request, 'add_house.html', context)

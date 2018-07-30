@@ -65,7 +65,7 @@ __pycache__/
 .Python
 
 develop-eggs/
-dist/
+
 downloads/
 eggs/
 .eggs/
@@ -160,3 +160,4 @@ venv.bak/
 
 */settings.py
 
+!/survey/static/vendors/bootstrap/dist/
