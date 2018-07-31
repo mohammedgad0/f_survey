@@ -2,7 +2,9 @@ from django import forms
 from django.forms import ModelForm, Textarea, TextInput, DateField, ModelChoiceField
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
+from survey.validators import validate_family_relation
 from survey.models import *
+
 #from django.forms.models import modelformset_factor
 
 class dropList(ModelChoiceField):
@@ -34,7 +36,7 @@ class FamilyMemberFormStep1(forms.ModelForm):
     age = forms.CharField(max_length=2, required=True,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
     #birth_month = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
     birth_year = forms.CharField(max_length=4, required=False,widget=forms.TextInput({'class': 'form-control', 'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
-    family_relation = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    family_relation = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}),validators=[validate_family_relation])
     gender = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=16,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     nationality = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=18,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     difficulty_1 = forms.BooleanField(label='النظر', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
@@ -119,15 +121,15 @@ class AddHouse(forms.ModelForm):
             'water_sources_txt': TextInput(attrs={'type': 'text'}),
             'sewage_txt': TextInput(attrs={'type': 'text'}),
             'housing_space': TextInput(attrs={'required': True, 'type': 'number', 'min': 0}),
-            'bed_room_count': TextInput(attrs={'required': True, 'type': 'number','min': 0, 'pattern': "\d*", 'oninput': "validity.valid||(value=' ');", 'onKeyPress': 'if(this.value.length==2) return false;'}),
-            'other_room_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==2) return false;'}),
-            'kitchen_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==2) return false;'}),
-            'bath_room_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==2) return false;'}),
-            'mobile_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==2) return false;'}),
-            'telephone_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==2) return false;'}),
-            'internet_users_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==2) return false;'}),
-            'car_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==2) return false;'}),
-            'tv_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'bed_room_count': TextInput(attrs={'required': True, 'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'other_room_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'kitchen_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'bath_room_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'mobile_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'telephone_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'internet_users_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'car_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
+            'tv_count': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'pattern': "/^-?\d+\.?\d*$/", 'onKeyPress': 'if(this.value.length==2) return false;'}),
         }
 
         labels = {
@@ -166,29 +168,3 @@ class AddHouse(forms.ModelForm):
         self.fields['sewage'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=102, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Sewage source'), empty_label=empty)
         self.fields['income_avg'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=176, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Income avg'), empty_label=empty)
         self.fields['housing_act_economic'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=34, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label= _('Housing act economic'), empty_label=empty)
-
-
-class DeathForm(forms.ModelForm):
-
-    class Meta:
-        model = FcpFamilyDeathTab
-        fields = ('member_name', 'gender', 'nationality', 'death_age', 'reason_death', 'reason_death_txt')
-
-        labels = {
-            'member_name': _('Name'),
-            'death_age': _('death age'),
-            'reason_death_txt': _('reason death text')
-
-        }
-        widgets = {
-
-            'death_age': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'step': 1, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==3) return false;'}),
-        }
-
-    def __init__(self, *args, **kwargs):
-        empty = _('Choice')
-        super(DeathForm, self).__init__(*args, **kwargs)
-        self.fields['gender'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=16, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('gender'), empty_label=empty)
-        self.fields['nationality'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=159, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('nationality'), empty_label=empty)
-        self.fields['reason_death'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=107, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('reason death'), empty_label=empty)
-
