@@ -360,6 +360,7 @@
 {% block javascripts %}
   {{ block.super }}
 <script src="/static/build/js/plugins/moment-with-locales.min.js"></script>
+<script src="/static/build/js/plugins/moment-hijri.js"></script>
 <script>
 //
 // $.validator.addMethod('require-one', function(value) {
@@ -484,10 +485,31 @@
   });
 
 // Auto age year calculate usin moment.js plugin included in base.html
+  moment.locale('en-US');
+  m = moment();
   $('#id_age').on('change', function(){
     var dob_year = moment().subtract($(this).val(), 'years').calendar();
     var year = dob_year.split("/");
-    $('#id_birth_year').val(year[2]);
+    var myear = year[2];
+    //console.log(dob_year);
+    var hyear = moment(myear, 'YYYY').endOf('iMonth').format('iYYYY');
+    $('#id_birth_year').val(hyear);
+  });
+
+  $('#id_birth_year').on('change', function(){
+    var year = $(this).val();
+    var age = "";
+    if(year > 1500)
+    {
+      current_year = m.format('YYYY');
+       age = (current_year - year);
+    }
+    else if(year < 1500)
+    {
+      current_year = m.format('iYYYY');
+      age = (current_year - year) - 1;
+    }
+    $('#id_age').val(age);
   });
 
 </script>
