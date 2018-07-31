@@ -13,5 +13,7 @@ urlpatterns = [
     path('add-family/', add_family_member, name='add-family'),
     # Page to add house form
     path('add-house/', add_house, name='add-house'),
+    # Death form
+    path('death-form/', death_form, name='death-form'),
 
 ]

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}بيانات الوفيات{% endblock %}
+{% block stylesheets %}
+{{ block.super }}
+    <style>
+    .container-form{ padding: 1rem 2rem 0 !important;}
+   footer {position:  fixed !important;}
+    .form-group .bar {
+    position: relative;
+    border-bottom: 1px solid #999 !important;
+    display: block;}
+    </style>
+{% endblock %}
+
+{% block content %}
+        <div class="container-form">
+<form action="" method="post" >
+              <fieldset class="scheduler-border">
+                 <legend class="scheduler-border"><i class="fa fa-home"></i> {{ _('Death information')}}</legend>
+
+                        {% csrf_token %}
+                        <div class="row r-1 ">
+                        <!-- start column -->
+                         <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.member_name }}
+                          <label for="input" class="control-label">{{ form.member_name.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                        <!-- end column -->
+                      </div>
+                            <!-- start column -->
+                         <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.gender }}
+                          <label for="input" class="control-label">{{ form.gender.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                        <!-- end column -->
+                      </div>
+                         <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.nationality }}
+                          <label for="input" class="control-label">{{ form.nationality.label_tag }}</label>
+                          <i class="bar"></i>
+                            <small id="emailHelp" class="form-text text-muted">{{ form.nationality.help_text }}</small>
+
+                        </div>
+                      </div>
+                        </div>
+
+                        <div class="row">
+<input type="number" min="0" step="1" oninput="validity.valid||(value='');">
+                         <!-- start column -->
+                         <div class="col-md-4">
+                        <div class="form-group">
+
+                          {{ form.death_age }}
+
+                          <label for="input" class="control-label">{{ form.death_age.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+                        <!-- end column -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          {{ form.reason_death }}
+                          <label for="input" class="control-label">{{ form.reason_death.label_tag }}</label>
+                          <i class="bar"></i>
+                          </div>
+                      </div>
+
+                            <div class="col-md-4">
+                            <div class="form-group" style="display:  none;">
+                            {{ form.reason_death_txt }}
+                            <label for="input" class="control-label">{{ form.reason_death_txt.label_tag }}</label>
+                            <i class="bar"></i>
+                            </div>
+                            </div>
+                        </div>
+              </fieldset>
+                    <div class="button-container-form">
+                        <button type="submit" class="button"><span>{{ _('Save') }}</span></button>
+                    </div>
+
+                    </form>
+
+                <!--</fieldset>-->
+              </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+    <script>
+
+  $('select').on('change', function() {
+      var select_id = $(this).attr('id');
+      console.log(select_id)
+      switch (select_id) {
+          case 'id_reason_death':
+            var code = 10700008;
+            break;
+            }
+                 var value_code = $(this).val();
+                 console.log(code)
+                 console.log(value_code)
+                     if (code == value_code) {
+                         $('#'+ select_id + '_txt').attr('required', true)
+                          $('#'+ select_id + '_txt').parent().slideToggle('slow','linear');
+                     }
+                     else{
+                               $('#'+ select_id + '_txt').parent().slideUp('slow', 'linear');
+                               $('#'+ select_id + '_txt').attr('required', false)
+                               $('#'+ select_id + '_txt').val("")
+                     }
+  })
+
+    </script>
+{% endblock %}

@@ -93,6 +93,9 @@ class GenLookupListView(models.Model):
     col1 = models.CharField(max_length=500, blank=True, null=True)
     col2 = models.CharField(max_length=500, blank=True, null=True)
 
+    def __str__(self):
+        return self.lookup_name
+
     class Meta:
         managed = False
         db_table = 'gen_lookup_list_view'
