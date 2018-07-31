@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from survey.forms import *
 from survey.models import *
-
+from django.contrib import messages
 # Create your views here.
 def add_family_member(request):
     form = FamilyMemberFormStep1
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST)
+
         if form.is_valid():
+            print(request.POST)
             form.save()
+            messages.success(request, _('Member Added successfully.'))
+            context = {'form': form}
 
     context = {'form_step1':form}
     return render(request, 'family-member-form-step1.html', context)
