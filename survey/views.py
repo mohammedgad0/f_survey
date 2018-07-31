@@ -9,7 +9,7 @@ def add_family_member(request):
     context = {'form_step1':form}
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST)
-        print("dfgdfg",type(request.POST['difficulty_1_degree']))
+        #print("dfgdfg",type(request.POST['difficulty_1_degree']))
         if form.is_valid():
             obj = form.save(commit = False)
 
@@ -32,6 +32,7 @@ def add_family_member(request):
             obj.gender = int(request.POST['gender'])
             obj.nationality = int(request.POST['nationality'])
             obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
+            obj.difficulty_1_degree = int(request.POST['difficulty_1_degree'])
             obj.save()
             messages.success(request, _('Member Added successfully.'))
         context = {'form_step1':form}

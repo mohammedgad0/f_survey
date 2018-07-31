@@ -4,7 +4,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from survey.validators import validate_family_relation
 from survey.models import *
-
 #from django.forms.models import modelformset_factor
 
 class dropList(ModelChoiceField):
