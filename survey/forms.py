@@ -3,6 +3,7 @@ from django.forms import ModelForm, Textarea, TextInput, DateField, ModelChoiceF
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from survey.models import *
+
 #from django.forms.models import modelformset_factor
 
 class dropList(ModelChoiceField):
@@ -191,4 +192,3 @@ class DeathForm(forms.ModelForm):
         self.fields['gender'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=16, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('gender'), empty_label=empty)
         self.fields['nationality'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=159, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('nationality'), empty_label=empty)
         self.fields['reason_death'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=107, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('reason death'), empty_label=empty)
-
