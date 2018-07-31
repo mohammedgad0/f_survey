@@ -181,7 +181,7 @@ class DeathForm(forms.ModelForm):
 
         }
         widgets = {
-
+            'member_name': TextInput(attrs={'type': 'text', 'required': True}),
             'death_age': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'step': 1, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==3) return false;'}),
         }
 

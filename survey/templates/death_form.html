@@ -17,8 +17,9 @@
         <div class="container-form">
 <form action="" method="post" >
               <fieldset class="scheduler-border">
-                 <legend class="scheduler-border"><i class="fa fa-home"></i> {{ _('Death information')}}</legend>
-
+                 <legend class="scheduler-border"><i class="fa fa-user"></i> {{ _('Death information')}}</legend>
+                        <h5> الوفيات فى الأسرة خلال الإثني عشر شهراً الماضية</h5>
+                    <hr>
                         {% csrf_token %}
                         <div class="row r-1 ">
                         <!-- start column -->
@@ -51,7 +52,6 @@
                         </div>
 
                         <div class="row">
-<input type="number" min="0" step="1" oninput="validity.valid||(value='');">
                          <!-- start column -->
                          <div class="col-md-4">
                         <div class="form-group">

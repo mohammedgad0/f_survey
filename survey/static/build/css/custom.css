@@ -3,6 +3,7 @@ html, body {
     height: 100%;
     direction: rtl;
     font: 14px 'neo', serif !important;
+    background: #eee;
 }
 .header {
   box-shadow: 0 10px 10px rgba(0,0,0,0.22);
@@ -104,6 +105,7 @@ background: #fff;
 width: 100%;
 padding: 3rem 5rem 0;
 border-radius: 1px;
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
 }
 .container-form::before {
 content: '';
@@ -112,7 +114,7 @@ top: 0;
 left: 0;
 right: 0;
 bottom: 0;
-box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+/*box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);*/
 -webkit-transform: scale(0.98);
       transform: scale(0.98);
 -webkit-transition: -webkit-transform 0.28s ease-in-out;
