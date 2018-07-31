@@ -10,6 +10,9 @@ app_name = 'survey'
 urlpatterns = [
     # Home
     path('', home, name='home'),
+    # Login page
+    path('login', login, name='login'),
+    # Add family member
     path('add-family/', add_family_member, name='add-family'),
     # Page to add house form
     path('add-house/', add_house, name='add-house'),

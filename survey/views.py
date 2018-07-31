@@ -45,9 +45,17 @@ def home(request):
     return render(request, 'home.html', context)
 
 
+def login(request):
+    if request.method == 'POST':
+        id = request.method.POST.get('memper_id')
+        print(id)
+    context = {}
+    return render(request, 'login.html', context)
+
+
 def add_house(request):
     form = AddHouse()
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'add_house.html', context)
 
 
