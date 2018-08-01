@@ -53,7 +53,12 @@ def add_family_member(request):
                 obj.difficulty_6_degree = int(request.POST['difficulty_6_degree'])
             if obj.difficulty_7_degree:
                 obj.difficulty_7_degree = int(request.POST['difficulty_7_degree'])
-
+            if obj.place_birth:
+                obj.place_birth = int(request.POST['place_birth'])
+            if obj.place_stay_previous:
+                obj.place_stay_previous = int(request.POST['place_stay_previous'])
+            if obj.place_stay:
+                obj.place_stay = int(request.POST['place_stay'])
             obj.save()
             messages.success(request, _('Member Added successfully.'))
         context = {'form_step1':form}
