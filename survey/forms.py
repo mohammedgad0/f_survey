@@ -23,7 +23,7 @@ class FamilyMemberFormStep1(forms.ModelForm):
         self.fields['difficulty_5_degree'].empty_label = None
         self.fields['difficulty_6_degree'].empty_label = None
         self.fields['difficulty_7_degree'].empty_label = None
-        self.fields['member_status'].initial = 0
+        #self.fields['member_status'].initial = 0
         self.fields['family_relation'].empty_label = None
         #self.fields['place_birth'].empty_label = None
         #self.fields['place_stay_previous'].empty_label = None
