@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Family Survey Form{% endblock %}
+{% block stylesheets %}
+  {{ block.super }}
+  <style>
+
+  label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 10px; display:block }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="table-responsive list">
+
+<button type="submit" class="button action-btn" style="background-color: #58C0D8, border: 50vh solid #58C0D8;" onclick="location.href='/add-family'"><span><i class="fa fas fa-user-plus"> {% trans 'Add family member' %} </i></span></button>
+{% if members_list %}
+  <table id="user-queries-list" class="table table-striped table-hover datatable table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>{{ _('Member Number')}}</th>
+        <th>{{ _('Name')}}</th>
+        <th>{{ _('Status') }}</th>
+        <th>{{ _('Date') }}</th>
+        <th colspan="3">{{ _('Actions') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        {% for query_obj in members_list %}
+        <tr>
+          <td>{{ query_obj.member_no }}</td>
+          <td>{{ query_obj.member_name }}</td>
+          <td>
+            {% if query_obj.member_status == 0 %}
+              <span class="label label-danger">
+                {{ _('Incomplete Info') }}
+              </span>
+            {% else %}
+              <span class="label label-success">{{ _('Complete') }}</span>
+            {% endif %}
+          </td>
+          <td>{{ query_obj.insert_date }}</td>
+          <td>
+            <a href="" class="btn btn-primary btn-sm">{{ _('View') }}</a>
+
+              {% if query_obj.member_status == 0 %}
+                <a href="/add-member-info/{{ query_obj.f_m_id }}" class="btn btn-danger">{{ _('Complete Info...') }}</a>
+              {% else %}
+                  <a href="" class="btn btn-primary btn-sm"> {{ _('Edit') }}</a>
+              {% endif %}
+
+            <a href="" class="btn btn-primary btn-sm">{{ _('Delete') }}</a>
+          </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="row justify-content-center">
+    {% if members_list.paginator.num_pages > 1 %}
+      <ul class="pagination ">
+          <li class="page-item">
+            {% if members_list.has_previous %}
+                <a class="page-link" href="?page={{ members_list.previous_page_number }}">{{ _('Previous') }}</a>
+            {% else %}
+                <span class="page-link disabled">{{ _('Previous') }}</span>
+            {% endif %}
+          </li>
+
+            {% for pg in members_list.paginator.page_range %}
+
+              {% if members_list.number == pg %}
+                <li class="page-item active"><a href="?page={{pg}}" class="page-link btn btn-default">{{pg}}</a></li>
+              {% elif pg > members_list.number|add:'-3' and pg < members_list.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ pg }}">{{ pg }}</a></li>
+              {% endif %}
+
+            {% endfor %}
+
+            <li class="page-item">
+            {% if members_list.has_next %}
+                <a  class="page-link" href="?page={{ members_list.next_page_number }}">{{ _('Next') }}</a>
+            {% else %}
+                <span  class="page-link disabled">{{ _('Next') }}</span>
+            {% endif %}
+          </li>
+      </ul>
+    {% endif %}
+  </div>
+  {% else %}
+  <div class="alert alert-info">{% trans 'No records available' %}</div>
+  {% endif %}
+
+</div>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.urls import path, re_path
+from django.urls import path, re_path, reverse
 from survey.views import *
 from django.conf import settings
 from django.conf.urls.static import static
@@ -14,9 +14,13 @@ urlpatterns = [
     path('login', login, name='login'),
     # Add family member
     path('add-family/', add_family_member, name='add-family'),
+    # list family members by family id
+    re_path(r'^family/(?P<fid>\w+)/$', familyMembersList, name='list-family'),
+    # complete member info (step2)
+    re_path(r'^add-member-info/(?P<fm_id>\w+)/$', add_member_info , name='add-member-info'),
     # Page to add house form
     path('add-house/', add_house, name='add-house'),
     # Death form
     path('death-form/', death_form, name='death-form'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

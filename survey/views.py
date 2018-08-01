@@ -3,6 +3,8 @@ from survey.forms import *
 from survey.models import *
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.urls import reverse
 # Create your views here.
 def int_or_str(value):
     try:
@@ -65,6 +67,23 @@ def add_family_member(request):
 
     return render(request, 'family-member-form-step1.html', context)
 
+def familyMembersList(request, fid):
+    members_list = FcpFamilyMemberTab.objects.filter(sample_id=fid).order_by('member_no')
+    paginator = Paginator(members_list, 25)
+    page = request.GET.get('page')
+    if page and members_list != "":
+        members_list = paginator.get_page(pag)
+    context = {'members_list': members_list}
+    return render(request, 'family-members-list.html', context)
+
+def add_member_info(request, fm_id):
+    form = FamilyMemberFormStep2(instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
+    form.fields['family_member_id'].initial = FcpFamilyMemberTab.objects.get(f_m_id=fm_id).f_m_id
+    if request.method == 'POST':
+        form = FamilyMemberFormStep2(request.POST,instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
+
+    context = {'form_step2': form}
+    return render(request, 'family-member-form-step2.html', context)
 
 def home(request):
     context = {}
