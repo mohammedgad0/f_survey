@@ -46,7 +46,7 @@
               {% if query_obj.member_status == 0 %}
                 <a href="/add-member-info/{{ query_obj.f_m_id }}" class="btn btn-danger">{{ _('Complete Info...') }}</a>
               {% else %}
-                  <a href="" class="btn btn-primary btn-sm"> {{ _('Edit') }}</a>
+                  <a href="/add-member-info/{{ query_obj.f_m_id }}" class="btn btn-primary btn-sm"> {{ _('Edit') }}</a>
               {% endif %}
 
             <a href="" class="btn btn-primary btn-sm">{{ _('Delete') }}</a>
