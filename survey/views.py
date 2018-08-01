@@ -4,12 +4,18 @@ from survey.models import *
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 # Create your views here.
+def int_or_str(value):
+    try:
+        return int(value)
+    except:
+        return value
+
 def add_family_member(request):
     form = FamilyMemberFormStep1
     context = {'form_step1':form}
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST)
-        #print("dfgdfg",type(request.POST['difficulty_1_degree']))
+        #print(type(request.POST['difficulty_1_degree']))
         if form.is_valid():
             obj = form.save(commit = False)
 
@@ -32,7 +38,22 @@ def add_family_member(request):
             obj.gender = int(request.POST['gender'])
             obj.nationality = int(request.POST['nationality'])
             obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
-            obj.difficulty_1_degree = int(request.POST['difficulty_1_degree'])
+
+            if obj.difficulty_1_degree:
+                obj.difficulty_1_degree = int(request.POST['difficulty_1_degree'])
+            if obj.difficulty_2_degree:
+                obj.difficulty_2_degree = int(request.POST['difficulty_2_degree'])
+            if obj.difficulty_3_degree:
+                obj.difficulty_3_degree = int(request.POST['difficulty_3_degree'])
+            if obj.difficulty_4_degree:
+                obj.difficulty_4_degree = int(request.POST['difficulty_4_degree'])
+            if obj.difficulty_5_degree:
+                obj.difficulty_5_degree = int(request.POST['difficulty_5_degree'])
+            if obj.difficulty_6_degree:
+                obj.difficulty_6_degree = int(request.POST['difficulty_6_degree'])
+            if obj.difficulty_7_degree:
+                obj.difficulty_7_degree = int(request.POST['difficulty_7_degree'])
+
             obj.save()
             messages.success(request, _('Member Added successfully.'))
         context = {'form_step1':form}

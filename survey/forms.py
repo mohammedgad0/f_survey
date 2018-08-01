@@ -4,12 +4,14 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from survey.validators import validate_family_relation
 from survey.models import *
+from django.db.models import FloatField
+from django.db.models.functions import Cast
 #from django.forms.models import modelformset_factor
 
 class dropList(ModelChoiceField):
     def label_from_instance(self, obj):
-        return obj.code + '- ' + obj.list_name
 
+        return obj.code + '- ' + obj.list_name
 
 class FamilyMemberFormStep1(forms.ModelForm):
     def __init__(self, *args, **kwargs):

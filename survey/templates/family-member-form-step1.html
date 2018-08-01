@@ -33,7 +33,7 @@
             <h2>{% trans 'Add Family Member' %}</h2>
           </div>
         </div>-->
-        <form action="" method="post" id="family-survey-from">
+        <form action="" method="POST" id="family-survey-from">
               <fieldset class="scheduler-border">
                  <legend class="scheduler-border"><i class="fas fa fa-user-plus"></i> {{ _('Add Family Member') }}</legend>
 
@@ -436,6 +436,17 @@
     }
   });
 
+$(window).load(function(){
+  $('#family-survey-from input[type="checkbox"]:checked').not('#id_difficulty_8').each(function(){
+
+      var parent_el_id = $(this).attr('id');
+      $('.'+parent_el_id).slideDown('slow');
+      $('#id_difficulty_8').attr('required', false);
+      $('#id_difficulty_8').prop('checked', false);
+  });
+});
+
+
 // enable toggle on all checkboxes when single field is used
   $('input[type="checkbox"]').not('#id_difficulty_8').on('change', function(){
 
@@ -474,6 +485,9 @@
         }
     });
 
+    //console.log(next_el);
+  });
+
 // control all checkboxes, radios and textfields when not found option is selected.
     $('#id_difficulty_8').on('change', function(){
 
@@ -484,9 +498,9 @@
           $(this).prop('checked', false);
           $(this).attr('required', false);
           $('.'+parent_el_id+ ' .form-radio .radio input[type="radio"]').attr('required', false);
-          $('.'+this_el_id+ ' .form-radio .radio input[type="radio"]').attr('checked', false);
-          $('.'+this_el_id+ ' .form-group input[type="text"]').attr('required', false);
-          $('.'+this_el_id+ ' .form-group input[type="text"]').val("");
+          $('.'+parent_el_id+ ' .form-radio .radio input[type="radio"]').attr('checked', false);
+          $('.'+parent_el_id+ ' .form-group input[type="text"]').attr('required', false);
+          $('.'+parent_el_id+ ' .form-group input[type="text"]').val("");
           $('.'+$(this).attr('id')).slideUp('slow');
         });
       }
@@ -494,10 +508,6 @@
         $('#id_difficulty_8').attr('required', true);
       }
     });
-
-    //console.log(next_el);
-  });
-
 // Auto age year calculate usin moment.js plugin included in base.html
   moment.locale('en-US');
   m = moment();

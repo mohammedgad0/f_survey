@@ -1,5 +1,4 @@
 from django.db import models
-
 # Create your models here.
 
 
@@ -31,30 +30,30 @@ class FcpFamilyMemberTab(models.Model):
     nationality = models.CharField(max_length=200,blank=True, null=True)
     nationality_txt = models.CharField(max_length=250, blank=True, null=True)
     difficulty_1 = models.FloatField(blank=True, null=True)
-    difficulty_1_degree = models.FloatField(blank=True, null=True)
+    difficulty_1_degree = models.CharField(max_length=200,blank=True, null=True)
     difficulty_2 = models.FloatField(blank=True, null=True)
-    difficulty_2_degree = models.FloatField(blank=True, null=True)
+    difficulty_2_degree = models.CharField(max_length=200,blank=True, null=True)
     difficulty_3 = models.FloatField(blank=True, null=True)
-    difficulty_3_degree = models.FloatField(blank=True, null=True)
+    difficulty_3_degree = models.CharField(max_length=200,blank=True, null=True)
     difficulty_4 = models.FloatField(blank=True, null=True)
-    difficulty_4_degree = models.FloatField(blank=True, null=True)
+    difficulty_4_degree = models.CharField(max_length=200,blank=True, null=True)
     difficulty_5 = models.FloatField(blank=True, null=True)
-    difficulty_5_degree = models.FloatField(blank=True, null=True)
+    difficulty_5_degree = models.CharField(max_length=200,blank=True, null=True)
     difficulty_6 = models.FloatField(blank=True, null=True)
-    difficulty_6_degree = models.FloatField(blank=True, null=True)
+    difficulty_6_degree = models.CharField(max_length=200,blank=True, null=True)
     difficulty_7_txt = models.CharField(max_length=250, blank=True, null=True)
-    difficulty_7_degree = models.FloatField(blank=True, null=True)
+    difficulty_7_degree = models.CharField(max_length=200,blank=True, null=True)
     difficulty_8 = models.FloatField(blank=True, null=True)
-    place_birth = models.FloatField(blank=True, null=True)
-    place_stay_previous = models.FloatField(blank=True, null=True)
-    place_stay = models.FloatField(blank=True, null=True)
-    study_status = models.FloatField(blank=True, null=True)
-    education_status = models.FloatField(blank=True, null=True)
-    study_field = models.FloatField(blank=True, null=True)
-    marital_status = models.FloatField(blank=True, null=True)
-    males_count = models.FloatField(blank=True, null=True)
-    females_count = models.FloatField(blank=True, null=True)
-    labor_status = models.FloatField(blank=True, null=True)
+    place_birth = models.CharField(max_length=200,blank=True, null=True)
+    place_stay_previous = models.CharField(max_length=200,blank=True, null=True)
+    place_stay = models.CharField(max_length=200,blank=True, null=True)
+    study_status = models.IntegerField(blank=True, null=True)
+    education_status = models.IntegerField(blank=True, null=True)
+    study_field = models.IntegerField(blank=True, null=True)
+    marital_status = models.IntegerField(blank=True, null=True)
+    males_count = models.IntegerField(blank=True, null=True)
+    females_count = models.IntegerField(blank=True, null=True)
+    labor_status = models.IntegerField(blank=True, null=True)
     labor_status_txt = models.CharField(max_length=250, blank=True, null=True)
     main_job = models.FloatField(blank=True, null=True)
     economic_activity = models.FloatField(blank=True, null=True)
@@ -73,7 +72,6 @@ class FcpFamilyMemberTab(models.Model):
     class Meta:
         managed = False
         db_table = 'fcp_family_member_tab'
-
 
 class GenLookupListView(models.Model):
     rp_id = models.FloatField(blank=True, null=True, primary_key=True)
