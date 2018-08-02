@@ -44,6 +44,7 @@
             <div class="container">
               <div class="row">
                 <div class="col-lg-12">
+                  {% block messages %}
                   {% if messages %}
                     <ul class="messages">
                         {% for message in messages %}
@@ -58,6 +59,7 @@
                         {% endfor %}
                     </ul>
                   {% endif %}
+                  {% endblock messages %}
 
           {% block content %}
 
