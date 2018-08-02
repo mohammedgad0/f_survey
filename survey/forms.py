@@ -13,6 +13,13 @@ class dropList(ModelChoiceField):
 
         return obj.code + '- ' + obj.list_name
 
+def dropDownList(rp_id, lookup_id, l_list_active):
+    CHOICES = []
+    for x in GenLookupListView.objects.filter(rp_id=rp_id, lookup_id=lookup_id, l_list_active=l_list_active).order_by('seq_no'):
+        CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+    return CHOICES
+
+
 class FamilyMemberFormStep1(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FamilyMemberFormStep1, self).__init__(*args, **kwargs)
@@ -37,7 +44,8 @@ class FamilyMemberFormStep1(forms.ModelForm):
     age = forms.CharField(max_length=2, required=True,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
     #birth_month = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
     birth_year = forms.CharField(max_length=4, required=False,widget=forms.TextInput({'class': 'form-control', 'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
-    family_relation = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}),validators=[validate_family_relation])
+    #family_relation = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}),validators=[validate_family_relation])
+    family_relation = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=1,lookup_id=17,l_list_active=1))
     gender = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=16,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     nationality = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=18,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     difficulty_1 = forms.BooleanField(label='النظر', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
@@ -247,4 +255,3 @@ class DeathForm(forms.ModelForm):
         # self.fields['gender'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=16, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('gender'), empty_label=empty)
         # self.fields['nationality'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=159, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('nationality'), empty_label=empty)
         # self.fields['reason_death'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=107, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('reason death'), empty_label=empty)
-
