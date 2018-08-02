@@ -70,18 +70,23 @@ footer { position:  fixed !important;}
   <h3>تسجيل الدخول</h3>
 </hgroup>
 
-
-
 <form  method="post" action="">
-
+{% for message in messages %}
+<div class="alert alert-danger" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+</div>
+{% endfor %}
 {% csrf_token %}
     <div class="form-group">
-    <input type="number" name="member_id" id="number_id"  autocomplete="off" required min="0" step="1" pattern="\d*" oninput="validity.valid||(value='');" onkeypress="if(this.value.length==10) return false;" ><span class="highlight"></span><span class="bar"></span>
+    <input type="number" name="member_id" id="member_id"  autocomplete="off" required min="0" step="1" pattern="\d*" oninput="validity.valid||(value='');" onkeypress="if(this.value.length==10) return false;" ><span class="highlight"></span><span class="bar"></span>
   <label for="input" class="control-label">{{ _('Id number') }}</label>
   <i class="bar"></i>
   </div>
     <div class="form-group">
-    <input type="password" name="member_pass" id="member_id" required  autocomplete="new-password"><span class="highlight"></span><span class="bar"></span>
+    <input type="password" name="member_pass" id="member_pass" required  autocomplete="new-password"><span class="highlight"></span><span class="bar"></span>
   <label for="input" class="control-label">{{ _('password') }}</label>
   <i class="bar"></i>
   </div>

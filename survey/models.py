@@ -7,6 +7,7 @@ class AuthUserTab(models.Model):
     id_number = models.FloatField(primary_key=True, unique=True)
     token_key = models.CharField(max_length=250, blank=True, null=True)
     password = models.CharField(max_length=250, blank=True, null=True)
+    sample = models.ForeignKey('FcpFamilyTab', models.DO_NOTHING)
     insert_date = models.DateField(blank=True, null=True)
 
     class Meta:
@@ -82,7 +83,7 @@ class GenLookupListView(models.Model):
     lookup_name = models.CharField(max_length=255, blank=True, null=True)
     lookup_name_en = models.CharField(max_length=255, blank=True, null=True)
     l_active = models.FloatField(blank=True, null=True)
-    lookup_list_id = models.FloatField()
+    lookup_list_id = models.CharField(max_length=10 ,db_column='LOOKUP_LIST_ID', blank=True, null=True)
     list_name = models.CharField(max_length=1000, blank=True, null=True)
     seq_no = models.FloatField(blank=True, null=True)
     l_list_active = models.FloatField(blank=True, null=True)
@@ -97,7 +98,7 @@ class GenLookupListView(models.Model):
         return self.lookup_name
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'gen_lookup_list_view'
 
 

@@ -11,7 +11,7 @@ urlpatterns = [
     # Home
     path('', home, name='home'),
     # Login page
-    path('login', login, name='login'),
+    path(r'login/<str:token>/', login, name='login'),
     # Add family member
     path('add-family/', add_family_member, name='add-family'),
     # Page to add house form
