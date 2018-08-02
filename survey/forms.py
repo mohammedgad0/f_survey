@@ -138,9 +138,8 @@ class FamilyMemberFormStep2(forms.ModelForm):
 
 internet_connection =(
     ('', _('Choice')),
-    ('1', _('Connect')),
-    ('2', _('Disconnect')),
-
+    (1, _('Connect')),
+    (2, _('Disconnect')),
 )
 
 
@@ -201,7 +200,7 @@ class AddHouse(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         empty = _('Choice')
         super(AddHouse, self).__init__(*args, **kwargs)
-        self.fields['housing_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=104, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing type'), empty_label=empty)
+        self.fields['housing_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=104, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing type'), empty_label=empty, widget=forms.ChoiceField)
         self.fields['building_material'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=9, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Building material'), empty_label=empty)
         self.fields['housing_stay_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=175, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing stay type'), empty_label=empty)
         self.fields['holding_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=13, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Holding type'), empty_label=empty)
@@ -210,3 +209,42 @@ class AddHouse(forms.ModelForm):
         self.fields['sewage'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=102, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Sewage source'), empty_label=empty)
         self.fields['income_avg'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=176, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Income avg'), empty_label=empty)
         self.fields['housing_act_economic'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=34, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label= _('Housing act economic'), empty_label=empty)
+
+
+class DeathForm(forms.ModelForm):
+    CHOICES_GENDER = []
+    for x in GenLookupListView.objects.filter(rp_id=9, lookup_id=16, l_list_active=1).order_by('seq_no'):
+        CHOICES_GENDER.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+
+    gender = forms.ChoiceField(widget=forms.Select, choices=CHOICES_GENDER)
+
+    CHOICES_NATIONALITY = []
+    for x in GenLookupListView.objects.filter(rp_id=9, lookup_id=159, l_list_active=1).order_by('seq_no'):
+        CHOICES_NATIONALITY.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+    nationality = forms.ChoiceField( widget=forms.Select,choices=CHOICES_NATIONALITY)
+
+    CHOICES_REASON = []
+    for x in GenLookupListView.objects.filter(rp_id=9, lookup_id=107, l_list_active=1).order_by('seq_no'):
+        CHOICES_REASON.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+    reason_death = forms.ChoiceField(widget=forms.Select,choices=CHOICES_REASON,)
+
+    class Meta:
+        model = FcpFamilyDeathTab
+        fields = ('member_name', 'gender', 'nationality', 'death_age', 'reason_death', 'reason_death_txt')
+
+        labels = {
+            'member_name': _('Name'),
+            'death_age': _('death age'),
+            'reason_death_txt': _('reason death text')
+         }
+        widgets = {
+            'death_age': TextInput(attrs={'required': True, 'type': 'number', 'min': 0, 'step': 1, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==3) return false;'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        empty = _('Choice')
+        super(DeathForm, self).__init__(*args, **kwargs)
+        # self.fields['gender'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=16, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('gender'), empty_label=empty)
+        # self.fields['nationality'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=159, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('nationality'), empty_label=empty)
+        # self.fields['reason_death'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=107, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('reason death'), empty_label=empty)
+

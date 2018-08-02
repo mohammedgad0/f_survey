@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.urls import reverse
 # Create your views here.
+
+
 def int_or_str(value):
     try:
         return int(value)
@@ -90,10 +92,19 @@ def home(request):
     return render(request, 'home.html', context)
 
 
-def login(request):
+def login(request, token):
+    user_info = AuthUserTab.objects.get(token_key= token)
     if request.method == 'POST':
-        id = request.method.POST.get('memper_id')
-        print(id)
+        member_id = request.POST.get('member_id')
+        member_pass = request.POST.get('member_pass')
+        print(member_id , member_pass)
+        if member_id == user_info.id_number and member_pass == user_info.password:
+            request.session['Is_auth'] = True
+            request.session['user_id'] = user_info.id_number
+            request.session['sample_id'] = user_info.sample.sample_id
+            # return HttpResponseRedirect(reverse('projects:user-request-list'))
+        else:
+            messages.error(request, _('invalid id or password'))
     context = {}
     return render(request, 'login.html', context)
 
@@ -106,5 +117,11 @@ def add_house(request):
 
 def death_form(request):
     form = DeathForm()
+    if request.method == 'POST':
+        form = DeathForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.f_m_id = 2
+            form.save()
     context = {'form': form}
     return render(request, 'death_form.html', context)
