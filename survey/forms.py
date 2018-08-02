@@ -4,12 +4,14 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from survey.validators import validate_family_relation
 from survey.models import *
+from django.db.models import FloatField
+from django.db.models.functions import Cast
 #from django.forms.models import modelformset_factor
 
 class dropList(ModelChoiceField):
     def label_from_instance(self, obj):
-        return obj.code + '- ' + obj.list_name
 
+        return obj.code + '- ' + obj.list_name
 
 class FamilyMemberFormStep1(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -21,7 +23,7 @@ class FamilyMemberFormStep1(forms.ModelForm):
         self.fields['difficulty_5_degree'].empty_label = None
         self.fields['difficulty_6_degree'].empty_label = None
         self.fields['difficulty_7_degree'].empty_label = None
-        #self.fields['difficulty_8'].initial = 1
+        #self.fields['member_status'].initial = 0
         self.fields['family_relation'].empty_label = None
         #self.fields['place_birth'].empty_label = None
         #self.fields['place_stay_previous'].empty_label = None
@@ -92,6 +94,47 @@ class FamilyMemberFormStep1(forms.ModelForm):
             'place_stay',
             ]
 
+class FamilyMemberFormStep2(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(FamilyMemberFormStep2, self).__init__(*args, **kwargs)
+        #self.fields['member_status'].initial = 1
+
+    family_member_id = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
+    study_status = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=174, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    education_status = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=105, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    study_field = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=10, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    marital_status = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=106, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    males_count = forms.CharField(max_length=200, required=True,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
+    females_count = forms.CharField(max_length=200, required=True,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
+    labor_status = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=24, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    labor_status_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
+    main_job = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=22, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    economic_activity = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=20, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    work_sector_type = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=26, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    work_sector_type_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
+
+
+
+    class Meta:
+        model = FcpFamilyMemberTab
+        fields = [
+            'family_member_id',
+            'study_status',
+            'education_status',
+            'study_field',
+            #'marital_status',
+            'males_count',
+            'females_count',
+            'labor_status',
+            #'labor_status_txt',
+            'main_job',
+            'economic_activity',
+            'work_sector_type',
+            #'work_sector_type_txt',
+            #'t_start_date',
+            #'t_end_date',
+            #'t_update_date',
+        ]
 
 internet_connection =(
     ('', _('Choice')),
