@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-31 14:51+0300\n"
+"POT-Creation-Date: 2018-08-02 09:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,119 +27,119 @@ msgstr ""
 msgid "Arabic"
 msgstr ""
 
-#: .\survey\forms.py:98 .\survey\forms.py:160
+#: .\survey\forms.py:140 .\survey\forms.py:202
 msgid "Choice"
 msgstr "اختر..."
 
-#: .\survey\forms.py:99
+#: .\survey\forms.py:141
 msgid "Connect"
 msgstr "متصل"
 
-#: .\survey\forms.py:100
+#: .\survey\forms.py:142
 msgid "Disconnect"
 msgstr "غير متصل"
 
-#: .\survey\forms.py:107 .\survey\forms.py:143
+#: .\survey\forms.py:149 .\survey\forms.py:185
 msgid "Internet connection"
 msgstr "الاتصال بشبكة الإنترنت"
 
-#: .\survey\forms.py:136
+#: .\survey\forms.py:178
 msgid "building material text"
 msgstr "مادة البناء(أخرى)"
 
-#: .\survey\forms.py:137
+#: .\survey\forms.py:179
 msgid "Housing Type text"
 msgstr "نوع المسكن(أخرى)"
 
-#: .\survey\forms.py:138
+#: .\survey\forms.py:180
 msgid "holding type txt"
 msgstr "نوع الحيازة(أخرى)"
 
-#: .\survey\forms.py:139
+#: .\survey\forms.py:181
 msgid "electric sources txt"
 msgstr "المصدر الرئيسي للكهرباء(أخرى)"
 
-#: .\survey\forms.py:140
+#: .\survey\forms.py:182
 msgid "water sources txt"
 msgstr "المصدر الرئيسي للمياه(أخرى)"
 
-#: .\survey\forms.py:141
+#: .\survey\forms.py:183
 msgid "sewage txt"
 msgstr "المصدر الرئيسي للصرف الصحي(أخرى)"
 
-#: .\survey\forms.py:142
+#: .\survey\forms.py:184
 msgid "Housing space"
 msgstr "مساحة المسكن"
 
-#: .\survey\forms.py:144
+#: .\survey\forms.py:186
 msgid "Mobile Count"
 msgstr "عدد خطوط الهاتف النقال"
 
-#: .\survey\forms.py:145
+#: .\survey\forms.py:187
 msgid "Telephone Count"
 msgstr "عدد خطوط الهاتف الثابت"
 
-#: .\survey\forms.py:146
+#: .\survey\forms.py:188
 msgid "Internet users count"
 msgstr "عدد مستخدمي الإنترنت"
 
-#: .\survey\forms.py:147
+#: .\survey\forms.py:189
 msgid "Car count"
 msgstr "عدد السيارات"
 
-#: .\survey\forms.py:148
+#: .\survey\forms.py:190
 msgid "Tv count"
 msgstr "عدد أجهزة التلفزيون"
 
-#: .\survey\forms.py:149
+#: .\survey\forms.py:191
 msgid "Bed count"
 msgstr "عدد غرف النوم"
 
-#: .\survey\forms.py:150
+#: .\survey\forms.py:192
 msgid "other count"
 msgstr "عدد الغرف الأخرى"
 
-#: .\survey\forms.py:151
+#: .\survey\forms.py:193
 msgid "kitchen count"
 msgstr "عدد المطابخ"
 
-#: .\survey\forms.py:152
+#: .\survey\forms.py:194
 msgid "bath count"
 msgstr "عدد الحمامات"
 
-#: .\survey\forms.py:162
+#: .\survey\forms.py:204
 msgid "Housing type"
 msgstr "نوع المسكن"
 
-#: .\survey\forms.py:163
+#: .\survey\forms.py:205
 msgid "Building material"
 msgstr "مادة البناء"
 
-#: .\survey\forms.py:164
+#: .\survey\forms.py:206
 msgid "Housing stay type"
 msgstr "نوع الإقامة بالمسكن"
 
-#: .\survey\forms.py:165
+#: .\survey\forms.py:207
 msgid "Holding type"
 msgstr "نوع الحيازة"
 
-#: .\survey\forms.py:166
+#: .\survey\forms.py:208
 msgid "Electric source"
 msgstr "المصدر الرئيسي للكهرباء"
 
-#: .\survey\forms.py:167
+#: .\survey\forms.py:209
 msgid "Water source"
 msgstr "المصدر الرئيسي للمياه"
 
-#: .\survey\forms.py:168
+#: .\survey\forms.py:210
 msgid "Sewage source"
 msgstr "المصدر الرئيسي للصرف الصحي"
 
-#: .\survey\forms.py:169
+#: .\survey\forms.py:211
 msgid "Income avg"
 msgstr "متوسط الدخل الشهري لكافة أفراد الأسرة"
 
-#: .\survey\forms.py:170
+#: .\survey\forms.py:212
 msgid "Housing act economic"
 msgstr "هل تمارس الأسرة او أحد أفرادها نشاط اقتصادي منزلي؟"
 
@@ -157,6 +157,7 @@ msgstr "وسائل الاتصالات والنقل والترفيه للأسرة
 
 #: .\survey\templates\add_house.html:251 .\survey\templates\death_form.html:84
 #: .\survey\templates\family-member-form-step1.html:363
+#: .\survey\templates\family-member-form-step2.html:144
 msgid "Save"
 msgstr "حفظ"
 
@@ -165,11 +166,14 @@ msgid "Death information"
 msgstr "الوفيات داخل الأسرة"
 
 #: .\survey\templates\family-member-form-step1.html:13
+#: .\survey\templates\family-member-form-step2.html:13
 msgid "View all members"
 msgstr "عرض جميع أفراد الأسرة"
 
 #: .\survey\templates\family-member-form-step1.html:33
 #: .\survey\templates\family-member-form-step1.html:38
+#: .\survey\templates\family-member-form-step2.html:33
+#: .\survey\templates\family-member-form-step2.html:38
 msgid "Add Family Member"
 msgstr "إضافة بيانات للفرد"
 
@@ -251,7 +255,7 @@ msgstr "لايوجد"
 
 #: .\survey\templates\family-member-form-step1.html:337
 msgid "Place of Birth"
-msgstr ""
+msgstr "مكان الولادة"
 "مكان الميلاد (المنطقةالادارية) (المحافظة) (اسم الدولة لمن ولدخارج المملكة)"
 
 #: .\survey\templates\family-member-form-step1.html:346
@@ -264,6 +268,132 @@ msgstr ""
 msgid "Current place of stay"
 msgstr "مكان الإقامة المعتاد"
 
+#: .\survey\templates\family-member-form-step2.html:45
+#, fuzzy
+#| msgid "Add Family Member"
+msgid "Family Member ID"
+msgstr "إضافة بيانات للفرد"
+
+#: .\survey\templates\family-member-form-step2.html:54
+msgid "Study Status"
+msgstr "الحالة الدراسية"
+
+#: .\survey\templates\family-member-form-step2.html:63
+msgid "Education Status"
+msgstr "الحالة التعليم (اسم أعلى شهادة)"
+
+#: .\survey\templates\family-member-form-step2.html:73
+msgid "Study Field"
+msgstr "مجال الدراسة (التخصص)"
+
+#: .\survey\templates\family-member-form-step2.html:82
+msgid "Marital Status"
+msgstr "الحالة الزوجية (الاجتماعية)"
+
+#: .\survey\templates\family-member-form-step2.html:91
+msgid "Males Count"
+msgstr "ذكور"
+
+#: .\survey\templates\family-member-form-step2.html:100
+msgid "Females Count"
+msgstr "إناث"
+
+#: .\survey\templates\family-member-form-step2.html:108
+msgid "Labour Status"
+msgstr "الحالة العملية للفرد"
+
+#: .\survey\templates\family-member-form-step2.html:117
+msgid "Main Job"
+msgstr "المهنة الرئيسية بالتفصيل"
+
+#: .\survey\templates\family-member-form-step2.html:126
+msgid "Economic Activity"
+msgstr "النشاط الاقتصادي الرئيسي للجهة التي يعمل بها الفرد"
+
+#: .\survey\templates\family-member-form-step2.html:135
+msgid "Work Sector Type"
+msgstr "قطاع الجهة"
+
+#: .\survey\templates\family-members-list.html:15
+#, fuzzy
+#| msgid "Add Family Member"
+msgid "Add family member"
+msgstr "إضافة بيانات للفرد"
+
+#: .\survey\templates\family-members-list.html:20
+#, fuzzy
+#| msgid "ID Number"
+msgid "Member Number"
+msgstr "رقم (الهوية الوطنية / الإقامة / الحدود للزائرين) للفرد"
+
+#: .\survey\templates\family-members-list.html:21
+msgid "Name"
+msgstr "الأسم"
+
+#: .\survey\templates\family-members-list.html:22
+msgid "Status"
+msgstr "الحالة"
+
+#: .\survey\templates\family-members-list.html:23
+msgid "Date"
+msgstr "التاريخ"
+
+#: .\survey\templates\family-members-list.html:24
+msgid "Actions"
+msgstr "أفعال"
+
+#: .\survey\templates\family-members-list.html:36
+msgid "Incomplete Info"
+msgstr "معلومات غير كاملة"
+
+#: .\survey\templates\family-members-list.html:39
+msgid "Complete"
+msgstr "اكتمال"
+
+#: .\survey\templates\family-members-list.html:44
+msgid "View"
+msgstr "عرض"
+
+#: .\survey\templates\family-members-list.html:47
+msgid "Complete Info..."
+msgstr "استكمال البيانات"
+
+#: .\survey\templates\family-members-list.html:49
+msgid "Edit"
+msgstr "تحرير"
+
+#: .\survey\templates\family-members-list.html:52
+msgid "Delete"
+msgstr "حزف"
+
+#: .\survey\templates\family-members-list.html:64
+#: .\survey\templates\family-members-list.html:66
+msgid "Previous"
+msgstr "السابق"
+
+#: .\survey\templates\family-members-list.html:82
+#: .\survey\templates\family-members-list.html:84
+msgid "Next"
+msgstr "التالى"
+
+#: .\survey\templates\family-members-list.html:91
+msgid "No records available"
+msgstr "لا توجد بيانات"
+
+#: .\survey\templates\login.html:80
+#, fuzzy
+#| msgid "ID Number"
+msgid "Id number"
+msgstr "رقم (الهوية الوطنية / الإقامة / الحدود للزائرين) للفرد"
+
+#: .\survey\templates\login.html:85
+msgid "password"
+msgstr "كلمه السر"
+
+#: .\survey\templates\login.html:88
+msgid "Login"
+msgstr "تسجيل الدخول"
+
 #: .\survey\validators.py:13
 msgid "First family member must be Family head"
 msgstr "يجب أن يكون أول فرد من العائلة هو رئيس الأسرة"
@@ -274,12 +404,9 @@ msgid ""
 "member"
 msgstr "يوجد رئيس الأسرة ، يرجى تحديد العلاقة الصحيحة مع هذا الفرد"
 
-#: .\survey\views.py:35
+#: .\survey\views.py:65
 msgid "Member Added successfully."
-msgstr ""
-
-#~ msgid "Name"
-#~ msgstr "الأسم"
+msgstr "تمت إضافة الفرد بنجاح"
 
 #~ msgid "death age"
 #~ msgstr "العمر عند الوفاة"
@@ -298,6 +425,3 @@ msgstr ""
 
 #~ msgid "Member Information"
 #~ msgstr "معلومات للفرد"
-
-#~ msgid "ID Number"
-#~ msgstr "رقم (الهوية الوطنية / الإقامة / الحدود للزائرين) للفرد"
