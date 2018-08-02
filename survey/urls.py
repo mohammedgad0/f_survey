@@ -14,6 +14,8 @@ urlpatterns = [
     path(r'login/<str:token>/', login, name='login'),
     # Add family member
     path('add-family/', add_family_member, name='add-family'),
+    # ajax path to populate dependend child select field with correct values
+    path('ajax/options/', ajax_render_list_options, name='ajax-options'),
     # list family members by family id
     re_path(r'^family/(?P<fid>\w+)/$', familyMembersList, name='list-family'),
     # complete member info (step2)
