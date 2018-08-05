@@ -82,8 +82,12 @@ def familyMembersList(request, fid):
 def add_member_info(request, fm_id):
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
     form = FamilyMemberFormStep2(instance = instance)
+<<<<<<< HEAD
     # temp field
     #print(instance.study_field)
+=======
+
+>>>>>>> e20137ab0a1e933eaf1dda28d6a9d7f7c2bf0bca
     if instance.study_field:
         edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
         edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=edu_parent).order_by('seq_no')
@@ -157,8 +161,27 @@ def ajax_render_list_options(request):
     context = {'options': options_list}
     return render(request, 'options-list.html', context)
 
+
 def home(request):
+<<<<<<< HEAD
     context = {}
+=======
+    sample_id = request.session.get('sample_id')
+    sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
+    family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
+    members = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
+    members_enter_count = members.count()
+    members_complete_count = FcpFamilyMemberTab.objects.filter(sample_id=sample_id, member_status= 2).count()
+    member_status = False
+    if members_complete_count == sample_obj.no_of_member:
+        member_status = True
+    else:
+        member_status = False
+    death_list = FcpFamilyDeathTab.objects.filter(sample_id=sample_id)
+
+    context = {'members_count':sample_obj.no_of_member, 'members_enter_count':members_enter_count, 'member_status': member_status,
+               'family_status': sample_obj.family_status, 'sample_obj': sample_obj, 'family_obj': family_obj, 'members': members, 'death_list': death_list}
+>>>>>>> e20137ab0a1e933eaf1dda28d6a9d7f7c2bf0bca
     return render(request, 'home.html', context)
 
 
