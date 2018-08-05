@@ -209,13 +209,14 @@
   $('#males-count').hide();
   $('#females-count').hide();
   var female_fields = "{{ female_fields }}";
+
   $('#id_marital_status').on('change', function(){
     var martial_status_val = $(this).val();
-
     if( (martial_status_val == 10600003 || martial_status_val == 10600004) && female_fields == 'True' )    {
       $('#males-count').show();
       $('#females-count').show();
-
+      $('#males-count .form-group input').attr('required', true);
+      $('#females-count .form-group input').attr('required', true);
     }
     else{
       $('#males-count').hide();

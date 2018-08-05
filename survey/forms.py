@@ -124,8 +124,8 @@ class FamilyMemberFormStep2(forms.ModelForm):
     study_field_parent = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=11, l_list_active=1))
     study_field = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=10, l_list_active=1))
     marital_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=106, l_list_active=1))
-    males_count = forms.CharField(max_length=200, required=False,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
-    females_count = forms.CharField(max_length=200, required=False,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
+    males_count = forms.IntegerField(required=False,widget=forms.TextInput({'class': 'form-control' }))
+    females_count = forms.IntegerField(required=False,widget=forms.TextInput({'class': 'form-control' }))
     labor_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=24, l_list_active=1))
     labor_status_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
     main_job = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=22, l_list_active=1))
@@ -141,7 +141,7 @@ class FamilyMemberFormStep2(forms.ModelForm):
             'education_status',
             'study_field_parent',
             'study_field',
-            #'marital_status',
+            'marital_status',
             'males_count',
             'females_count',
             'labor_status',

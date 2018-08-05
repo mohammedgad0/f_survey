@@ -82,8 +82,7 @@ def familyMembersList(request, fid):
 def add_member_info(request, fm_id):
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
     form = FamilyMemberFormStep2(instance = instance)
-    # temp field
-    #print(instance.study_field)
+    
     if instance.study_field:
         edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
         edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=edu_parent).order_by('seq_no')
@@ -103,16 +102,11 @@ def add_member_info(request, fm_id):
             form.fields['study_field'].initial = instance.study_field
 
         form.fields['study_field'].choices = CHOICES
-        print(instance.marital_status)
-        #form.feilds['marital_status'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.marital_status).lookup_list_id
-
-
     except:
         pass
 
     if request.method == 'POST':
         form = FamilyMemberFormStep2(request.POST,instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
-        print(form)
         if form.is_valid():
             form.save()
 
