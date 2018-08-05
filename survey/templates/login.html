@@ -71,6 +71,8 @@ footer { position:  fixed !important;}
 </hgroup>
 
 <form  method="post" action="">
+{% block messages %}
+{% endblock %}
 {% for message in messages %}
 <div class="alert alert-danger" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">

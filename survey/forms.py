@@ -8,13 +8,14 @@ from django.db.models import FloatField
 from django.db.models.functions import Cast
 #from django.forms.models import modelformset_factor
 
+
 class dropList(ModelChoiceField):
     def label_from_instance(self, obj):
-
         return obj.code + '- ' + obj.list_name
 
 def dropDownList(rp_id, lookup_id, l_list_active):
     CHOICES = []
+    CHOICES.append(('', _('Choice')))
     for x in GenLookupListView.objects.filter(rp_id=rp_id, lookup_id=lookup_id, l_list_active=l_list_active).order_by('seq_no'):
         CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
     return CHOICES
@@ -154,6 +155,15 @@ internet_connection =(
 class AddHouse(forms.ModelForm):
 
     internet_connection = forms.ChoiceField(choices=internet_connection, label=_('Internet connection'))
+    housing_type = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=104, l_list_active=1), label= _('Housing type'))
+    building_material = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=9, l_list_active=1), label= _('Building material'))
+    housing_stay_type = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=175, l_list_active=1), label= _('Housing stay type'))
+    holding_type = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=13, l_list_active=1), label= _('Holding type'))
+    electric_sources = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=100, l_list_active=1), label= _('Electric source'))
+    water_sources = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=14, l_list_active=1), label= _('Water source'))
+    sewage = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=102, l_list_active=1), label= _('Sewage source'))
+    income_avg = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=176, l_list_active=1), label=_('Income avg'))
+    housing_act_economic = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=34, l_list_active=1), label= _('Housing act economic'))
 
     class Meta:
         model = FcpFamilyTab
@@ -182,6 +192,7 @@ class AddHouse(forms.ModelForm):
         }
 
         labels = {
+            'housing_type': _('Housing type'),
             'building_material_txt': _('building material text'),
             'housing_type_txt': _('Housing Type text'),
             'holding_type_txt': _('holding type txt'),
@@ -208,15 +219,16 @@ class AddHouse(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         empty = _('Choice')
         super(AddHouse, self).__init__(*args, **kwargs)
-        self.fields['housing_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=104, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing type'), empty_label=empty, widget=forms.ChoiceField)
-        self.fields['building_material'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=9, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Building material'), empty_label=empty)
-        self.fields['housing_stay_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=175, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing stay type'), empty_label=empty)
-        self.fields['holding_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=13, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Holding type'), empty_label=empty)
-        self.fields['electric_sources'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=100, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Electric source'), empty_label=empty)
-        self.fields['water_sources'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=14, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Water source'), empty_label=empty)
-        self.fields['sewage'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=102, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Sewage source'), empty_label=empty)
-        self.fields['income_avg'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=176, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Income avg'), empty_label=empty)
-        self.fields['housing_act_economic'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=34, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label= _('Housing act economic'), empty_label=empty)
+        # family_relation = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=1, lookup_id=17, l_list_active=1))
+        # self.fields['housing_type'].empty_label = empty
+        # self.fields['building_material'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=9, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Building material'), empty_label=empty)
+        # self.fields['housing_stay_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=175, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Housing stay type'), empty_label=empty)
+        # self.fields['holding_type'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=13, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Holding type'), empty_label=empty)
+        # self.fields['electric_sources'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=100, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Electric source'), empty_label=empty)
+        # self.fields['water_sources'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=14, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Water source'), empty_label=empty)
+        # self.fields['sewage'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=102, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Sewage source'), empty_label=empty)
+        # self.fields['income_avg'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=176, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label=_('Income avg'), empty_label=empty)
+        # self.fields['housing_act_economic'] = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=34, l_list_active=1).order_by('seq_no'), to_field_name="lookup_list_id", label= _('Housing act economic'), empty_label=empty)
 
 
 class DeathForm(forms.ModelForm):

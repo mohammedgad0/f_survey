@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.db import models
 # Create your models here.
 
@@ -10,8 +12,18 @@ class AuthUserTab(models.Model):
     insert_date = models.DateField(blank=True, null=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Auth_User_Tab'
+
+
+class UserLog(models.Model):
+    user_id = models.FloatField(blank=True, null=True)
+    input_id = models.FloatField(blank=True, null=True)
+    login_date = models.DateTimeField(blank=True, null=True, default=timezone.now)
+    success = models.NullBooleanField(blank=True, null=True)
+    class Meta:
+        managed = True
+        db_table = 'USER_LOG'
 
 
 class FcpFamilyMemberTab(models.Model):
@@ -74,6 +86,7 @@ class FcpFamilyMemberTab(models.Model):
         managed = False
         db_table = 'fcp_family_member_tab'
 
+
 class GenLookupListView(models.Model):
     rp_id = models.FloatField(blank=True, null=True, primary_key=True)
     column_name = models.CharField(max_length=250, blank=True, null=True)
@@ -123,7 +136,7 @@ class FcpFamilyDeathTab(models.Model):
 
 
 class FcpFamilyTab(models.Model):
-    sample = models.ForeignKey('GenSampleTab', models.DO_NOTHING,)
+    sample = models.OneToOneField('GenSampleTab', models.DO_NOTHING, primary_key=True)
     housing_type = models.FloatField(blank=True, null=True)
     housing_type_txt = models.CharField(max_length=250, blank=True, null=True)
     building_material = models.FloatField(blank=True, null=True)
@@ -159,9 +172,9 @@ class FcpFamilyTab(models.Model):
     mobile = models.CharField(max_length=250, blank=True, null=True)
     email = models.CharField(max_length=250, blank=True, null=True)
     insert_by = models.FloatField(blank=True, null=True)
-    insert_date = models.DateField(blank=True, null=True)
+    # insert_date = models.DateField(blank=True, null=True)
     update_by = models.FloatField(blank=True, null=True)
-    update_date = models.DateField(blank=True, null=True)
+    # update_date = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False

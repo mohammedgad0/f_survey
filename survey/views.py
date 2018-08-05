@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from survey.forms import *
 from survey.models import *
@@ -88,29 +89,53 @@ def add_member_info(request, fm_id):
     return render(request, 'family-member-form-step2.html', context)
 
 def home(request):
-    context = {}
+    sample_id = request.session.get('sample_id')
+    members_count = GenSampleTab.objects.get(sample_id= sample_id).no_of_member
+    members_enter_count = FcpFamilyMemberTab.objects.filter(sample_id=sample_id).count()
+    members_complete_count = FcpFamilyMemberTab.objects.filter(sample_id=sample_id, member_status= 2).count()
+    member_status = False
+    if members_complete_count == members_count:
+        member_status = True
+    else:
+        member_status = False
+    context = {'members_count':members_count, 'members_enter_count':members_enter_count, 'member_status': member_status}
     return render(request, 'home.html', context)
 
 
 def login(request, token):
-    user_info = AuthUserTab.objects.get(token_key= token)
+    user_info = AuthUserTab.objects.filter(token_key= token)
+
     if request.method == 'POST':
         member_id = request.POST.get('member_id')
         member_pass = request.POST.get('member_pass')
-        print(member_id , member_pass)
-        if member_id == user_info.id_number and member_pass == user_info.password:
+        print(member_id, member_pass)
+        user_info = AuthUserTab.objects.get(token_key=token, id_number = member_id)
+        if int(member_id) == int(user_info.id_number) and member_pass == user_info.password:
             request.session['Is_auth'] = True
             request.session['user_id'] = user_info.id_number
-            request.session['sample_id'] = user_info.sample.sample_id
-            # return HttpResponseRedirect(reverse('projects:user-request-list'))
+            request.session['sample_id'] = user_info.sample_id
+            UserLog.objects.create(user_id=user_info.id_number, input_id = member_id, success=True)
+            return HttpResponseRedirect(reverse('survey:home'))
         else:
+            UserLog.objects.create(user_id=user_info.id_number, input_id=member_id, success=False)
             messages.error(request, _('invalid id or password'))
     context = {}
     return render(request, 'login.html', context)
 
 
 def add_house(request):
-    form = AddHouse()
+    instance = FcpFamilyTab.objects.get(sample=request.session.get('sample_id'))
+    form = AddHouse(instance=instance)
+    if request.method == 'POST':
+        form = AddHouse(request.POST, instance=instance)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.sample_id = request.session.get('sample_id')
+            obj.insert_by = request.session.get('user_id')
+            obj.save()
+            messages.success(request, _('House Added successfully.'))
+            return HttpResponseRedirect(reverse('survey:home'))
+
     context = {'form': form}
     return render(request, 'add_house.html', context)
 
