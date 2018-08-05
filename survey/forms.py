@@ -142,7 +142,7 @@ class FamilyMemberFormStep2(forms.ModelForm):
             'education_status',
             'study_field_parent',
             'study_field',
-            #'marital_status',
+            'marital_status',
             'males_count',
             'females_count',
             'labor_status',

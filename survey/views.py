@@ -94,28 +94,24 @@ def add_member_info(request, fm_id):
     CHOICES = []
     for x in edu_child_list:
         CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
-
     try:
         if instance.f_m_id:
             form.fields['family_member_id'].initial = instance.f_m_id
-
         if instance.study_field:
             form.fields['study_field_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
             form.fields['study_field'].initial = instance.study_field
-
         form.fields['study_field'].choices = CHOICES
         print(instance.marital_status)
         #form.feilds['marital_status'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.marital_status).lookup_list_id
-
-
     except:
         pass
 
     if request.method == 'POST':
         form = FamilyMemberFormStep2(request.POST,instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
-        print(form)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            print(int(obj.marital_status))
+            obj.save()
 
     show_female_fields = False
     if instance.gender == 1600002:
@@ -133,17 +129,23 @@ def ajax_render_list_options(request):
     context = {'options': options_list}
     return render(request, 'options-list.html', context)
 
+
 def home(request):
     sample_id = request.session.get('sample_id')
-    members_count = GenSampleTab.objects.get(sample_id= sample_id).no_of_member
-    members_enter_count = FcpFamilyMemberTab.objects.filter(sample_id=sample_id).count()
+    sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
+    family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
+    members = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
+    members_enter_count = members.count()
     members_complete_count = FcpFamilyMemberTab.objects.filter(sample_id=sample_id, member_status= 2).count()
     member_status = False
-    if members_complete_count == members_count:
+    if members_complete_count == sample_obj.no_of_member:
         member_status = True
     else:
         member_status = False
-    context = {'members_count':members_count, 'members_enter_count':members_enter_count, 'member_status': member_status}
+    death_list = FcpFamilyDeathTab.objects.filter(sample_id=sample_id)
+
+    context = {'members_count':sample_obj.no_of_member, 'members_enter_count':members_enter_count, 'member_status': member_status,
+               'family_status': sample_obj.family_status, 'sample_obj': sample_obj, 'family_obj': family_obj, 'members': members, 'death_list': death_list}
     return render(request, 'home.html', context)
 
 
