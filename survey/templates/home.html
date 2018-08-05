@@ -1,17 +1,263 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block title %} الصفحة الرئيسية {% endblock title %}
 
 {% block stylesheets %}
   {{ block.super }}
+    <style>
+    .container-form{min-height: 920px}
+ .panel-title{margin-bottom: 5px !important;}
+.lb-md {
+  font-size: 16px;
+}
+.panel-heading+.panel-collapse>.panel-body {
+    border-top: none !important;
+}
+.panel {
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #fff;
+  background: none;
+  box-shadow: none;
+}
+
+.panel:last-child {
+  border-bottom: none;
+}
+
+.panel-group > .panel:first-child .panel-heading {
+  border-radius: 4px 4px 0 0;
+}
+
+.panel-group .panel {
+  border-radius: 0;
+}
+
+.panel-group .panel + .panel {
+  margin-top: 0;
+}
+
+.panel-heading {
+  background-color: #0f6297;
+  border-radius: 0;
+  border: none;
+  color: #fff;
+  padding: 0;
+}
+
+.panel-title a {
+  display: block;
+  color: #fff;
+  padding: 15px;
+  position: relative;
+  font-size: 16px;
+  font-weight: 400;
+    text-decoration: none;
+}
+
+.panel-body {
+  background: #fff;
+}
+
+.panel:last-child .panel-body {
+  border-radius: 0 0 4px 4px;
+}
+
+.panel:last-child .panel-heading {
+  border-radius: 0 0 4px 4px;
+  transition: border-radius 0.3s linear 0.2s;
+}
+
+.panel:last-child .panel-heading.active {
+  border-radius: 0;
+  transition: border-radius linear 0s;
+}
+/* #bs-collapse icon scale option */
+
+.panel-heading a:before {
+  content: '\f055';
+  font-family: 'FontAwesome';
+  font-weight: 900;
+  transition: all 0.5s;
+  transform: scale(1);
+}
+
+.panel-heading.active a:before {
+  content: ' ';
+      font-family: 'FontAwesome';
+  font-weight: 900;
+  transition: all 0.5s;
+  transform: scale(0);
+}
+
+#bs-collapse .panel-heading a:after {
+  content: ' ';
+  font-family: 'FontAwesome';
+      font-weight: 900;
+  transform: scale(0);
+  transition: all 0.5s;
+}
+
+#bs-collapse .panel-heading.active a:after {
+    float: right;
+  content: '\f056';
+  font-family: 'FontAwesome';
+  font-weight: 900;
+  transform: scale(1);
+  transition: all 0.5s;
+}
+</style>
 {% endblock stylesheets %}
 
 {% block content %}
+
+<div class="container-form">
+ <div class="panel-group wrap" id="bs-collapse">
+      <div class="panel">
+        <div class="panel-heading active">
+          <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#" href="#one">
+          {{ _('General information') }}
+        </a>
+      </h4>
+        </div>
+        <div id="one" class="panel-collapse collapse in">
+          <div class="panel-body">
+          <div class="row">
+          <div class="col-md-6 col-xs-6">
+              <div class="col-md-6  col-xs-6 title">
+                  {{ _('Members Count') }}:
+              </div>
+              <div class="col-md-6  col-xs-6 info">
+                  {{ members_count }}/{{ members_enter_count}}
+              </div>
+          </div>
+              <div class="col-md-6  col-xs-6">
+              <div class="col-md-6   col-xs-6 title">
+                  {{ _('Members status') }}:
+              </div>
+              <div class="col-md-6 info">
+                                                            {% if member_status %}
+                    <span class="label label-success lb-md">{{ _('Complete') }}</span>
+                      {% else %}
+                      <span class="label label-danger lb-md">{{ _('Incomplete Info') }}</span>
+                      {% endif %}
+              </div>
+          </div>
+          </div>
+                    <div class="row" style="margin-top: 25px; padding-top: 25px; border-top:1px solid silver ">
+          <div class="col-md-6 col-xs-6">
+              <div class="col-md-6  col-xs-6 title">
+                  {{ _('Members Count') }}:
+              </div>
+              <div class="col-md-6  col-xs-6 info">
+                  {{ members_count }}/{{ members_enter_count}}
+              </div>
+          </div>
+              <div class="col-md-6  col-xs-6">
+              <div class="col-md-6   col-xs-6 title">
+                  {{ _('Members status') }}:
+              </div>
+              <div class="col-md-6 info">
+                                                            {% if member_status %}
+                    <span class="label label-success lb-md">{{ _('Complete') }}</span>
+                      {% else %}
+                      <span class="label label-danger lb-md">{{ _('Incomplete Info') }}</span>
+                      {% endif %}
+              </div>
+          </div>
+          </div>
+{#              <table class='table-responsive table borderless'>#}
+{#                  <tr>#}
+{#                      <td width="20%">{{ _('Members Count') }}:</td><td width="30%">{{ members_count }}/{{ members_enter_count}}</td>#}
+{#                      <td>{{ _('Members status') }}:</td><td>#}
+{#                                             {% if member_status %}#}
+{#                    <span class="label label-success lb-md">{{ _('Complete') }}</span>#}
+{#                      {% else %}#}
+{#                      <span class="label label-danger lb-md">{{ _('Incomplete Info') }}</span>#}
+{#                      {% endif %}#}
+{#                  </td>#}
+{#                  </tr>#}
+{#                  <tr>#}
+{#                      <td>{{ _('Housing status') }}:</td><td>#}
+{#                        {% if member_status %}#}
+{#                    <span class="label label-success">{{ _('Complete') }}</span>#}
+{#                      {% else %}#}
+{#                      <span class="label label-danger">{{ _('Incomplete Info') }}</span>#}
+{#                      {% endif %}#}
+{#                      {{ request_details.emp_id.deptname }}</td>#}
+{#                      <td>{{ _('Submitted') }}:</td><td>{{ request_details.emp_id.ext }}</td>#}
+{#                  </tr>#}
+{#              </table>#}
+
+          </div>
+        </div>
+
+      </div>
+      <!-- end of panel -->
+
+
+      <div class="panel">
+        <div class="panel-heading active">
+          <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#" href="#three">
+          {{ _('Request action') }}
+        </a>
+      </h4>
+        </div>
+        <div id="three" class="panel-collapse collapse show">
+          <div class="panel-body">
+                                <table class='table borderless'>
+                  <tr>
+                      <td>{{ _('Request Status') }}:</td>
+                                  <td>
+                    {% if request_details.service_status == '1' %}
+                  <button type="button" class="btn btn-info btn-sm">{% trans "New" %}</button>
+                  {% endif %}
+                  {% if request_details.service_status == '2' %}
+                  <button type="button" class="btn btn-warning btn-sm">{% trans "in progres" %}</button>
+                  {% endif %}
+                  {% if request_details.service_status == '3' %}
+                  <button type="button" class="btn btn-success btn-sm">{% trans "Done" %}</button>
+                  {% endif %}
+                  {% if request_details.service_status == '4' %}
+                  <button type="button" class="btn btn-danger btn-sm">{% trans "Ignore" %}</button>
+                  {% endif %}
+            </td>
+                  <td>{{ _('Request finish') }}:</td><td>{{ request_details.finished_date|date:"D d M Y f a" }}</td>
+                  </tr>
+                  <tr>
+                  <td>{{ _('Employee resp') }}:</td><td>{% if  request_details.assigned_to.empname%}{{ request_details.assigned_to.empname }}{% else %}
+                      {{  manager.empid.empname}}{% endif %}
+                  </td>
+                  <td>{{ _('Notes') }}:</td><td style="max-width: 250px;">{{ request_details.service_note }}</td>
+
+                  </tr>
+
+              </table>
+          </div>
+        </div>
+      </div>
+      <!-- end of panel -->
+
+      <!-- end of panel -->
+
+    </div>
+</div>
 
 
 {% endblock content %}
 
 {% block javascripts %}
   {{ block.super }}
+        <script>
+ $('.panel-collapse').on('show.bs.collapse', function () {
+    $(this).siblings('.panel-heading').addClass('active');
+  });
+
+  $('.panel-collapse').on('hide.bs.collapse', function () {
+    $(this).siblings('.panel-heading').removeClass('active');
+  });
+    </script>
 {% endblock javascripts %}
 
