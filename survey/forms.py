@@ -122,15 +122,17 @@ class FamilyMemberFormStep2(forms.ModelForm):
     family_member_id = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
     study_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=174, l_list_active=1))
     education_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=105, l_list_active=1))
-    study_field_parent = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=11, l_list_active=1))
+    study_field_parent = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control','data-child-lookup-id': '10'}), choices=dropDownList(rp_id=9, lookup_id=11, l_list_active=1))
     study_field = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=10, l_list_active=1))
     marital_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=106, l_list_active=1))
     males_count = forms.IntegerField(required=False,widget=forms.TextInput({'class': 'form-control' }))
     females_count = forms.IntegerField(required=False,widget=forms.TextInput({'class': 'form-control' }))
     labor_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=24, l_list_active=1))
     labor_status_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-    main_job = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=22, l_list_active=1))
-    economic_activity = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=20, l_list_active=1))
+    main_job_parent = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control','data-child-lookup-id': '23'}), choices=dropDownList(rp_id=9, lookup_id=22, l_list_active=1))
+    main_job = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=23, l_list_active=1))
+    economic_activity_parent = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control', 'data-child-lookup-id': '21'}), choices=dropDownList(rp_id=9, lookup_id=20, l_list_active=1))
+    economic_activity = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=21, l_list_active=1))
     work_sector_type = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=26, l_list_active=1))
     work_sector_type_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
 
@@ -146,11 +148,13 @@ class FamilyMemberFormStep2(forms.ModelForm):
             'males_count',
             'females_count',
             'labor_status',
-            #'labor_status_txt',
+            'labor_status_txt',
+            'main_job_parent',
             'main_job',
+            'economic_activity_parent',
             'economic_activity',
             'work_sector_type',
-            #'work_sector_type_txt',
+            'work_sector_type_txt',
             #'t_start_date',
             #'t_end_date',
             #'t_update_date',
