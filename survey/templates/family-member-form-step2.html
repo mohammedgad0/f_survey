@@ -100,7 +100,7 @@
                         </div>
                       </div>
                       <!--  col-md-12   -->
-                      <div class="col-md-6">
+                      <div class="col-md-6" id="males-count">
                         <div class="form-group">
 
                           {{ form_step2.males_count }}
@@ -109,7 +109,7 @@
                           </div>
                       </div>
                       <!--  col-md-12   -->
-                      <div class="col-md-6">
+                      <div class="col-md-6" id="females-count">
                         <div class="form-group">
 
                           {{ form_step2.females_count }}
@@ -204,5 +204,30 @@
 
   });
   $('#id_education_status').trigger('change');
+
+  // hide males count and females count fields initially
+  $('#males-count').hide();
+  $('#females-count').hide();
+  var female_fields = "{{ female_fields }}";
+  $('#id_marital_status').on('change', function(){
+    var martial_status_val = $(this).val();
+
+    if( (martial_status_val == 10600003 || martial_status_val == 10600004) && female_fields == 'True' )    {
+      $('#males-count').show();
+      $('#females-count').show();
+
+    }
+    else{
+      $('#males-count').hide();
+      $('#females-count').hide();
+      $('#males-count .form-group input').val("");
+      $('#females-count .form-group input').val("");
+
+      $('#males-count .form-group input').attr('required', false);
+      $('#females-count .form-group input').attr('required', false);
+    }
+  });
+  $('#id_marital_status').trigger('change');
+
 </script>
 {% endblock %}
