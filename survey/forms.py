@@ -106,23 +106,33 @@ class FamilyMemberFormStep1(forms.ModelForm):
 class FamilyMemberFormStep2(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FamilyMemberFormStep2, self).__init__(*args, **kwargs)
-        #self.fields['member_status'].initial = 1
+        #self.fields['education_status'].queryset = 1
+        #self.fields['study_field'].queryset = GenLookupListView.objects.none()
+
+        # if 'lookup_id' and 'lookup_list_id' in self.data:
+        #     try:
+        #         lookup_id = int(self.data.get('lookup_id'))
+        #         lookup_list_id = int(self.data.get('lookup_list_id'))
+        #         self.fields['study_field'].queryset = GenLookupListView.objects.filter(rp_id=9,lookup_id=lookup_id,l_list_active=1, ref_work_type_pk=lookup_list_id).order_by('seq_no')
+        #     except (ValueError, TypeError):
+        #         pass  # invalid input from the client; ignore and fallback to empty City queryset
+        #elif self.instance.pk:
+        #    self.fields['study_field'].queryset = self.instance.lookup_id.city_set.order_by('name')
 
     family_member_id = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-    study_status = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=174, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    education_status = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=105, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    study_field = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=10, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    marital_status = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=106, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    males_count = forms.CharField(max_length=200, required=True,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
-    females_count = forms.CharField(max_length=200, required=True,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
-    labor_status = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=24, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    study_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=174, l_list_active=1))
+    education_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=105, l_list_active=1))
+    study_field_parent = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=11, l_list_active=1))
+    study_field = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=10, l_list_active=1))
+    marital_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=106, l_list_active=1))
+    males_count = forms.CharField(max_length=200, required=False,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
+    females_count = forms.CharField(max_length=200, required=False,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
+    labor_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=24, l_list_active=1))
     labor_status_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-    main_job = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=22, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    economic_activity = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=20, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    work_sector_type = dropList(queryset=GenLookupListView.objects.filter(rp_id=9, lookup_id=26, l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
+    main_job = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=22, l_list_active=1))
+    economic_activity = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=20, l_list_active=1))
+    work_sector_type = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=26, l_list_active=1))
     work_sector_type_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-
-
 
     class Meta:
         model = FcpFamilyMemberTab
@@ -130,6 +140,7 @@ class FamilyMemberFormStep2(forms.ModelForm):
             'family_member_id',
             'study_status',
             'education_status',
+            'study_field_parent',
             'study_field',
             #'marital_status',
             'males_count',

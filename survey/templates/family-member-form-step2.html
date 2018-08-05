@@ -55,6 +55,7 @@
                           <i class="bar"></i>
                         </div>
                       </div>
+
                       <!--  col-md-12   -->
                       <div class="col-md-6">
                         <div class="form-group">
@@ -64,16 +65,31 @@
                           <i class="bar"></i>
                         </div>
                       </div>
+
                       <!--  col-md-12   -->
+                      <fieldset class="scheduler-border" id="study-field-fieldset">
+                        <legend class="scheduler-border">
+                          {{ _('Study Field') }}
+                        </legend>
+                          <div class="col-md-6" id="study-field-parent">
+                            <div class="form-group">
 
-                      <div class="col-md-6">
-                        <div class="form-group">
+                              {{ form_step2.study_field_parent }}
+                              <!--<label for="input" class="control-label"></label>-->
+                              <i class="bar"></i>
+                            </div>
+                          </div>
+                          <!--  col-md-12   -->
 
-                          {{ form_step2.study_field }}
-                          <label for="input" class="control-label">{{ _('Study Field') }}</label>
-                          <i class="bar"></i>
-                        </div>
-                      </div>
+                          <div class="col-md-6" id="study-field-child">
+                            <div class="form-group">
+
+                              {{ form_step2.study_field }}
+                              <!--<label for="input" class="control-label">{{ _('Study Field') }}</label>-->
+                              <i class="bar"></i>
+                            </div>
+                          </div>
+                      </fieldset>
                       <!--  col-md-12   -->
                       <div class="col-md-6">
                         <div class="form-group">
@@ -84,7 +100,7 @@
                         </div>
                       </div>
                       <!--  col-md-12   -->
-                      <div class="col-md-6">
+                      <div class="col-md-6" id="males-count">
                         <div class="form-group">
 
                           {{ form_step2.males_count }}
@@ -93,7 +109,7 @@
                           </div>
                       </div>
                       <!--  col-md-12   -->
-                      <div class="col-md-6">
+                      <div class="col-md-6" id="females-count">
                         <div class="form-group">
 
                           {{ form_step2.females_count }}
@@ -154,5 +170,64 @@
 
 {% block javascripts %}
   {{ block.super }}
+<script>
 
+  $('#study-field-fieldset').hide();
+  //$('#study-field-child').hide();
+
+  $('#id_education_status').on('change', function(){
+      var study_field_id = $(this).val();
+      if( study_field_id >= 10500005 && study_field_id <= 10500012 )
+      {
+        $('#study-field-fieldset').show();
+      //  $('#study-field-parent select').trigger('change');
+      }
+      else{
+        $('#study-field-fieldset').hide();
+        //$('#study-field-child').hide();
+      }
+  });
+  $('#study-field-parent select').on('change', function(){
+    var study_field_parent_id = $(this).val();
+    //console.log(study_field_parent_id);
+    $.ajax({                       // initialize an AJAX request
+        url: '/ajax/options/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'lookup_list_id': study_field_parent_id,
+          'lookup_id': 10       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          //$('#study-field-child').show();
+          $("#study-field-child select").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+  });
+  $('#id_education_status').trigger('change');
+
+  // hide males count and females count fields initially
+  $('#males-count').hide();
+  $('#females-count').hide();
+  var female_fields = "{{ female_fields }}";
+  $('#id_marital_status').on('change', function(){
+    var martial_status_val = $(this).val();
+
+    if( (martial_status_val == 10600003 || martial_status_val == 10600004) && female_fields == 'True' )    {
+      $('#males-count').show();
+      $('#females-count').show();
+
+    }
+    else{
+      $('#males-count').hide();
+      $('#females-count').hide();
+      $('#males-count .form-group input').val("");
+      $('#females-count .form-group input').val("");
+
+      $('#males-count .form-group input').attr('required', false);
+      $('#females-count .form-group input').attr('required', false);
+    }
+  });
+  $('#id_marital_status').trigger('change');
+
+</script>
 {% endblock %}

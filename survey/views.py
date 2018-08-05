@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.urls import reverse
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -39,7 +40,7 @@ def add_family_member(request):
 
             # will get from session later on, random unique number for now.
             obj.f_m_id = member_no.count()+100
-            obj.family_relation = int(request.POST['family_relation'])
+            #obj.family_relation = int(request.POST['family_relation'])
             obj.gender = int(request.POST['gender'])
             obj.nationality = int(request.POST['nationality'])
             obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
@@ -80,13 +81,57 @@ def familyMembersList(request, fid):
     return render(request, 'family-members-list.html', context)
 
 def add_member_info(request, fm_id):
-    form = FamilyMemberFormStep2(instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
-    form.fields['family_member_id'].initial = FcpFamilyMemberTab.objects.get(f_m_id=fm_id).f_m_id
+    instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
+    form = FamilyMemberFormStep2(instance = instance)
+    # temp field
+    #print(instance.study_field)
+    if instance.study_field:
+        edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
+        edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=edu_parent).order_by('seq_no')
+    else:
+        edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=1100001).order_by('seq_no')
+
+    CHOICES = []
+    for x in edu_child_list:
+        CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+
+    try:
+        if instance.f_m_id:
+            form.fields['family_member_id'].initial = instance.f_m_id
+
+        if instance.study_field:
+            form.fields['study_field_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
+            form.fields['study_field'].initial = instance.study_field
+
+        form.fields['study_field'].choices = CHOICES
+        print(instance.marital_status)
+        #form.feilds['marital_status'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.marital_status).lookup_list_id
+
+
+    except:
+        pass
+
     if request.method == 'POST':
         form = FamilyMemberFormStep2(request.POST,instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
+        print(form)
+        if form.is_valid():
+            form.save()
 
-    context = {'form_step2': form}
+    show_female_fields = False
+    if instance.gender == 1600002:
+        show_female_fields = True
+    else:
+        show_female_fields = False;
+
+    context = {'form_step2': form, 'female_fields': show_female_fields}
     return render(request, 'family-member-form-step2.html', context)
+
+def ajax_render_list_options(request):
+    lookup_list_id = request.GET.get('lookup_list_id')
+    lookup_id = request.GET.get('lookup_id')
+    options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=lookup_id,l_list_active=1, ref_work_type_pk=lookup_list_id).order_by('seq_no')
+    context = {'options': options_list}
+    return render(request, 'options-list.html', context)
 
 def home(request):
     sample_id = request.session.get('sample_id')
