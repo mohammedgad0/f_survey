@@ -44,24 +44,24 @@
             <div class="container">
               <div class="row">
                 <div class="col-lg-12">
-                  {% block messages %}
-                  {% if messages %}
-                      <div class="messages">
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <div  {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %}>
-                          {% if message.tags == 'error' %}
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                          {% else %}
-                            <span class="glyphicon glyphicon-ok"></span>
-                          {% endif %}
-                        {{ message }}
-                        </div>
-                        {% endfor %}
-                    </ul>
-                      </div>
-                  {% endif %}
-                  {% endblock messages %}
+{#                  {% block messages %}#}
+{#{% if messages %}#}
+{#<div class="messages">#}
+{#<ul class="messages">#}
+{#{% for message in messages %}#}
+{#<div  {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %}>#}
+{#{% if message.tags == 'error' %}#}
+{#<span class="glyphicon glyphicon-exclamation-sign"></span>#}
+{#{% else %}#}
+{#<span class="glyphicon glyphicon-ok"></span>#}
+{#{% endif %}#}
+{#{{ message }}#}
+{#</div>#}
+{#{% endfor %}#}
+{#</ul>#}
+{#</div>#}
+{#{% endif %}#}
+{#                  {% endblock messages %}#}
 
           {% block content %}
 

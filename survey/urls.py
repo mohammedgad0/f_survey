@@ -24,5 +24,7 @@ urlpatterns = [
     path('add-house/', add_house, name='add-house'),
     # Death form
     path('death-form/', death_form, name='death-form'),
+    # test error
+    path('check-error/', check_error, name='check-error'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %} الصفحة الرئيسية {% endblock title %}
+
+{% block stylesheets %}
+  {{ block.super }}
+    <style>
+    .container-form{min-height: 720px;}
+
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container-form">
+{{ error_type }}
+{% if messages %}
+<div class="messages">
+<ul class="messages">
+{% for message in messages %}
+<div  {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %}>
+{% if message.tags == 'error' %}
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+{% else %}
+<span class="glyphicon glyphicon-ok"></span>
+{% endif %}
+{{ message }}
+</div>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+{#{{ query_list }}#}
+{% for error in query_list %}
+{{ error }}<br>
+
+{% endfor %}
+
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+        <script>
+
+    </script>
+{% endblock javascripts %}
+

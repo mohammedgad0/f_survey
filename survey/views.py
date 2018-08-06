@@ -195,3 +195,39 @@ def death_form(request):
             form.save()
     context = {'form': form}
     return render(request, 'death_form.html', context)
+
+
+def check_errors(request, sample_id, member_id):
+    from django.db import connection
+    cursor = connection.cursor()
+
+    errors_list = GenErrorTab.objects.filter(rp_id=9, on_off_desktop=1).order_by('error_sort')
+    query_list = []
+    for error in errors_list:
+        where = error.desktop_condition
+        where = where.replace('P_SAMPLE_ID', str(sample_id))
+        if member_id:
+            where = where.replace('P_F_M_ID', member_id)
+        if where:
+            query = "SELECT * FROM " + error.table_name + " WHERE " + where
+            query_list.append(query)
+        cursor.execute(query)
+        row = cursor.fetchone()
+        error_type = ''
+        if row:
+            if error.error_type == 1:
+                error_type = 'error'
+                messages.error(request, error.error_code + " " + error.message)
+            elif error.error_type == 2:
+                error_type = 'warning'
+                messages.warning(request, error.error_code + " " + error.message)
+    return messages, error_type
+
+
+def check_error(request):
+    sample_id = request.session.get('sample_id')
+    member_id = "1"
+    error_type = check_errors(request, sample_id, member_id)
+    print(error_type)
+    context = {'error_type': error_type}
+    return render(request, 'check_error.html', context)
