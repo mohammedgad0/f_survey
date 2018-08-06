@@ -39,15 +39,15 @@
 
                    {% csrf_token %}
                    <!-- test field -->
-                     <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                        <div class="form-group">
                          {{ form_step2.family_member_id }}
                          <label for="first" class="control-label">{{ _('Family Member ID') }}</label>
                          <i class="bar"></i>
                        </div>
-                     </div>
+                     </div>-->
                      <!-- test field -->
-
+                     {% if three_years_age %}
                       <div class="col-md-6">
                         <div class="form-group">
                           {{ form_step2.study_status }}
@@ -55,7 +55,9 @@
                           <i class="bar"></i>
                         </div>
                       </div>
+                      {% endif %}
 
+                      {% if ten_years_age %}
                       <!--  col-md-12   -->
                       <div class="col-md-6">
                         <div class="form-group">
@@ -90,6 +92,8 @@
                             </div>
                           </div>
                       </fieldset>
+                      {% endif %}
+                      {% if greater_age %}
                       <!--  col-md-12   -->
                       <div class="col-md-6">
                         <div class="form-group">
@@ -117,6 +121,7 @@
                           <i class="bar"></i>
                           </div>
                       </div>
+
                       <!--  col-md-12   -->
                       <div class="col-md-6">
                         <div class="form-group">
@@ -192,6 +197,7 @@
                           <i class="bar"></i>
                         </div>
                       </div>
+                      {% endif %}
                     </fieldset>
 
 

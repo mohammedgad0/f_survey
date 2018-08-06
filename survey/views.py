@@ -123,8 +123,7 @@ def add_member_info(request, fm_id):
         if instance.study_field:
             form.fields['study_field_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
             form.fields['study_field'].initial = instance.study_field
-
-        form.fields['study_field'].choices = CHOICES
+            form.fields['study_field'].choices = CHOICES
 
 
         if instance.main_job:
@@ -148,7 +147,23 @@ def add_member_info(request, fm_id):
     else:
         show_female_fields = False;
 
-    context = {'form_step2': form, 'female_fields': show_female_fields}
+    # show fields per age limits.
+    three_years_age_flag = False
+    ten_years_age_flag = False
+    greater_age_flag = False
+
+    if instance.age >= 3 and instance.age <= 10:
+
+        three_years_age_flag = True
+    elif instance.age >= 10 and instance.age <= 15:
+        three_years_age_flag = True
+        ten_years_age_flag = True
+    else:
+        three_years_age_flag = True
+        ten_years_age_flag = True
+        greater_age_flag = True
+
+    context = {'form_step2': form, 'female_fields': show_female_fields,'three_years_age':three_years_age_flag, 'ten_years_age':ten_years_age_flag, 'greater_age':greater_age_flag}
     return render(request, 'family-member-form-step2.html', context)
 
 def ajax_render_list_options(request):
