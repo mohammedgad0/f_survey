@@ -8,11 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
 "POT-Creation-Date: 2018-08-05 13:32+0300\n"
 =======
 "POT-Creation-Date: 2018-08-05 14:05+0300\n"
->>>>>>> e20137ab0a1e933eaf1dda28d6a9d7f7c2bf0bca
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +29,6 @@ msgstr ""
 msgid "Arabic"
 msgstr ""
 
-<<<<<<< HEAD
 #: .\survey\forms.py:18 .\survey\forms.py:160 .\survey\forms.py:231
 #: .\survey\forms.py:276
 msgid "Choice"
@@ -180,7 +177,6 @@ msgid "Save"
 msgstr "حفظ"
 
 #: .\survey\templates\death_form.html:35
-=======
 #: survey/forms.py:18 survey/forms.py:160 survey/forms.py:231
 #: survey/forms.py:276
 msgid "Choice"
@@ -330,7 +326,6 @@ msgid "Save"
 msgstr "حفظ"
 
 #: survey/templates/death_form.html:35
->>>>>>> e20137ab0a1e933eaf1dda28d6a9d7f7c2bf0bca
 msgid "Death information"
 msgstr "الوفيات داخل الأسرة"
 
@@ -448,7 +443,6 @@ msgstr "إضافة بيانات للفرد"
 msgid "Study Status"
 msgstr "الحالة الدراسية"
 
-<<<<<<< HEAD
 #: .\survey\templates\family-member-form-step2.html:64
 msgid "Education Status"
 msgstr "الحالة التعليم (اسم أعلى شهادة)"
@@ -487,7 +481,6 @@ msgid "Economic Activity"
 msgstr "النشاط الاقتصادي الرئيسي للجهة التي يعمل بها الفرد"
 
 #: .\survey\templates\family-member-form-step2.html:159
-=======
 #: survey/templates/family-member-form-step2.html:64
 msgid "Education Status"
 msgstr "الحالة التعليم (اسم أعلى شهادة)"
@@ -522,7 +515,6 @@ msgid "Economic Activity"
 msgstr "النشاط الاقتصادي الرئيسي للجهة التي يعمل بها الفرد"
 
 #: survey/templates/family-member-form-step2.html:151
->>>>>>> e20137ab0a1e933eaf1dda28d6a9d7f7c2bf0bca
 msgid "Work Sector Type"
 msgstr "قطاع الجهة"
 
@@ -534,11 +526,9 @@ msgstr "إضافة فرد جديد"
 msgid "Member Number"
 msgstr "رقم الفرد"
 
-<<<<<<< HEAD
 #: .\survey\templates\family-members-list.html:22
 =======
 #: survey/templates/family-members-list.html:22 survey/templates/home.html:219
->>>>>>> e20137ab0a1e933eaf1dda28d6a9d7f7c2bf0bca
 msgid "Status"
 msgstr "الحالة"
 
@@ -550,7 +540,6 @@ msgstr "التاريخ"
 msgid "Actions"
 msgstr "إجراءات"
 
-<<<<<<< HEAD
 #: .\survey\templates\family-members-list.html:36
 #: .\survey\templates\home.html:143 .\survey\templates\home.html:165
 msgid "Incomplete Info"
@@ -558,14 +547,12 @@ msgstr "معلومات غير كاملة"
 
 #: .\survey\templates\family-members-list.html:39
 #: .\survey\templates\home.html:141 .\survey\templates\home.html:163
-=======
 #: survey/templates/family-members-list.html:36 survey/templates/home.html:232
 msgid "Incomplete Info"
 msgstr "معلومات غير كاملة"
 
 #: survey/templates/family-members-list.html:39 survey/templates/home.html:152
 #: survey/templates/home.html:164 survey/templates/home.html:235
->>>>>>> e20137ab0a1e933eaf1dda28d6a9d7f7c2bf0bca
 msgid "Complete"
 msgstr "اكتمال"
 
@@ -599,7 +586,6 @@ msgstr "التالى"
 msgid "No records available"
 msgstr "لا توجد بيانات"
 
-<<<<<<< HEAD
 #: .\survey\templates\home.html:120
 #, fuzzy
 #| msgid "Death information"
@@ -665,7 +651,6 @@ msgid "General information"
 msgstr "المعلومات الرئيسية"
 
 #: survey/templates/home.html:137 survey/templates/login.html:87
->>>>>>> e20137ab0a1e933eaf1dda28d6a9d7f7c2bf0bca
 msgid "Id number"
 msgstr "رقم الهوية"
 
@@ -681,13 +666,11 @@ msgstr "معلومات غير كاملة"
 msgid "Submitted"
 msgstr "حالة الاستمارة"
 
-<<<<<<< HEAD
 #: .\survey\templates\login.html:92
 msgid "password"
 msgstr "كلمه السر"
 
 #: .\survey\templates\login.html:95
-=======
 #: survey/templates/home.html:205
 msgid "Member onformation"
 msgstr "بيانات الأفراد"
@@ -697,7 +680,6 @@ msgid "password"
 msgstr "كلمه السر"
 
 #: survey/templates/login.html:95
->>>>>>> e20137ab0a1e933eaf1dda28d6a9d7f7c2bf0bca
 msgid "Login"
 msgstr "تسجيل الدخول"
 
@@ -711,7 +693,6 @@ msgid ""
 "member"
 msgstr "يوجد رئيس الأسرة ، يرجى تحديد العلاقة الصحيحة مع هذا الفرد"
 
-<<<<<<< HEAD
 #: .\survey\views.py:69
 msgid "Member Added successfully."
 msgstr "تمت إضافة الفرد بنجاح"
@@ -725,7 +706,7 @@ msgstr ""
 #| msgid "Member Added successfully."
 msgid "House Added successfully."
 msgstr "تمت إضافة الفرد بنجاح"
-=======
+
 #: survey/views.py:69
 msgid "Member Added successfully."
 msgstr "تمت إضافة الفرد بنجاح"
@@ -737,7 +718,6 @@ msgstr "خطأ فى رقم الهوية او كلمة المرور"
 #: survey/views.py:183
 msgid "House Added successfully."
 msgstr "تمت إضافة بيانات المسكن بنجاح"
->>>>>>> e20137ab0a1e933eaf1dda28d6a9d7f7c2bf0bca
 
 #~ msgid "gender"
 #~ msgstr "الجنس"
