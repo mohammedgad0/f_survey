@@ -77,7 +77,11 @@ def add_family_member(request):
 
 def edit_family_member(request, fid):
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fid)
+
     form = FamilyMemberFormStep1(instance = instance)
+    #print(instance.difficulty_7_txt)
+    if instance.difficulty_7_txt:
+        form.fields['difficulty_other'].initial = 1
     context = {'form_step1':form}
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST, instance)
