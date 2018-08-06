@@ -75,6 +75,43 @@ def add_family_member(request):
 
     return render(request, 'family-member-form-step1.html', context)
 
+def edit_family_member(request, fid):
+    instance=FcpFamilyMemberTab.objects.get(f_m_id=fid)
+    form = FamilyMemberFormStep1(instance = instance)
+    context = {'form_step1':form}
+    if request.method == 'POST':
+        form = FamilyMemberFormStep1(request.POST, instance)
+        if form.is_valid():
+            obj = form.save(commit = False)
+            obj.gender = int(request.POST['gender'])
+            obj.nationality = int(request.POST['nationality'])
+            obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
+            obj.member_no = instance.member_no
+            obj.f_m_id = instance.f_m_id
+            obj.sample_id = instance.sample_id
+            if obj.difficulty_1_degree:
+                obj.difficulty_1_degree = int(request.POST['difficulty_1_degree'])
+            if obj.difficulty_2_degree:
+                obj.difficulty_2_degree = int(request.POST['difficulty_2_degree'])
+            if obj.difficulty_3_degree:
+                obj.difficulty_3_degree = int(request.POST['difficulty_3_degree'])
+            if obj.difficulty_4_degree:
+                obj.difficulty_4_degree = int(request.POST['difficulty_4_degree'])
+            if obj.difficulty_5_degree:
+                obj.difficulty_5_degree = int(request.POST['difficulty_5_degree'])
+            if obj.difficulty_6_degree:
+                obj.difficulty_6_degree = int(request.POST['difficulty_6_degree'])
+            if obj.difficulty_7_degree:
+                obj.difficulty_7_degree = int(request.POST['difficulty_7_degree'])
+            if obj.place_birth:
+                obj.place_birth = int(request.POST['place_birth'])
+            if obj.place_stay_previous:
+                obj.place_stay_previous = int(request.POST['place_stay_previous'])
+            if obj.place_stay:
+                obj.place_stay = int(request.POST['place_stay'])
+            obj.save()
+    return render(request, 'family-member-form-step1.html', context)
+
 def familyMembersList(request, fid):
     members_list = FcpFamilyMemberTab.objects.filter(sample_id=fid).order_by('member_no')
     paginator = Paginator(members_list, 25)
