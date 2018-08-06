@@ -66,7 +66,11 @@ def add_family_member(request):
             if obj.place_stay:
                 obj.place_stay = int(request.POST['place_stay'])
             obj.save()
-            messages.success(request, _('Member Added successfully.'))
+            message, error_type = check_errors(request, str(obj.sample_id), str(member_num))
+            if not message:
+                messages.success(request, _('Member Added successfully.'))
+            else:
+                messages.info(request, _('Member Added successfully.'))
         context = {'form_step1':form}
 
     return render(request, 'family-member-form-step1.html', context)
@@ -246,9 +250,9 @@ def death_form(request):
 def check_errors(request, sample_id, member_id):
     from django.db import connection
     cursor = connection.cursor()
-
     errors_list = GenErrorTab.objects.filter(rp_id=9, on_off_desktop=1).order_by('error_sort')
     query_list = []
+    error_type = []
     for error in errors_list:
         where = error.desktop_condition
         where = where.replace('P_SAMPLE_ID', str(sample_id))
@@ -259,21 +263,21 @@ def check_errors(request, sample_id, member_id):
             query_list.append(query)
         cursor.execute(query)
         row = cursor.fetchone()
-        error_type = ''
         if row:
+            print(row)
             if error.error_type == 1:
-                error_type = 'error'
+                error_type.append('error')
                 messages.error(request, error.error_code + " " + error.message)
             elif error.error_type == 2:
-                error_type = 'warning'
+                error_type.append("warning")
                 messages.warning(request, error.error_code + " " + error.message)
-    return messages
+    return messages, set(error_type)
 
 
 def check_error(request):
     sample_id = request.session.get('sample_id')
-    member_id = "1"
-    error_type = check_errors(request, sample_id, member_id)
+    member_id = "6"
+    message, error_type = check_errors(request, sample_id, member_id)
     print(error_type)
-    context = {'error_type': error_type}
+    context = {}
     return render(request, 'check_error.html', context)
