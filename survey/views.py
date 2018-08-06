@@ -83,6 +83,8 @@ def familyMembersList(request, fid):
 def add_member_info(request, fm_id):
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
     form = FamilyMemberFormStep2(instance = instance)
+    # temp field
+    #print(instance.study_field)
 
     if instance.study_field:
         edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
@@ -94,6 +96,27 @@ def add_member_info(request, fm_id):
     for x in edu_child_list:
         CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
 
+    if instance.main_job:
+        mainjob_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
+        mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=mainjob_parent).order_by('seq_no')
+    else:
+        mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=1100001).order_by('seq_no')
+
+    CHOICESMAINJOB = []
+    for x in mainjob_child_list:
+        CHOICESMAINJOB.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+
+    if instance.economic_activity:
+        economic_activity_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
+        economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=economic_activity_parent).order_by('seq_no')
+    else:
+        economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=2000099).order_by('seq_no')
+
+
+    CHOICESECOAct = []
+    for y in economic_activity_child:
+        CHOICESECOAct.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
+
     try:
         if instance.f_m_id:
             form.fields['family_member_id'].initial = instance.f_m_id
@@ -101,8 +124,16 @@ def add_member_info(request, fm_id):
         if instance.study_field:
             form.fields['study_field_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
             form.fields['study_field'].initial = instance.study_field
+            form.fields['study_field'].choices = CHOICES
 
-        form.fields['study_field'].choices = CHOICES
+
+        if instance.main_job:
+            form.fields['main_job_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
+            form.fields['main_job'].choices = CHOICESMAINJOB
+
+        if instance.economic_activity:
+            form.fields['economic_activity_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
+            form.fields['economic_activity'].choices = CHOICESECOAct
     except:
         pass
 
@@ -117,7 +148,23 @@ def add_member_info(request, fm_id):
     else:
         show_female_fields = False;
 
-    context = {'form_step2': form, 'female_fields': show_female_fields}
+    # show fields per age limits.
+    three_years_age_flag = False
+    ten_years_age_flag = False
+    greater_age_flag = False
+
+    if instance.age >= 3 and instance.age <= 10:
+
+        three_years_age_flag = True
+    elif instance.age >= 10 and instance.age <= 15:
+        three_years_age_flag = True
+        ten_years_age_flag = True
+    else:
+        three_years_age_flag = True
+        ten_years_age_flag = True
+        greater_age_flag = True
+
+    context = {'form_step2': form, 'female_fields': show_female_fields,'three_years_age':three_years_age_flag, 'ten_years_age':ten_years_age_flag, 'greater_age':greater_age_flag}
     return render(request, 'family-member-form-step2.html', context)
 
 def ajax_render_list_options(request):
@@ -220,7 +267,7 @@ def check_errors(request, sample_id, member_id):
             elif error.error_type == 2:
                 error_type = 'warning'
                 messages.warning(request, error.error_code + " " + error.message)
-    return messages, error_type
+    return messages
 
 
 def check_error(request):
