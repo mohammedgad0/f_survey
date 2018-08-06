@@ -39,15 +39,15 @@
 
                    {% csrf_token %}
                    <!-- test field -->
-                     <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                        <div class="form-group">
                          {{ form_step2.family_member_id }}
                          <label for="first" class="control-label">{{ _('Family Member ID') }}</label>
                          <i class="bar"></i>
                        </div>
-                     </div>
+                     </div>-->
                      <!-- test field -->
-
+                     {% if three_years_age %}
                       <div class="col-md-6">
                         <div class="form-group">
                           {{ form_step2.study_status }}
@@ -55,7 +55,9 @@
                           <i class="bar"></i>
                         </div>
                       </div>
+                      {% endif %}
 
+                      {% if ten_years_age %}
                       <!--  col-md-12   -->
                       <div class="col-md-6">
                         <div class="form-group">
@@ -90,6 +92,8 @@
                             </div>
                           </div>
                       </fieldset>
+                      {% endif %}
+                      {% if greater_age %}
                       <!--  col-md-12   -->
                       <div class="col-md-6">
                         <div class="form-group">
@@ -117,6 +121,7 @@
                           <i class="bar"></i>
                           </div>
                       </div>
+
                       <!--  col-md-12   -->
                       <div class="col-md-6">
                         <div class="form-group">
@@ -125,24 +130,55 @@
                           <i class="bar"></i>
                         </div>
                       </div>
-
-                      <div class="col-md-6">
+                      <!--  col-md-12   -->
+                      <div class="col-md-6" id="labor_status_txt">
                         <div class="form-group">
-
-                          {{ form_step2.main_job }}
-                          <label for="input" class="control-label">{{ _('Main Job') }}</label>
+                          {{ form_step2.labor_status_txt }}
+                          <label for="input" class="control-label">{{ _('Labour Status (Other)') }}</label>
                           <i class="bar"></i>
                         </div>
                       </div>
+                      <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">
+                          {{ _('Main Job') }}
+                        </legend>
+                        <div class="col-md-6" id="main-job-parent">
+                          <div class="form-group">
 
-                      <div class="col-md-6">
-                        <div class="form-group">
-
-                          {{ form_step2.economic_activity }}
-                          <label for="input" class="control-label attachment">{{ _('Economic Activity') }}</label>
-                          <i class="bar"></i>
+                            {{ form_step2.main_job_parent }}
+                            <i class="bar"></i>
+                          </div>
                         </div>
-                      </div>
+                        <div class="col-md-6" id="main-job-child">
+                          <div class="form-group">
+
+                            {{ form_step2.main_job }}
+
+                            <i class="bar"></i>
+                          </div>
+                        </div>
+                      </fieldset>
+                      <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">
+                          {{ _('Economic Activity') }}
+                        </legend>
+                        <div class="col-md-12 parent" id="economic-activity-parent" >
+                          <div class="form-group">
+
+                            {{ form_step2.economic_activity_parent }}
+                            <label for="input" class="control-label"></label>
+                            <i class="bar"></i>
+                          </div>
+                        </div>
+                        <div class="col-md-12 child" id="economic-activity-child" >
+                          <div class="form-group">
+
+                            {{ form_step2.economic_activity }}
+                            <label for="input" class="control-label"></label>
+                            <i class="bar"></i>
+                          </div>
+                        </div>
+                      </fieldset>
 
                       <div class="col-md-6">
                         <div class="form-group">
@@ -152,6 +188,16 @@
                           <i class="bar"></i>
                         </div>
                       </div>
+
+                      <div class="col-md-6" id="work_sector_type_txt">
+                        <div class="form-group">
+
+                          {{ form_step2.work_sector_type_txt }}
+                          <label for="input" class="control-label attachment">{{ _('Work Sector Type (Other)') }}</label>
+                          <i class="bar"></i>
+                        </div>
+                      </div>
+                      {% endif %}
                     </fieldset>
 
 
@@ -230,5 +276,79 @@
   });
   $('#id_marital_status').trigger('change');
 
+  // hide labour status extra text field and show only when other option is selected in labour status field
+  $('#labor_status_txt').hide();
+  $('#id_labor_status').on('change', function(){
+      var labour_status_code = $(this).val();
+      if (labour_status_code == 2400011){
+        $('#labor_status_txt').show();
+        $('#labor_status_txt .form-group input').attr('required', true);
+      }
+      else{
+        $('#labor_status_txt').hide();
+        $('#labor_status_txt .form-group input').attr('required', false);
+        $('#labor_status_txt .form-group input').val("");
+      }
+  });
+  $('#id_labor_status').trigger('change');
+
+  // ajax for main job status dependent fields
+  //$('#main-job-child').hide();
+  $('#main-job-parent select').on('change', function(){
+    var main_job_parent_id = $(this).val();
+    //console.log(study_field_parent_id);
+    $.ajax({                       // initialize an AJAX request
+        url: '/ajax/options/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'lookup_list_id': main_job_parent_id,
+          'lookup_id': 23       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          //$('#main-job-child').show();
+          $("#main-job-child select").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+  });
+
+  $('#id_labor_status').trigger('change');
+
+  // ajax for main job status dependent fields
+  //$('#main-job-child').hide();
+$('#economic-activity-parent select').on('change', function(){
+
+    var parent_id = $(this).val();
+    var lookup_id = $(this).data('child-lookup-id');
+
+    $.ajax({                       // initialize an AJAX request
+        url: '/ajax/options/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'lookup_list_id': parent_id,
+          'lookup_id': lookup_id       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          //$('#main-job-child').show();
+
+          $("#economic-activity-child select").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+  });
+  $('#work_sector_type_txt').hide();
+  $('#id_work_sector_type').on('change', function(){
+    var work_sector_type_id = $(this).val();
+    if (work_sector_type_id == 2600006)
+    {
+      $('#work_sector_type_txt').show();
+      $('#work_sector_type_txt .form-group input').attr('required', true);
+    }
+    else{
+      $('#work_sector_type_txt').hide();
+      $('#work_sector_type_txt .form-group input').attr('required', false);
+      $('#work_sector_type_txt .form-group input').val("");
+
+    }
+  });
+  $('#id_work_sector_type').trigger('change');
 </script>
 {% endblock %}

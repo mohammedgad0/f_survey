@@ -1,4 +1,3 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from survey.forms import *
 from survey.models import *
@@ -83,6 +82,8 @@ def familyMembersList(request, fid):
 def add_member_info(request, fm_id):
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
     form = FamilyMemberFormStep2(instance = instance)
+    # temp field
+    #print(instance.study_field)
 
     if instance.study_field:
         edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
@@ -94,6 +95,27 @@ def add_member_info(request, fm_id):
     for x in edu_child_list:
         CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
 
+    if instance.main_job:
+        mainjob_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
+        mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=mainjob_parent).order_by('seq_no')
+    else:
+        mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=1100001).order_by('seq_no')
+
+    CHOICESMAINJOB = []
+    for x in mainjob_child_list:
+        CHOICESMAINJOB.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+
+    if instance.economic_activity:
+        economic_activity_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
+        economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=economic_activity_parent).order_by('seq_no')
+    else:
+        economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=2000099).order_by('seq_no')
+
+
+    CHOICESECOAct = []
+    for y in economic_activity_child:
+        CHOICESECOAct.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
+
     try:
         if instance.f_m_id:
             form.fields['family_member_id'].initial = instance.f_m_id
@@ -101,8 +123,16 @@ def add_member_info(request, fm_id):
         if instance.study_field:
             form.fields['study_field_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
             form.fields['study_field'].initial = instance.study_field
+            form.fields['study_field'].choices = CHOICES
 
-        form.fields['study_field'].choices = CHOICES
+
+        if instance.main_job:
+            form.fields['main_job_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
+            form.fields['main_job'].choices = CHOICESMAINJOB
+
+        if instance.economic_activity:
+            form.fields['economic_activity_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
+            form.fields['economic_activity'].choices = CHOICESECOAct
     except:
         pass
 
@@ -117,7 +147,23 @@ def add_member_info(request, fm_id):
     else:
         show_female_fields = False;
 
-    context = {'form_step2': form, 'female_fields': show_female_fields}
+    # show fields per age limits.
+    three_years_age_flag = False
+    ten_years_age_flag = False
+    greater_age_flag = False
+
+    if instance.age >= 3 and instance.age <= 10:
+
+        three_years_age_flag = True
+    elif instance.age >= 10 and instance.age <= 15:
+        three_years_age_flag = True
+        ten_years_age_flag = True
+    else:
+        three_years_age_flag = True
+        ten_years_age_flag = True
+        greater_age_flag = True
+
+    context = {'form_step2': form, 'female_fields': show_female_fields,'three_years_age':three_years_age_flag, 'ten_years_age':ten_years_age_flag, 'greater_age':greater_age_flag}
     return render(request, 'family-member-form-step2.html', context)
 
 def ajax_render_list_options(request):
@@ -129,6 +175,7 @@ def ajax_render_list_options(request):
 
 
 def home(request):
+    context = {}
     sample_id = request.session.get('sample_id')
     sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
     family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
@@ -144,43 +191,29 @@ def home(request):
 
     context = {'members_count':sample_obj.no_of_member, 'members_enter_count':members_enter_count, 'member_status': member_status,
                'family_status': sample_obj.family_status, 'sample_obj': sample_obj, 'family_obj': family_obj, 'members': members, 'death_list': death_list}
+
     return render(request, 'home.html', context)
 
 
 def login(request, token):
-    user_info = AuthUserTab.objects.filter(token_key= token)
-
+    user_info = AuthUserTab.objects.get(token_key= token)
     if request.method == 'POST':
         member_id = request.POST.get('member_id')
         member_pass = request.POST.get('member_pass')
-        print(member_id, member_pass)
-        user_info = AuthUserTab.objects.get(token_key=token, id_number = member_id)
-        if int(member_id) == int(user_info.id_number) and member_pass == user_info.password:
+        print(member_id , member_pass)
+        if member_id == user_info.id_number and member_pass == user_info.password:
             request.session['Is_auth'] = True
             request.session['user_id'] = user_info.id_number
-            request.session['sample_id'] = user_info.sample_id
-            UserLog.objects.create(user_id=user_info.id_number, input_id = member_id, success=True)
-            return HttpResponseRedirect(reverse('survey:home'))
+            request.session['sample_id'] = user_info.sample.sample_id
+            # return HttpResponseRedirect(reverse('projects:user-request-list'))
         else:
-            UserLog.objects.create(user_id=user_info.id_number, input_id=member_id, success=False)
             messages.error(request, _('invalid id or password'))
     context = {}
     return render(request, 'login.html', context)
 
 
 def add_house(request):
-    instance = FcpFamilyTab.objects.get(sample=request.session.get('sample_id'))
-    form = AddHouse(instance=instance)
-    if request.method == 'POST':
-        form = AddHouse(request.POST, instance=instance)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.sample_id = request.session.get('sample_id')
-            obj.insert_by = request.session.get('user_id')
-            obj.save()
-            messages.success(request, _('House Added successfully.'))
-            return HttpResponseRedirect(reverse('survey:home'))
-
+    form = AddHouse()
     context = {'form': form}
     return render(request, 'add_house.html', context)
 

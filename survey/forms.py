@@ -106,38 +106,85 @@ class FamilyMemberFormStep1(forms.ModelForm):
 class FamilyMemberFormStep2(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FamilyMemberFormStep2, self).__init__(*args, **kwargs)
-        #self.fields['education_status'].queryset = 1
-        #self.fields['study_field'].queryset = GenLookupListView.objects.none()
 
-        # if 'lookup_id' and 'lookup_list_id' in self.data:
-        #     try:
-        #         lookup_id = int(self.data.get('lookup_id'))
-        #         lookup_list_id = int(self.data.get('lookup_list_id'))
-        #         self.fields['study_field'].queryset = GenLookupListView.objects.filter(rp_id=9,lookup_id=lookup_id,l_list_active=1, ref_work_type_pk=lookup_list_id).order_by('seq_no')
-        #     except (ValueError, TypeError):
-        #         pass  # invalid input from the client; ignore and fallback to empty City queryset
-        #elif self.instance.pk:
-        #    self.fields['study_field'].queryset = self.instance.lookup_id.city_set.order_by('name')
+        #three_years_age_flag = False
+        #ten_years_age_flag = False
+        #greater_age_flag = False
+        if self.instance.age >= 3 and self.instance.age <= 10:
+            #three_years_age_flag = True
+            del self.fields['education_status']
+            del self.fields['study_field_parent']
+            del self.fields['study_field']
+            del self.fields['marital_status']
+            del self.fields['males_count']
+            del self.fields['females_count']
+            del self.fields['labor_status']
+            del self.fields['labor_status_txt']
+            del self.fields['main_job_parent']
+            del self.fields['main_job']
+            del self.fields['economic_activity_parent']
+            del self.fields['economic_activity']
+            del self.fields['work_sector_type']
+            del self.fields['work_sector_type_txt']
+        elif self.instance.age >= 10 and self.instance.age <= 15:
+            #three_years_age_flag = True
+            #ten_years_age_flag = True
+            del self.fields['marital_status']
+            del self.fields['males_count']
+            del self.fields['females_count']
+            del self.fields['labor_status']
+            del self.fields['labor_status_txt']
+            del self.fields['main_job_parent']
+            del self.fields['main_job']
+            del self.fields['economic_activity_parent']
+            del self.fields['economic_activity']
+            del self.fields['work_sector_type']
+            del self.fields['work_sector_type_txt']
 
-    family_member_id = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-    study_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=174, l_list_active=1))
-    education_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=105, l_list_active=1))
-    study_field_parent = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=11, l_list_active=1))
-    study_field = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=10, l_list_active=1))
-    marital_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=106, l_list_active=1))
+        # else:
+        #     #three_years_age_flag = True
+        #     #ten_years_age_flag = True
+        #     #greater_age_flag = True
+        #     del self.fields['marital_status']
+        #     del self.fields['males_count']
+        #     del self.fields['females_count']
+        #     del self.fields['labor_status']
+        #     del self.fields['labor_status_txt']
+        #     del self.fields['main_job_parent']
+        #     del self.fields['main_job']
+        #     del self.fields['economic_activity_parent']
+        #     del self.fields['economic_activity']
+        #     del self.fields['work_sector_type']
+        #     del self.fields['work_sector_type_txt']
+
+        #self.fields['study_status'].empty_label = None
+        #self.fields['education_status'].empty_label = None
+        #self.fields['difficulty_3_degree'].empty_label = None
+        #self.fields['difficulty_4_degree'].empty_label = None
+        #self.fields['difficulty_5_degree'].empty_label = None
+        #self.fields['difficulty_6_degree'].empty_label = None
+        #self.fields['difficulty_7_degree'].empty_label = None
+
+    study_status = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=174, l_list_active=1))
+    education_status = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=105, l_list_active=1))
+    study_field_parent = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control','data-child-lookup-id': '10'}), choices=dropDownList(rp_id=9, lookup_id=11, l_list_active=1))
+    study_field = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=10, l_list_active=1))
+    marital_status = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=106, l_list_active=1))
     males_count = forms.IntegerField(required=False,widget=forms.TextInput({'class': 'form-control' }))
     females_count = forms.IntegerField(required=False,widget=forms.TextInput({'class': 'form-control' }))
-    labor_status = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=24, l_list_active=1))
+    labor_status = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=24, l_list_active=1))
     labor_status_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
-    main_job = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=22, l_list_active=1))
-    economic_activity = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=20, l_list_active=1))
-    work_sector_type = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=26, l_list_active=1))
+    main_job_parent = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control','data-child-lookup-id': '23'}), choices=dropDownList(rp_id=9, lookup_id=22, l_list_active=1))
+    main_job = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=23, l_list_active=1))
+    economic_activity_parent = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control', 'data-child-lookup-id': '21'}), choices=dropDownList(rp_id=9, lookup_id=20, l_list_active=1))
+    economic_activity = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=21, l_list_active=1))
+    work_sector_type = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=26, l_list_active=1))
     work_sector_type_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
 
     class Meta:
         model = FcpFamilyMemberTab
         fields = [
-            'family_member_id',
+            #'family_member_id',
             'study_status',
             'education_status',
             'study_field_parent',
@@ -146,11 +193,13 @@ class FamilyMemberFormStep2(forms.ModelForm):
             'males_count',
             'females_count',
             'labor_status',
-            #'labor_status_txt',
+            'labor_status_txt',
+            'main_job_parent',
             'main_job',
+            'economic_activity_parent',
             'economic_activity',
             'work_sector_type',
-            #'work_sector_type_txt',
+            'work_sector_type_txt',
             #'t_start_date',
             #'t_end_date',
             #'t_update_date',
