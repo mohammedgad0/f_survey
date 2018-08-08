@@ -16,10 +16,20 @@ def int_or_str(value):
     except:
         return value
 
+def dropListOptions(rp_id,lookup_id,l_list_active):
+    options_list = GenLookupListView.objects.filter(rp_id=rp_id, lookup_id=lookup_id, l_list_active=1).order_by('seq_no')
+    OPTIONS = []
+    for y in options_list:
+        OPTIONS.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
+
+    return OPTIONS
+
 def add_family_member(request):
     form = FamilyMemberFormStep1()
     context = {'form_step1':form}
-    form.fields['place_birth'].widget = forms.Select()
+    CHOICES = dropListOptions(9,27,1)
+    form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
+    form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
 
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST)
@@ -87,25 +97,31 @@ def edit_family_member(request, fid):
     if instance.difficulty_7_txt:
         form.fields['difficulty_other'].initial = 1
 
-    print(instance.place_birth)
-    if instance.place_birth >= 2700001 and instance.place_birth <= 2700013:
-        options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=27,l_list_active=1).order_by('seq_no')
-        OPTIONS = []
-        for y in options_list:
-            OPTIONS.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
-
-        form.fields['in_or_out_birth'].initial = 1
-        #form.fields['place_birth'].initial = form.instance.place_birth
+    if instance.place_birth:
+        if instance.place_birth >= 2700001 and instance.place_birth <= 2700013:
+            CHOICES = dropListOptions(9,27,1)
+            form.fields['in_or_out_birth'].initial = 1
+        else:
+            CHOICES = dropListOptions(9,18,1)
+            form.fields['in_or_out_birth'].initial = 2
     else:
-        options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=18,l_list_active=1).order_by('seq_no')
-        OPTIONS = []
-        for y in options_list:
-            OPTIONS.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
-        form.fields['in_or_out_birth'].initial = 2
-        #print(CITIES)
-        #form.fields['place_birth'].choices = CITIES
-    form.fields['place_birth'].widget = forms.Select(choices = OPTIONS)
+        CHOICES = dropListOptions(9,27,1)
+
+    form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
     form.fields['place_birth'].initial = instance.place_birth
+
+    if instance.place_stay_previous:
+        if instance.place_stay_previous >= 2700001 and instance.place_stay_previous <= 2700013:
+            CHOICES = dropListOptions(9,27,1)
+            form.fields['in_or_out_prev_stay'].initial = 1
+        else:
+            CHOICES = dropListOptions(9,18,1)
+            form.fields['in_or_out_prev_stay'].initial = 2
+    else:
+        CHOICES = dropListOptions(9,27,1)
+
+    form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
+    form.fields['place_stay_previous'].initial = instance.place_stay_previous
 
     context = {'form_step1':form}
     if request.method == 'POST':

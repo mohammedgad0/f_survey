@@ -68,7 +68,7 @@ class FamilyMemberFormStep1(forms.ModelForm):
     difficulty_8 = forms.NullBooleanField(label='لايوجد', required=False, widget=forms.CheckboxInput(attrs={'class':'require-one'}))
     in_or_out_birth = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}),choices=((1,_('Inside')), (2,_('Outside'))))
     in_or_out_prev_stay = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}),choices=((1,_('Inside')), (2,_('Outside'))))
-    place_stay_previous = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=27, l_list_active=1))
+    #place_stay_previous = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=27, l_list_active=1))
     place_stay = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=27, l_list_active=1))
 
     class Meta:
