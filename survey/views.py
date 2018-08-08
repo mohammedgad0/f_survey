@@ -18,8 +18,10 @@ def int_or_str(value):
         return value
 
 def add_family_member(request):
-    form = FamilyMemberFormStep1
+    form = FamilyMemberFormStep1()
     context = {'form_step1':form}
+    form.fields['place_birth'].widget = forms.Select()
+
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST)
         #print(type(request.POST['difficulty_1_degree']))
@@ -27,17 +29,19 @@ def add_family_member(request):
             obj = form.save(commit = False)
 
             # sample_id will get from session later on, static used now.
-            member_no = FcpFamilyMemberTab.objects.filter(sample_id=2)
+            sample_id = 59080
+            member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
 
             if not member_no:
                 obj.member_no = 1
             else:
                 # count and incrementing by 1 as family member number
                 member_num = member_no.count()+1
+                print(member_num)
                 obj.member_no = member_num
 
             # will get from session later on, static used now.
-            obj.sample_id = 2
+            obj.sample_id = sample_id
 
             # will get from session later on, random unique number for now.
             obj.f_m_id = member_no.count()+100
@@ -67,18 +71,43 @@ def add_family_member(request):
             if obj.place_stay:
                 obj.place_stay = int(request.POST['place_stay'])
             obj.save()
-            message, error_type = check_errors(request, str(obj.sample_id), str(member_num))
-            if not message:
-                messages.success(request, _('Member Added successfully.'))
-            else:
-                messages.info(request, _('Member Added successfully.'))
-        context = {'form_step1':form}
+            #message, error_type = check_errors(request, str(obj.sample_id), str(member_num))
+            #if not message:
+                #messages.success(request, _('Member Added successfully.'))
+            #else:
+                #messages.info(request, _('Member Added successfully.'))
+        return HttpResponseRedirect(reverse('survey:home'))
 
     return render(request, 'family-member-form-step1.html', context)
 
 def edit_family_member(request, fid):
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fid)
+
     form = FamilyMemberFormStep1(instance = instance)
+    #print(instance.difficulty_7_txt)
+    if instance.difficulty_7_txt:
+        form.fields['difficulty_other'].initial = 1
+
+    print(instance.place_birth)
+    if instance.place_birth >= 2700001 and instance.place_birth <= 2700013:
+        options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=27,l_list_active=1).order_by('seq_no')
+        OPTIONS = []
+        for y in options_list:
+            OPTIONS.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
+
+        form.fields['in_or_out_birth'].initial = 1
+        #form.fields['place_birth'].initial = form.instance.place_birth
+    else:
+        options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=18,l_list_active=1).order_by('seq_no')
+        OPTIONS = []
+        for y in options_list:
+            OPTIONS.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
+        form.fields['in_or_out_birth'].initial = 2
+        #print(CITIES)
+        #form.fields['place_birth'].choices = CITIES
+    form.fields['place_birth'].widget = forms.Select(choices = OPTIONS)
+    form.fields['place_birth'].initial = instance.place_birth
+
     context = {'form_step1':form}
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST, instance)
@@ -104,13 +133,15 @@ def edit_family_member(request, fid):
                 obj.difficulty_6_degree = int(request.POST['difficulty_6_degree'])
             if obj.difficulty_7_degree:
                 obj.difficulty_7_degree = int(request.POST['difficulty_7_degree'])
-            if obj.place_birth:
-                obj.place_birth = int(request.POST['place_birth'])
-            if obj.place_stay_previous:
-                obj.place_stay_previous = int(request.POST['place_stay_previous'])
-            if obj.place_stay:
-                obj.place_stay = int(request.POST['place_stay'])
+            # if obj.place_birth:
+            #     obj.place_birth = int(request.POST['place_birth'])
+            # if obj.place_stay_previous:
+            #     obj.place_stay_previous = int(request.POST['place_stay_previous'])
+            # if obj.place_stay:
+            #     obj.place_stay = int(request.POST['place_stay'])
+
             obj.save()
+        #return HttpResponseRedirect(reverse('survey:home'))
     return render(request, 'family-member-form-step1.html', context)
 
 def familyMembersList(request, fid):
@@ -212,7 +243,11 @@ def add_member_info(request, fm_id):
 def ajax_render_list_options(request):
     lookup_list_id = request.GET.get('lookup_list_id')
     lookup_id = request.GET.get('lookup_id')
-    options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=lookup_id,l_list_active=1, ref_work_type_pk=lookup_list_id).order_by('seq_no')
+    if lookup_list_id:
+        options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=lookup_id,l_list_active=1, ref_work_type_pk=lookup_list_id).order_by('seq_no')
+    else:
+        options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=lookup_id,l_list_active=1).order_by('seq_no')
+
     context = {'options': options_list}
     return render(request, 'options-list.html', context)
 
@@ -221,6 +256,7 @@ def home(request):
     sample_id = request.session.get('sample_id')
     sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
     family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
+    members = FcpFamilyMemberTab.objects.filter(sample_id=sample_id).order_by('member_no')
     members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1))
     members_enter_count = members.count()
     members_complete_count = FcpFamilyMemberTab.objects.filter(sample_id=sample_id, member_status= 2).count()

@@ -342,32 +342,56 @@
                   </div>
                       <div  id="resi-info">
 
-                        <div class="col-md-12">
+                        <fieldset class="scheduler-border">
+                          <legend class="scheduler-border">
+                            {{ _('Place of Birth and Residence details') }}
+                          </legend>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              {{ form_step1.in_or_out_birth }}
+                              <i class="bar"></i>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="form-group place">
+
+                              {{ form_step1.place_birth }}
+                              <label for="input" class="control-label attachment">{{ _('Place of Birth') }}</label>
+                              <i class="bar"></i>
+                            </div>
+                          </div>
+                        </fieldset>
+
+                        <fieldset class="scheduler-border">
+                          <legend class="scheduler-border">
+                            {{ _('Place of Birth and Residence details') }}
+                          </legend>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                {{ form_step1.in_or_out_prev_stay }}
+                                <i class="bar"></i>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+
+                                {{ form_step1.place_stay_previous }}
+                                <label for="input" class="control-label attachment">{{ _('Previous place of stay') }}</label>
+                                <i class="bar"></i>
+                              </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="col-md-4">
                           <div class="form-group">
 
-                            {{ form_step1.place_birth }}
-                            <label for="input" class="control-label attachment">{{ _('Place of Birth') }}</label>
+                            {{ form_step1.place_stay }}
+                            <label for="input" class="control-label attachment">{{ _('Current place of stay') }}</label>
                             <i class="bar"></i>
                           </div>
                         </div>
 
-                        <div class="col-md-6">
-                          <div class="form-group">
-
-                            {{ form_step1.place_stay_previous }}
-                            <label for="input" class="control-label attachment">{{ _('Previous place of stay') }}</label>
-                            <i class="bar"></i>
-                          </div>
-                        </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group">
-
-                          {{ form_step1.place_stay }}
-                          <label for="input" class="control-label attachment">{{ _('Current place of stay') }}</label>
-                          <i class="bar"></i>
-                        </div>
-                      </div>
                     </div>
                   </fieldset>
 
@@ -441,13 +465,21 @@
   $('#id_nationality').on('change', function(){
     var nationality_code = $(this).val();
     if (nationality_code == 1800001) {
-      $('#resi-info').slideToggle('slow','linear');
+      $('#resi-info').slideDown('slow','linear');
+      $('#id_in_or_out').attr('required', true);
+      $('#id_place_birth').attr('required', true);
+      $('#id_place_stay_previous').attr('required', true);
+      $('#id_place_stay').attr('required', true);
     }
     else{
-      $('#resi-info').hide();
+      $('#resi-info').slideUp();
+      $('#id_in_or_out').attr('required', false);
+      $('#id_place_birth').attr('required', false);
+      $('#id_place_stay_previous').attr('required', false);
+      $('#id_place_stay').attr('required', false);
     }
   });
-
+  $('#id_nationality').trigger('change');
 $(window).load(function(){
   $('#family-survey-from input[type="checkbox"]:checked').not('#id_difficulty_8').each(function(){
 
@@ -550,6 +582,30 @@ $(window).load(function(){
     $('#id_age').val(age);
   });
 
+$('#id_in_or_out_birth').on('change', function(){
+  var selected_id = $(this).val();
+
+  var lookup_id;
+  if (selected_id == 2){
+    lookup_id = 18;
+  }
+  else{
+    lookup_id = 27;
+  }
+
+  $.ajax({                       // initialize an AJAX request
+      url: '/ajax/options/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+      data: {
+        'lookup_id': lookup_id       // add the country id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_cities` view function
+        //$('#main-job-child').show();
+        $(".place select").html(data);  // replace the contents of the city input with the data that came from the server
+
+      }
+    });
+});
+//$('#id_in_or_out').trigger('change');
 </script>
 
 {% endblock %}
