@@ -31,31 +31,30 @@ def add_family_member(request):
     CHOICES = dropListOptions(9,27,1)
     form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
     form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
-
+    sample_id = request.session['sample_id']
+    print(sample_id)
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST)
         #print(type(request.POST['difficulty_1_degree']))
         if form.is_valid():
             obj = form.save(commit = False)
 
-            # sample_id will get from session later on, static used now.
-            sample_id = 59080
             member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
 
             if not member_no:
-                obj.member_no = 1
+                memberNumber = str(1).zfill(2)
+                obj.member_no = memberNumber
             else:
-                # count and incrementing by 1 as family member number
+                # count and incrementing by 1 as member number
                 member_num = member_no.count()+1
-                print(member_num)
-                obj.member_no = member_num
+                memberNumber = str(member_num).zfill(2)
+                obj.member_no = memberNumber
 
-            # will get from session later on, static used now.
+            print(memberNumber)
             obj.sample_id = sample_id
-
             # will get from session later on, random unique number for now.
-            obj.f_m_id = member_no.count()+100
-            #obj.family_relation = int(request.POST['family_relation'])
+            family_member_Id = (sample_id * 1000) + int(memberNumber);
+            obj.f_m_id = family_member_Id
             obj.gender = int(request.POST['gender'])
             obj.nationality = int(request.POST['nationality'])
             obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
@@ -157,7 +156,7 @@ def edit_family_member(request, fid):
             #     obj.place_stay = int(request.POST['place_stay'])
 
             obj.save()
-        #return HttpResponseRedirect(reverse('survey:home'))
+        return HttpResponseRedirect(reverse('survey:home'))
     return render(request, 'family-member-form-step1.html', context)
 
 def familyMembersList(request, fid):

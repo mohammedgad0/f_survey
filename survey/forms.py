@@ -66,8 +66,8 @@ class FamilyMemberFormStep1(forms.ModelForm):
     difficulty_7_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control require-one'}))
     difficulty_7_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=False, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_8 = forms.NullBooleanField(label='لايوجد', required=False, widget=forms.CheckboxInput(attrs={'class':'require-one'}))
-    in_or_out_birth = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}),choices=((1,_('Inside')), (2,_('Outside'))))
-    in_or_out_prev_stay = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}),choices=((1,_('Inside')), (2,_('Outside'))))
+    in_or_out_birth = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}),choices=((1,_('Inside KSA')), (2,_('Outside KSA'))))
+    in_or_out_prev_stay = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}),choices=((1,_('Inside KSA')), (2,_('Outside KSA'))))
     #place_stay_previous = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=27, l_list_active=1))
     place_stay = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=27, l_list_active=1))
 
