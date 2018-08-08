@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.urls import reverse
 from django.http import JsonResponse
+from django.db.models import Q
 # Create your views here.
 
 
@@ -220,7 +221,7 @@ def home(request):
     sample_id = request.session.get('sample_id')
     sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
     family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
-    members = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
+    members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1))
     members_enter_count = members.count()
     members_complete_count = FcpFamilyMemberTab.objects.filter(sample_id=sample_id, member_status= 2).count()
     member_status = False
@@ -318,3 +319,16 @@ def check_error(request):
     print(error_type)
     context = {}
     return render(request, 'check_error.html', context)
+
+
+def popup_delete(request):
+    member_id = request.GET.get('member_id', None)
+    print(member_id)
+    member = FcpFamilyMemberTab.objects.get(f_m_id= member_id)
+    member.member_delete_status = 1
+    member.save()
+    messages.success(request, "Member is deleted")
+    data = {
+        'is_deleted': "Member is deleted "
+    }
+    return JsonResponse(data)

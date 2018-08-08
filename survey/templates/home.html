@@ -114,6 +114,22 @@
 {% block content %}
 
 <div class="container-form">
+{% if messages %}
+<div class="messages">
+<ul class="messages">
+{% for message in messages %}
+<div  {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %}>
+{% if message.tags == 'error' %}
+<span class="glyphicon glyphicon-exclamation-sign"></span>
+{% else %}
+<span class="glyphicon glyphicon-ok"></span>
+{% endif %}
+{{ message }}
+</div>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
 <div class="">
     {% if member_status %}
     <button type="button" class="button action-btn" style="background-color: #58C0D8;" onclick="location.href='/add-house'"><span><i class="fa fa-home"> {% trans 'Add House information' %} </i></span></button>
@@ -221,7 +237,8 @@
           <td>
             <a href="/edit-member/{{ query_obj.f_m_id }}" class="btn btn-primary btn-sm"> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
             <a href="/add-member-info/{{ query_obj.f_m_id }}" class="btn btn-info">{{ _('Complete Info...') }} <i class="fa fa-hand-pointer-o"></i></a>
-            <a href="" class="btn btn-danger btn-sm">{{ _('Delete') }} <i class="fa fa-trash"></i></a>
+            <a href="" class="btn btn-danger btn-sm" data-toggle="modal"  data-target="#deleteProductModal" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
+
           </td>
         </tr>
         {% endfor %}
@@ -277,6 +294,7 @@
           <td>
             <a href="/add-member-info/{{ query_obj.f_m_id }}" class="btn btn-primary btn-sm"> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
             <a href="" class="btn btn-danger btn-sm">{{ _('Delete') }} <i class="fa fa-trash"></i></a>
+
           </td>
         </tr>
         {% endfor %}
@@ -295,11 +313,34 @@
 </div>
 
 </div>
+
+    <!-- popup delete -->
+<div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteProductModalLabel">Confirm Delete</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure want to delete the product?
+      </div>
+      <div class="modal-footer">
+    <a href="" class="btn btn-danger btn-sm">yes <i class="fa fa-trash"></i></a>
+{#        <button type="button" class="btn btn-danger">Yes</button>#}
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- End Delete -->
 {% endblock content %}
 
 {% block javascripts %}
   {{ block.super }}
         <script>
+
+
 $(document).ready(function() {
   $('.collapse.in').prev('.panel-heading').addClass('active');
   $('#accordion, #bs-collapse')
@@ -309,6 +350,41 @@ $(document).ready(function() {
     .on('hide.bs.collapse', function(a) {
       $(a.target).prev('.panel-heading').removeClass('active');
     });
+
+   $('#deleteProductModal').on('show.bs.modal', function (event) { // id of the modal with event
+   var button = $(event.relatedTarget) // Button that triggered the modal
+   var member_id = button.data('memberid') // Extract info from data-* attributes
+   var member_name = button.data('membername')
+   var url = "/popup-delete/";
+   console.log(url)
+   var title = 'Confirm Delete #' + member_id
+   var content = 'Are you sure want to delete ' + member_name + '?'
+
+   // Update the modal's content.
+   var modal = $(this)
+   modal.find('.modal-title').text(title)
+   modal.find('.modal-body').text(content)
+   // And if you wish to pass the productid to modal's 'Yes' button for further processing
+    console.log(url)
+    // modal.find('.btn-danger').attr("href", url);
+modal.find('.btn-danger').click(function () {
+        $.ajax({
+        url: url,
+        data: {
+          'member_id': member_id
+        },
+        dataType: 'json',
+        success: function (data) {
+            location.reload();
+        }
+      });
+
+})
+
+ })
+
+
+
 });
     </script>
 {% endblock javascripts %}
