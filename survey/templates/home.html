@@ -266,7 +266,7 @@
           <div class="panel-body">
 <div class="table-responsive list">
 <button type="submit" class="button action-btn" style="background-color: #58C0D8;" onclick="location.href='/death-form'"><span><i class="fa fas fa-user-plus"> {% trans 'Add member' %} </i></span></button>
-{% if members %}
+
   <table id="user-queries-list" class="table table-striped table-hover datatable table table-striped table-bordered">
     <thead>
       <tr>
@@ -283,12 +283,11 @@
           <td>{{ query_obj.member_no }}</td>
           <td>{{ query_obj.member_name }}</td>
           <td>
-            {% if query_obj.member_status == 1 %}
-              <span class="label label-danger lb-md">
-                {{ _('Incomplete Info') }}
-              </span>
+            {% if query_obj.member_status == 2 %}
+                <span class="label label-success lb-md">{{ _('Complete') }}</span>
+
             {% else %}
-              <span class="label label-success lb-md">{{ _('Complete') }}</span>
+                <span class="label label-danger lb-md"> {{ _('Incomplete Info') }}</span>
             {% endif %}
           </td>
           <td>
@@ -300,7 +299,7 @@
         {% endfor %}
     </tbody>
   </table>
-{% endif %}
+
           </div>
         </div>
       </div>
@@ -355,7 +354,7 @@ $(document).ready(function() {
    var button = $(event.relatedTarget) // Button that triggered the modal
    var member_id = button.data('memberid') // Extract info from data-* attributes
    var member_name = button.data('membername')
-   var url = "/popup-delete/";
+   var url = "/delete-member/";
    console.log(url)
    var title = 'Confirm Delete #' + member_id
    var content = 'Are you sure want to delete ' + member_name + '?'
