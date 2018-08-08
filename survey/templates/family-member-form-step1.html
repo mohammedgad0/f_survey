@@ -344,7 +344,7 @@
 
                         <fieldset class="scheduler-border">
                           <legend class="scheduler-border">
-                            {{ _('Place of Birth and Residence details') }}
+                            {{ _('Place of Birth') }}
                           </legend>
                           <div class="col-md-4">
                             <div class="form-group">
@@ -354,7 +354,7 @@
                           </div>
 
                           <div class="col-md-4">
-                            <div class="form-group place">
+                            <div class="form-group birth-place">
 
                               {{ form_step1.place_birth }}
                               <label for="input" class="control-label attachment">{{ _('Place of Birth') }}</label>
@@ -365,7 +365,7 @@
 
                         <fieldset class="scheduler-border">
                           <legend class="scheduler-border">
-                            {{ _('Place of Birth and Residence details') }}
+                            {{ _('Details of current stay') }}
                           </legend>
                             <div class="col-md-4">
                               <div class="form-group">
@@ -374,7 +374,7 @@
                               </div>
                             </div>
                             <div class="col-md-4">
-                              <div class="form-group">
+                              <div class="form-group residance">
 
                                 {{ form_step1.place_stay_previous }}
                                 <label for="input" class="control-label attachment">{{ _('Previous place of stay') }}</label>
@@ -600,7 +600,30 @@ $('#id_in_or_out_birth').on('change', function(){
       },
       success: function (data) {   // `data` is the return of the `load_cities` view function
         //$('#main-job-child').show();
-        $(".place select").html(data);  // replace the contents of the city input with the data that came from the server
+        $(".birth-place select").html(data);  // replace the contents of the city input with the data that came from the server
+
+      }
+    });
+});
+$('#id_in_or_out_prev_stay').on('change', function(){
+  var selected_id = $(this).val();
+
+  var lookup_id;
+  if (selected_id == 2){
+    lookup_id = 18;
+  }
+  else{
+    lookup_id = 27;
+  }
+
+  $.ajax({                       // initialize an AJAX request
+      url: '/ajax/options/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+      data: {
+        'lookup_id': lookup_id       // add the country id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_cities` view function
+        //$('#main-job-child').show();
+        $(".residance select").html(data);  // replace the contents of the city input with the data that came from the server
 
       }
     });

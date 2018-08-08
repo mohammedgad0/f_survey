@@ -17,35 +17,44 @@ def int_or_str(value):
     except:
         return value
 
+def dropListOptions(rp_id,lookup_id,l_list_active):
+    options_list = GenLookupListView.objects.filter(rp_id=rp_id, lookup_id=lookup_id, l_list_active=1).order_by('seq_no')
+    OPTIONS = []
+    for y in options_list:
+        OPTIONS.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
+
+    return OPTIONS
+
 def add_family_member(request):
     form = FamilyMemberFormStep1()
     context = {'form_step1':form}
-    form.fields['place_birth'].widget = forms.Select()
-
+    CHOICES = dropListOptions(9,27,1)
+    form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
+    form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
+    sample_id = request.session['sample_id']
+    print(sample_id)
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST)
         #print(type(request.POST['difficulty_1_degree']))
         if form.is_valid():
             obj = form.save(commit = False)
 
-            # sample_id will get from session later on, static used now.
-            sample_id = 59080
             member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
 
             if not member_no:
-                obj.member_no = 1
+                memberNumber = str(1).zfill(2)
+                obj.member_no = memberNumber
             else:
-                # count and incrementing by 1 as family member number
+                # count and incrementing by 1 as member number
                 member_num = member_no.count()+1
-                print(member_num)
-                obj.member_no = member_num
+                memberNumber = str(member_num).zfill(2)
+                obj.member_no = memberNumber
 
-            # will get from session later on, static used now.
+            print(memberNumber)
             obj.sample_id = sample_id
-
             # will get from session later on, random unique number for now.
-            obj.f_m_id = member_no.count()+100
-            #obj.family_relation = int(request.POST['family_relation'])
+            family_member_Id = (sample_id * 1000) + int(memberNumber);
+            obj.f_m_id = family_member_Id
             obj.gender = int(request.POST['gender'])
             obj.nationality = int(request.POST['nationality'])
             obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
@@ -88,25 +97,31 @@ def edit_family_member(request, fid):
     if instance.difficulty_7_txt:
         form.fields['difficulty_other'].initial = 1
 
-    print(instance.place_birth)
-    if instance.place_birth >= 2700001 and instance.place_birth <= 2700013:
-        options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=27,l_list_active=1).order_by('seq_no')
-        OPTIONS = []
-        for y in options_list:
-            OPTIONS.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
-
-        form.fields['in_or_out_birth'].initial = 1
-        #form.fields['place_birth'].initial = form.instance.place_birth
+    if instance.place_birth:
+        if instance.place_birth >= 2700001 and instance.place_birth <= 2700013:
+            CHOICES = dropListOptions(9,27,1)
+            form.fields['in_or_out_birth'].initial = 1
+        else:
+            CHOICES = dropListOptions(9,18,1)
+            form.fields['in_or_out_birth'].initial = 2
     else:
-        options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=18,l_list_active=1).order_by('seq_no')
-        OPTIONS = []
-        for y in options_list:
-            OPTIONS.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
-        form.fields['in_or_out_birth'].initial = 2
-        #print(CITIES)
-        #form.fields['place_birth'].choices = CITIES
-    form.fields['place_birth'].widget = forms.Select(choices = OPTIONS)
+        CHOICES = dropListOptions(9,27,1)
+
+    form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
     form.fields['place_birth'].initial = instance.place_birth
+
+    if instance.place_stay_previous:
+        if instance.place_stay_previous >= 2700001 and instance.place_stay_previous <= 2700013:
+            CHOICES = dropListOptions(9,27,1)
+            form.fields['in_or_out_prev_stay'].initial = 1
+        else:
+            CHOICES = dropListOptions(9,18,1)
+            form.fields['in_or_out_prev_stay'].initial = 2
+    else:
+        CHOICES = dropListOptions(9,27,1)
+
+    form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
+    form.fields['place_stay_previous'].initial = instance.place_stay_previous
 
     context = {'form_step1':form}
     if request.method == 'POST':
@@ -141,7 +156,7 @@ def edit_family_member(request, fid):
             #     obj.place_stay = int(request.POST['place_stay'])
 
             obj.save()
-        #return HttpResponseRedirect(reverse('survey:home'))
+        return HttpResponseRedirect(reverse('survey:home'))
     return render(request, 'family-member-form-step1.html', context)
 
 def familyMembersList(request, fid):
