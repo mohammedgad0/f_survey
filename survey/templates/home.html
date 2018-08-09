@@ -237,7 +237,7 @@
           <td>
             <a href="/edit-member/{{ query_obj.f_m_id }}" class="btn btn-primary btn-sm"> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
             <a href="/add-member-info/{{ query_obj.f_m_id }}" class="btn btn-info">{{ _('Complete Info...') }} <i class="fa fa-hand-pointer-o"></i></a>
-            <a href="" class="btn btn-danger btn-sm" data-toggle="modal"  data-target="#deleteProductModal" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
+            <a href="" class="btn btn-danger btn-sm" data-toggle="modal"  data-target="#deleteProductModal" data-type="member" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
 
           </td>
         </tr>
@@ -292,7 +292,7 @@
           </td>
           <td>
             <a href="/add-member-info/{{ query_obj.f_m_id }}" class="btn btn-primary btn-sm"> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
-            <a href="" class="btn btn-danger btn-sm">{{ _('Delete') }} <i class="fa fa-trash"></i></a>
+            <a href="" class="btn btn-danger btn-sm" data-toggle="modal"  data-target="#deleteMemberModal" data-type="Death" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
 
           </td>
         </tr>
@@ -314,20 +314,20 @@
 </div>
 
     <!-- popup delete -->
-<div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteMemberModal" tabindex="-1" role="dialog" aria-labelledby="deleteMemberModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="deleteProductModalLabel">Confirm Delete</h4>
+        <h4 class="modal-title" id="deleteMemberModalLabel">{{ _('Confirm Delete') }}</h4>
       </div>
       <div class="modal-body">
-        Are you sure want to delete the product?
+       {{ _('Are you sure want to delete the product?') }}
       </div>
       <div class="modal-footer">
-    <a href="" class="btn btn-danger btn-sm">yes <i class="fa fa-trash"></i></a>
+    <a href="" class="btn btn-danger btn-sm">{{ _('Yes') }} <i class="fa fa-trash"></i></a>
 {#        <button type="button" class="btn btn-danger">Yes</button>#}
-        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('No') }}</button>
       </div>
     </div>
   </div>
@@ -350,14 +350,16 @@ $(document).ready(function() {
       $(a.target).prev('.panel-heading').removeClass('active');
     });
 
-   $('#deleteProductModal').on('show.bs.modal', function (event) { // id of the modal with event
-   var button = $(event.relatedTarget) // Button that triggered the modal
-   var member_id = button.data('memberid') // Extract info from data-* attributes
-   var member_name = button.data('membername')
+
+   $('#deleteMemberModal').on('show.bs.modal', function (event) { // id of the modal with event
+   var button = $(event.relatedTarget); // Button that triggered the modal
+   var member_id = button.data('memberid'); // Extract info from data-* attributes
+   var member_name = button.data('membername');
+   var data_type = button.data('type');
    var url = "/delete-member/";
    console.log(url)
-   var title = 'Confirm Delete #' + member_id
-   var content = 'Are you sure want to delete ' + member_name + '?'
+   var title = "{{ _('Confirm Delete #') }}" + member_name;
+   var content = "{{ _('Are you sure want to delete') }}" + member_name + '؟';
 
    // Update the modal's content.
    var modal = $(this)
@@ -370,7 +372,8 @@ modal.find('.btn-danger').click(function () {
         $.ajax({
         url: url,
         data: {
-          'member_id': member_id
+          'member_id': member_id,
+          'data_type': data_type
         },
         dataType: 'json',
         success: function (data) {
@@ -381,8 +384,6 @@ modal.find('.btn-danger').click(function () {
 })
 
  })
-
-
 
 });
     </script>

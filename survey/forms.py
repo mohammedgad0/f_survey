@@ -237,7 +237,7 @@ class AddHouse(forms.ModelForm):
         fields = ('housing_type','housing_type_txt', 'building_material', 'building_material_txt', 'housing_space', 'housing_stay_type','housing_stay_type_txt',
                   'bed_room_count', 'other_room_count', 'kitchen_count', 'bath_room_count', 'holding_type', 'holding_type_txt', 'electric_sources', 'electric_sources_txt',
                   'water_sources', 'water_sources_txt', 'sewage', 'sewage_txt', 'mobile_count', 'telephone_count', 'internet_users_count', 'internet_connection',
-                  'car_count', 'tv_count', 'income_avg', 'housing_act_economic', 'death_status')
+                  'car_count', 'tv_count', 'income_avg', 'housing_act_economic')
 
         widgets = {
             'housing_type_txt': TextInput(attrs={'type': 'text'}),

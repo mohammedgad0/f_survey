@@ -217,7 +217,7 @@ background: #337ab7;
 transition: left 0.28s ease, width 0.28s ease;
 z-index: 2;
 }
-.form-group input,
+.form-group input, .form-control:disabled,
 .form-group textarea {
 display: block;
 background: none;
@@ -227,7 +227,7 @@ border-width: 0;
 border-color: transparent;
 line-height: 1.9;
 width: 100%;
-color: transparent;
+color: #000;
 -webkit-transition: all 0.28s ease;
 transition: all 0.28s ease;
 box-shadow: none;
@@ -252,6 +252,7 @@ color: #333;
 .form-group select ~ .control-label,
 .form-group input:focus ~ .control-label,
 .form-group input:valid ~ .control-label,
+.form-group input:disabled ~ .control-label,
 .form-group input.form-file ~ .control-label,
 .form-group input.has-value ~ .control-label,
 .form-group textarea:focus ~ .control-label,
