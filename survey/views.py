@@ -32,8 +32,8 @@ def add_family_member(request):
     CHOICES = dropListOptions(9,27,1)
     form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
     form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
+    #form.fields['member_status'].initial = 1
     sample_id = request.session['sample_id']
-    print(sample_id)
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST)
         #print(type(request.POST['difficulty_1_degree']))
@@ -51,11 +51,11 @@ def add_family_member(request):
                 memberNumber = str(member_num).zfill(2)
                 obj.member_no = memberNumber
 
-            print(memberNumber)
             obj.sample_id = sample_id
             # will get from session later on, random unique number for now.
             family_member_Id = (sample_id * 1000) + int(memberNumber);
             obj.f_m_id = family_member_Id
+            obj.member_status = 1
             obj.gender = int(request.POST['gender'])
             obj.nationality = int(request.POST['nationality'])
             obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
@@ -92,9 +92,9 @@ def add_family_member(request):
 
 def edit_family_member(request, fid):
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fid)
-
     form = FamilyMemberFormStep1(instance = instance)
-    #print(instance.difficulty_7_txt)
+    age = instance.age
+    context = {'form_step1':form}
     if instance.difficulty_7_txt:
         form.fields['difficulty_other'].initial = 1
 
@@ -124,11 +124,49 @@ def edit_family_member(request, fid):
     form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
     form.fields['place_stay_previous'].initial = instance.place_stay_previous
 
-    context = {'form_step1':form}
+    context = {'form_step1':form, 'mem_obj': instance}
     if request.method == 'POST':
-        form = FamilyMemberFormStep1(request.POST, instance)
+        old_record=FcpFamilyMemberTab.objects.get(f_m_id=fid)
+        form = FamilyMemberFormStep1(request.POST, instance = instance)
+
         if form.is_valid():
+
             obj = form.save(commit = False)
+            if old_record.age != obj.age:
+                obj.member_status = 1
+
+                if obj.age >= 3 and obj.age < 10:
+                    obj.study_status = None
+                    obj.education_status = None
+                    obj.study_field = None
+                    obj.marital_status = None
+                    obj.males_count = None
+                    obj.females_count = None
+                    obj.labor_status = None
+                    obj.labor_status_txt = None
+                    obj.main_job = None
+                    obj.economic_activity_parent = None
+                    obj.economic_activity = None
+                    obj.work_sector_type = None
+                    obj.work_sector_type_txt = None
+                    obj.member_status = 1
+
+                elif obj.age >= 10 and obj.age < 15:
+                    obj.education_status = None
+                    obj.study_field = None
+                    obj.marital_status = None
+                    obj.males_count = None
+                    obj.females_count = None
+                    obj.labor_status = None
+                    obj.labor_status_txt = None
+                    obj.main_job = None
+                    obj.economic_activity_parent = None
+                    obj.economic_activity = None
+                    obj.work_sector_type = None
+                    obj.work_sector_type_txt = None
+                    obj.member_status = 1
+
+
             obj.gender = int(request.POST['gender'])
             obj.nationality = int(request.POST['nationality'])
             obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
@@ -172,9 +210,7 @@ def familyMembersList(request, fid):
 def add_member_info(request, fm_id):
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
     form = FamilyMemberFormStep2(instance = instance)
-    # temp field
-    #print(instance.study_field)
-
+    #form.fields['member_status'].initial = 2
     if instance.study_field:
         edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
         edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=edu_parent).order_by('seq_no')
@@ -229,8 +265,10 @@ def add_member_info(request, fm_id):
     if request.method == 'POST':
         form = FamilyMemberFormStep2(request.POST,instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
         if form.is_valid():
-            form.save()
-
+            f = form.save(commit = False)
+            f.member_status = 2
+            f.save()
+            return HttpResponseRedirect(reverse('survey:home'))
     show_female_fields = False
     if instance.gender == 1600002:
         show_female_fields = True
@@ -286,7 +324,6 @@ def home(request):
     context = {'members_count':sample_obj.no_of_member, 'members_enter_count':members_enter_count, 'member_status': member_status,
                'family_status': sample_obj.family_status, 'sample_obj': sample_obj, 'family_obj': family_obj, 'members': members, 'death_list': death_list}
     return render(request, 'home.html', context)
-
 
 def login(request, token):
     user_info = AuthUserTab.objects.filter(token_key= token)

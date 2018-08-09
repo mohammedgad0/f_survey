@@ -109,6 +109,7 @@
               <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
+
                           {{ form_step1.age }}
                           <label for="input" class="control-label">{{ _('Age') }}</label>
                           <i class="bar"></i>
@@ -405,54 +406,13 @@
               </div>
 
 
-{% endblock %}
+{% endblock content %}
 
 {% block javascripts %}
   {{ block.super }}
 <script src="/static/build/js/plugins/moment-with-locales.min.js"></script>
 <script src="/static/build/js/plugins/moment-hijri.js"></script>
 <script>
-//
-// $.validator.addMethod('require-one', function(value) {
-//       if( $('input[type="checkbox"]').is(':checked') ){
-//         var parent_id = $('input[type="checkbox"]').attr('id');
-//         //console.log($('.'+parent_id+ ' .form-radio .radio input').attr('name') );
-//         if ( $('.'+parent_id+ ' .form-radio .radio input:checked').size() > 0){
-//           return true;
-//         }
-//
-//       }
-//
-// }, 'select at least one option.');
-//
-// var checkboxes = $('input[type="checkbox"]');
-//
-// var checkbox_names = $.map(checkboxes, function(e, i) {
-//   return $(e).attr("name")
-// }).join(" ");
-//
-// var radios = $('input[type="checkbox"] .form-radio .radio input');
-// checkbox_names = $.map(radios, function(e, i) {
-//   return $(e).attr("name")
-// }).join(" ");
-//
-// console.log(checkbox_names);
-// $("#family-survey-from").validate({
-//   groups: {
-//     checks: checkbox_names
-//   },
-//
-//
-//
-//   errorPlacement: function(error, element) {
-//     $('#form_error').html(error);
-//   },
-//   submitHandler: function(form) {
-//       //  alert('Form Submited');
-//       return true;
-//   }
-//
-// });
 
 // hide all required sections initially
   $('.levels').hide();
@@ -629,6 +589,35 @@ $('#id_in_or_out_prev_stay').on('change', function(){
     });
 });
 //$('#id_in_or_out').trigger('change');
+
+// Age check on edit form in step1
+//var age = {{ mem_obj.age }}
+
+var age = $('input[name=age]').val();
+//var member_id = {{ mem_obj.f_m_id }};
+if( age > 0 ) {
+$('input[name=age]').keyup(age_check);
+
+  function age_check(){
+
+
+        $("input[name=age]").popover({
+            trigger: 'manual',
+            html:'true',
+            content: "<div class='alert alert-warning'>"
+              +"<i class='fa fas fa-exclamation-triangle'></i> تنبيه! التغير فى العمر قد يترتب عليه تغير بعض القيم المدخلة سابقاً"
+              +"</div>",
+            placement : 'top'
+        });
+        $("input[name=age]").popover('show');
+        $('input[name=age]').parent().addClass( "has-error has-warning has-feedback" );
+
+  }
+  $('input[name=age]').on('focusout', function(){
+    $(this).popover('hide');
+  });
+
+  }
 </script>
 
 {% endblock %}

@@ -148,30 +148,6 @@ class FamilyMemberFormStep2(forms.ModelForm):
             del self.fields['work_sector_type']
             del self.fields['work_sector_type_txt']
 
-        # else:
-        #     #three_years_age_flag = True
-        #     #ten_years_age_flag = True
-        #     #greater_age_flag = True
-        #     del self.fields['marital_status']
-        #     del self.fields['males_count']
-        #     del self.fields['females_count']
-        #     del self.fields['labor_status']
-        #     del self.fields['labor_status_txt']
-        #     del self.fields['main_job_parent']
-        #     del self.fields['main_job']
-        #     del self.fields['economic_activity_parent']
-        #     del self.fields['economic_activity']
-        #     del self.fields['work_sector_type']
-        #     del self.fields['work_sector_type_txt']
-
-        #self.fields['study_status'].empty_label = None
-        #self.fields['education_status'].empty_label = None
-        #self.fields['difficulty_3_degree'].empty_label = None
-        #self.fields['difficulty_4_degree'].empty_label = None
-        #self.fields['difficulty_5_degree'].empty_label = None
-        #self.fields['difficulty_6_degree'].empty_label = None
-        #self.fields['difficulty_7_degree'].empty_label = None
-
     study_status = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=174, l_list_active=1))
     education_status = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=105, l_list_active=1))
     study_field_parent = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control','data-child-lookup-id': '10'}), choices=dropDownList(rp_id=9, lookup_id=11, l_list_active=1))
@@ -207,9 +183,6 @@ class FamilyMemberFormStep2(forms.ModelForm):
             'economic_activity',
             'work_sector_type',
             'work_sector_type_txt',
-            #'t_start_date',
-            #'t_end_date',
-            #'t_update_date',
         ]
 
 internet_connection =(
