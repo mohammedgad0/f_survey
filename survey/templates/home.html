@@ -226,7 +226,8 @@
           <td>{{ query_obj.member_no }}</td>
           <td>{{ query_obj.member_name }}</td>
           <td>
-            {% if query_obj.member_status == 0 %}
+
+            {% if query_obj.member_status < 2 or query_obj.member_status is None %}
               <span class="label label-danger lb-md">
                 {{ _('Incomplete Info') }}
               </span>
