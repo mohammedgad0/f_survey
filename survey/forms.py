@@ -272,21 +272,10 @@ class AddHouse(forms.ModelForm):
 
 
 class DeathForm(forms.ModelForm):
-    CHOICES_GENDER = []
-    for x in GenLookupListView.objects.filter(rp_id=9, lookup_id=16, l_list_active=1).order_by('seq_no'):
-        CHOICES_GENDER.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
 
-    gender = forms.ChoiceField(widget=forms.Select, choices=CHOICES_GENDER)
-
-    CHOICES_NATIONALITY = []
-    for x in GenLookupListView.objects.filter(rp_id=9, lookup_id=159, l_list_active=1).order_by('seq_no'):
-        CHOICES_NATIONALITY.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
-    nationality = forms.ChoiceField( widget=forms.Select,choices=CHOICES_NATIONALITY)
-
-    CHOICES_REASON = []
-    for x in GenLookupListView.objects.filter(rp_id=9, lookup_id=107, l_list_active=1).order_by('seq_no'):
-        CHOICES_REASON.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
-    reason_death = forms.ChoiceField(widget=forms.Select,choices=CHOICES_REASON,)
+    gender = forms.ChoiceField(widget=forms.Select, choices=dropDownList(rp_id=9, lookup_id=16, l_list_active=1))
+    nationality = forms.ChoiceField( widget=forms.Select, choices=dropDownList(rp_id=9, lookup_id=159, l_list_active=1))
+    reason_death = forms.ChoiceField(widget=forms.Select, choices=dropDownList(rp_id=9, lookup_id=107, l_list_active=1))
 
     class Meta:
         model = FcpFamilyDeathTab

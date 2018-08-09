@@ -26,9 +26,11 @@ urlpatterns = [
     path('add-house/', add_house, name='add-house'),
     # Death form
     path('death-form/', death_form, name='death-form'),
+    # Death form Edit
+    path('death-form-edit/<int:member_id>/', death_form_edit, name='death-form-edit'),
     # test error
     path('check-error/', check_error, name='check-error'),
     # popup delete
-    path(r'popup-delete/', popup_delete, name='popup-delete'),
+    path(r'delete-member/', delete_member, name='delete-member'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

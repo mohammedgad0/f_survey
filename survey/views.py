@@ -318,8 +318,9 @@ def home(request):
         member_status = True
     else:
         member_status = False
-    death_list = FcpFamilyDeathTab.objects.filter(sample_id=sample_id)
 
+    death_list = FcpFamilyDeathTab.objects.filter(sample_id=sample_id)
+    print(death_list)
     context = {'members_count':sample_obj.no_of_member, 'members_enter_count':members_enter_count, 'member_status': member_status,
                'family_status': sample_obj.family_status, 'sample_obj': sample_obj, 'family_obj': family_obj, 'members': members, 'death_list': death_list}
     return render(request, 'home.html', context)
@@ -335,6 +336,7 @@ def login(request, token):
             request.session['Is_auth'] = True
             request.session['user_id'] = user_info.id_number
             request.session['sample_id'] = user_info.sample_id
+            request.session['family_id'] = user_info.sample_id
             UserLog.objects.create(user_id=user_info.id_number, input_id = member_id, success=True)
             return HttpResponseRedirect(reverse('survey:home'))
         else:
@@ -362,13 +364,44 @@ def add_house(request):
 
 
 def death_form(request):
+    sample_id = request.session.get('sample_id')
+    member_no = FcpFamilyDeathTab.objects.filter(sample_id=sample_id)
+    if not member_no:
+        member_no = 1
+    else:
+        # count and incrementing by 1 as family member number
+        member_num = member_no.count() + 1
+        print(member_num)
+        member_no = member_num
     form = DeathForm()
     if request.method == 'POST':
         form = DeathForm(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.f_m_id = 2
+            obj.f_m_id = int(sample_id) * 1000 + int(member_no)
+            obj.sample_id = sample_id
+            obj.member_no = member_no
+            obj.member_status = 1
+            print(obj.f_m_id)
             form.save()
+            messages.success(request, _('Saved !'))
+            return HttpResponseRedirect(reverse('survey:home'))
+    context = {'form': form}
+    return render(request, 'death_form.html', context)
+
+
+def death_form_edit(request, member_id):
+    instance = FcpFamilyDeathTab.objects.get(f_m_id = member_id)
+    form = DeathForm(instance=instance)
+    if request.method == 'POST':
+        form = DeathForm(request.POST, instance=instance)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.member_status = 1
+            print(obj.f_m_id)
+            form.save()
+            messages.success(request, _('Saved !'))
+            return HttpResponseRedirect(reverse('survey:home'))
     context = {'form': form}
     return render(request, 'death_form.html', context)
 
@@ -409,7 +442,7 @@ def check_error(request):
     return render(request, 'check_error.html', context)
 
 
-def popup_delete(request):
+def delete_member(request):
     member_id = request.GET.get('member_id', None)
     print(member_id)
     member = FcpFamilyMemberTab.objects.get(f_m_id= member_id)
