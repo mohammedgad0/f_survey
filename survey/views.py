@@ -368,7 +368,7 @@ def add_house(request):
                         for item in storage:
                             if item.tags == "warning":
                                 del item
-                        messages.success(request, _('House Added'))
+                        messages.success(request, _('Saved !'))
                         return HttpResponseRedirect(reverse('survey:home'))
 
                 obj = form.save(commit=False)
