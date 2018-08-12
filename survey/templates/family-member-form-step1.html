@@ -466,8 +466,10 @@ $(document).ready(function() {
     var nationality_code = $(this).val();
     if (nationality_code == 1800001) {
       $('#resi-info').slideDown('slow','linear');
-      $('#id_in_or_out').attr('required', true);
+      //$('#id_in_or_out').attr('required', true);
+      $('#id_in_or_out_birth').attr('required', true);
       $('#id_place_birth').attr('required', true);
+      $('#id_in_or_out_prev_stay').attr('required', true);
       $('#id_place_stay_previous').attr('required', true);
       $('#id_place_stay').attr('required', true);
     }
@@ -634,6 +636,7 @@ $('#id_in_or_out_prev_stay').on('change', function(){
 //var age = {{ mem_obj.age }}
 
 var age = $('input[name=age]').val();
+var gender = $('select[name=gender]').val();
 //var member_id = {{ mem_obj.f_m_id }};
 if( age > 0 ) {
 $('input[name=age]').keyup(age_check);
@@ -658,6 +661,8 @@ $('input[name=age]').keyup(age_check);
 
   }
 
+if(gender > 0){
+
   $('select[name=gender]').on('change', gender_check);
 
     function gender_check(){
@@ -677,6 +682,8 @@ $('input[name=age]').keyup(age_check);
     $('select[name=gender]').on('focusout', function(){
         $(this).popover('hide');
     });
+}
+
 </script>
 
 {% endblock %}

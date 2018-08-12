@@ -21,6 +21,7 @@ def int_or_str(value):
 def dropListOptions(rp_id,lookup_id,l_list_active):
     options_list = GenLookupListView.objects.filter(rp_id=rp_id, lookup_id=lookup_id, l_list_active=1).order_by('seq_no')
     OPTIONS = []
+    OPTIONS.append(('', _('Choice')))
     for y in options_list:
         OPTIONS.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
 
@@ -37,7 +38,9 @@ def add_family_member(request):
     if request.method == 'POST':
         form = FamilyMemberFormStep1(request.POST)
         #print(type(request.POST['difficulty_1_degree']))
+
         if form.is_valid():
+
             obj = form.save(commit=False)
             member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
             if not member_no:
@@ -50,36 +53,10 @@ def add_family_member(request):
                 obj.member_no = memberNumber
 
             obj.sample_id = sample_id
-            # will get from session later on, random unique number for now.
             family_member_Id = (sample_id * 1000) + int(memberNumber);
             obj.f_m_id = family_member_Id
             obj.member_status = 1
-            obj.gender = int(request.POST['gender'])
-            obj.nationality = int(request.POST['nationality'])
-            obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
-
-            if obj.difficulty_1_degree:
-                obj.difficulty_1_degree = int(request.POST['difficulty_1_degree'])
-            if obj.difficulty_2_degree:
-                obj.difficulty_2_degree = int(request.POST['difficulty_2_degree'])
-            if obj.difficulty_3_degree:
-                obj.difficulty_3_degree = int(request.POST['difficulty_3_degree'])
-            if obj.difficulty_4_degree:
-                obj.difficulty_4_degree = int(request.POST['difficulty_4_degree'])
-            if obj.difficulty_5_degree:
-                obj.difficulty_5_degree = int(request.POST['difficulty_5_degree'])
-            if obj.difficulty_6_degree:
-                obj.difficulty_6_degree = int(request.POST['difficulty_6_degree'])
-            if obj.difficulty_7_degree:
-                obj.difficulty_7_degree = int(request.POST['difficulty_7_degree'])
-            if obj.place_birth:
-                obj.place_birth = int(request.POST['place_birth'])
-            if obj.place_stay_previous:
-                obj.place_stay_previous = int(request.POST['place_stay_previous'])
-            if obj.place_stay:
-                obj.place_stay = int(request.POST['place_stay'])
             obj.save()
-
             message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
             if "error" in type:
                 return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
@@ -125,6 +102,7 @@ def edit_family_member(request, fid):
     form.fields['place_stay_previous'].initial = instance.place_stay_previous
 
     context = {'form_step1':form, 'mem_obj': instance}
+
     if request.method == 'POST':
         old_record=FcpFamilyMemberTab.objects.get(f_m_id=fid)
         form = FamilyMemberFormStep1(request.POST, instance = instance)
@@ -134,6 +112,7 @@ def edit_family_member(request, fid):
             if request.POST.get('post') == "post-after-warning":
                 print('after warning post')
                 obj = form.save(commit=False)
+                obj.save()
                 message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
                 if "error" in type:
                     return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
@@ -187,26 +166,26 @@ def edit_family_member(request, fid):
                     obj.member_status = 1
 
             #obj.gender = int(request.POST['gender'])
-            obj.gender = int(request.POST['gender'])
-            obj.nationality = int(request.POST['nationality'])
-            obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
+            #obj.gender = int(request.POST['gender'])
+            #obj.nationality = int(request.POST['nationality'])
+            obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=obj.nationality).list_name
             obj.member_no = instance.member_no
             obj.f_m_id = instance.f_m_id
             obj.sample_id = instance.sample_id
-            if obj.difficulty_1_degree:
-                obj.difficulty_1_degree = int(request.POST['difficulty_1_degree'])
-            if obj.difficulty_2_degree:
-                obj.difficulty_2_degree = int(request.POST['difficulty_2_degree'])
-            if obj.difficulty_3_degree:
-                obj.difficulty_3_degree = int(request.POST['difficulty_3_degree'])
-            if obj.difficulty_4_degree:
-                obj.difficulty_4_degree = int(request.POST['difficulty_4_degree'])
-            if obj.difficulty_5_degree:
-                obj.difficulty_5_degree = int(request.POST['difficulty_5_degree'])
-            if obj.difficulty_6_degree:
-                obj.difficulty_6_degree = int(request.POST['difficulty_6_degree'])
-            if obj.difficulty_7_degree:
-                obj.difficulty_7_degree = int(request.POST['difficulty_7_degree'])
+            # if obj.difficulty_1_degree:
+            #     obj.difficulty_1_degree = int(request.POST['difficulty_1_degree'])
+            # if obj.difficulty_2_degree:
+            #     obj.difficulty_2_degree = int(request.POST['difficulty_2_degree'])
+            # if obj.difficulty_3_degree:
+            #     obj.difficulty_3_degree = int(request.POST['difficulty_3_degree'])
+            # if obj.difficulty_4_degree:
+            #     obj.difficulty_4_degree = int(request.POST['difficulty_4_degree'])
+            # if obj.difficulty_5_degree:
+            #     obj.difficulty_5_degree = int(request.POST['difficulty_5_degree'])
+            # if obj.difficulty_6_degree:
+            #     obj.difficulty_6_degree = int(request.POST['difficulty_6_degree'])
+            # if obj.difficulty_7_degree:
+            #     obj.difficulty_7_degree = int(request.POST['difficulty_7_degree'])
 
             obj.save()
             message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))

@@ -16,6 +16,6 @@ def validate_family_relation(value):
 
     elif member_no and value.lookup_list_id == 1700001:
         raise ValidationError(
-            _('Family head already added, Please select correct relationship with for this member'),
+            _('Family head already added, Please select correct relationship with this member'),
             params={'value': value},
         )
