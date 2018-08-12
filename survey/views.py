@@ -185,13 +185,9 @@ def edit_family_member(request, fid):
                     obj.work_sector_type = None
                     obj.work_sector_type_txt = None
                     obj.member_status = 1
-<<<<<<< HEAD
-
 
             #obj.gender = int(request.POST['gender'])
-=======
             obj.gender = int(request.POST['gender'])
->>>>>>> 617656480abd006404ac8d129337ea8467008306
             obj.nationality = int(request.POST['nationality'])
             obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
             obj.member_no = instance.member_no
@@ -275,7 +271,6 @@ def add_member_info(request, fm_id):
 
         if CHOICESECOAct:
             form.fields['economic_activity'].choices = CHOICESECOAct
-<<<<<<< HEAD
     else:
         form.fields['economic_activity'].choices = ""
 
@@ -287,11 +282,7 @@ def add_member_info(request, fm_id):
             obj.member_status = 2
             obj.save()
             return HttpResponseRedirect(reverse('survey:home'))
-
-=======
-    except:
-        pass
->>>>>>> 617656480abd006404ac8d129337ea8467008306
+    
     show_female_fields = False
     if instance.gender == 1600002:
         show_female_fields = True
@@ -559,4 +550,3 @@ def change_number(request):
         }
 
     return JsonResponse(data)
-
