@@ -209,6 +209,8 @@
           <div class="panel-body">
 <div class="table-responsive list">
 <button type="submit" class="button action-btn" style="background-color: #58C0D8;" onclick="location.href='/add-family'"><span><i class="fa fas fa-user-plus"> {% trans 'Add family member' %} </i></span></button>
+   <a href="" class="button open-modal" data-toggle="modal" data-backdrop="static" style="color: #fff; background-color: #00b3ee" data-target="#editMemberModal" data-sample_id ='{{ request.session.sample_id }}' >{{ _('Edit members numer') }} <i class="fa fa-edit"></i></a>
+
 {% if members %}
   <table id="user-queries-list" class="table table-striped table-hover datatable table table-striped table-bordered">
     <thead>
@@ -238,7 +240,7 @@
           <td>
             <a href="/edit-member/{{ query_obj.f_m_id }}" class="btn btn-primary btn-sm"> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
             <a href="/add-member-info/{{ query_obj.f_m_id }}" class="btn btn-info">{{ _('Complete Info...') }} <i class="fa fa-hand-pointer-o"></i></a>
-            <a href="" class="btn btn-danger btn-sm" data-toggle="modal"  data-target="#deleteProductModal" data-type="member" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
+            <a href="" class="btn btn-danger btn-sm open-modal" data-toggle="modal" data-target="#deleteMemberModal" data-type="member" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
 
           </td>
         </tr>
@@ -292,7 +294,7 @@
             {% endif %}
           </td>
           <td>
-            <a href="{% url 'survey:death-form-edit'  query_obj.f_m_id %}" class="btn btn-primary btn-sm"> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
+            <a href="/add-member-info/{{ query_obj.f_m_id }}" class="btn btn-primary btn-sm"> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
             <a href="" class="btn btn-danger btn-sm" data-toggle="modal"  data-target="#deleteMemberModal" data-type="Death" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
 
           </td>
@@ -334,13 +336,38 @@
   </div>
 </div>
     <!-- End Delete -->
+
+ <div class="modal fade" id="editMemberModal" tabindex="-1" role="dialog" aria-labelledby="editMemberModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteMemberModalLabel">{{ _('Confirm Delete') }}</h4>
+      </div>
+      <div class="modal-body">
+          <div class="messages">
+
+          </div>
+<div class="form-group">
+<input type="number" name="family-number" class="form-control" min="0" pattern="/^-?\d+\.?\d*$/" maxlength="2" value="{{ members_count }}" id="family-number">
+<label for="input" class="control-label">{{ _('family members number') }}</label>
+<i class="bar"></i>
+</div>
+      </div>
+      <div class="modal-footer">
+    <button class="btn btn-primary">{{ _('edit') }}<i class="fa fa-edit"></i></button>
+{#        <button type="button" class="btn btn-danger">Yes</button>#}
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ _('Close') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock content %}
 
 {% block javascripts %}
   {{ block.super }}
         <script>
-
-
 $(document).ready(function() {
   $('.collapse.in').prev('.panel-heading').addClass('active');
   $('#accordion, #bs-collapse')
@@ -351,12 +378,13 @@ $(document).ready(function() {
       $(a.target).prev('.panel-heading').removeClass('active');
     });
 
-
    $('#deleteMemberModal').on('show.bs.modal', function (event) { // id of the modal with event
    var button = $(event.relatedTarget); // Button that triggered the modal
    var member_id = button.data('memberid'); // Extract info from data-* attributes
    var member_name = button.data('membername');
    var data_type = button.data('type');
+   var sample_id = button.data('sample_id')
+   console.log(sample_id)
    var url = "/delete-member/";
    console.log(url)
    var title = "{{ _('Confirm Delete #') }}" + member_name;
@@ -385,6 +413,56 @@ modal.find('.btn-danger').click(function () {
 })
 
  })
+
+
+
+   $('#editMemberModal').on('show.bs.modal', function (event) { // id of the modal with event
+
+   var button = $(event.relatedTarget); // Button that triggered the modal
+   var sample_id = button.data('sample_id');
+   console.log(sample_id)
+   var url = "/change-family-members-number/";
+   var title = "{{ _('change family members number #') }}";
+   // Update the modal's content.
+   var modal = $(this)
+   modal.find('.modal-title').text(title)
+   //modal.find('.modal-body').text(content)
+
+    // modal.find('.btn-primary').attr("href", url);
+        modal.find('.btn-primary').click(function () {
+        modal.find('.messages').text("")
+         var new_number = $('#family-number').val()
+            console.log(new_number)
+        $.ajax({
+        url: url,
+        data: {
+            'sample_id': sample_id,
+            'new_value': new_number
+        },
+        dataType: 'json',
+        success: function (data) {
+
+            console.log(data['messages'])
+            if (data['type'] == 1 ){
+
+                modal.find('.messages').append("<div class=\"alert alert-success\">\n" + data['messages'] + "</div>")
+
+            }
+            else{
+                modal.find('.messages').append("<div class=\"alert alert-danger\">\n" + data['messages'] + "</div>")
+            }
+
+        }
+
+      });
+
+})
+       modal.find('.btn-default').click(function () {
+            location.reload();
+       })
+
+ })
+
 
 });
     </script>

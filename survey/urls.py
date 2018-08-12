@@ -31,6 +31,8 @@ urlpatterns = [
     # test error
     path('check-error/', check_error, name='check-error'),
     # popup delete
-    path(r'delete-member/', delete_member, name='delete-member'),
+    path('delete-member/', delete_member, name='delete-member'),
+    # popup change family mebmers number
+    path('change-family-members-number/', change_number, name='change-number'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

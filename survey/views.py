@@ -38,10 +38,8 @@ def add_family_member(request):
         form = FamilyMemberFormStep1(request.POST)
         #print(type(request.POST['difficulty_1_degree']))
         if form.is_valid():
-            obj = form.save(commit = False)
-
+            obj = form.save(commit=False)
             member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
-
             if not member_no:
                 memberNumber = str(1).zfill(2)
                 obj.member_no = memberNumber
@@ -81,16 +79,18 @@ def add_family_member(request):
             if obj.place_stay:
                 obj.place_stay = int(request.POST['place_stay'])
             obj.save()
-            #message, error_type = check_errors(request, str(obj.sample_id), str(member_num))
-            #if not message:
-                #messages.success(request, _('Member Added successfully.'))
-            #else:
-                #messages.info(request, _('Member Added successfully.'))
-        return HttpResponseRedirect(reverse('survey:home'))
 
+            message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+            if "error" in type:
+                return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+            if "warning" in type:
+                return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+
+        return HttpResponseRedirect(reverse('survey:home'))
     return render(request, 'family-member-form-step1.html', context)
 
 def edit_family_member(request, fid):
+    sample_id = request.session.get('sample_id')
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fid)
     form = FamilyMemberFormStep1(instance = instance)
     age = instance.age
@@ -130,11 +130,23 @@ def edit_family_member(request, fid):
         form = FamilyMemberFormStep1(request.POST, instance = instance)
 
         if form.is_valid():
-
+            # post if he dismiss warning
+            if request.POST.get('post') == "post-after-warning":
+                print('after warning post')
+                obj = form.save(commit=False)
+                message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+                if "error" in type:
+                    return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+                else:
+                    storage = get_messages(request)
+                    for item in storage:
+                        if item.tags == "warning":
+                            del item
+                    messages.success(request, _('Saved !'))
+                    return HttpResponseRedirect(reverse('survey:home'))
             obj = form.save(commit = False)
             if old_record.age != obj.age:
                 obj.member_status = 1
-
                 if obj.age >= 3 and obj.age < 10:
                     obj.study_status = None
                     obj.education_status = None
@@ -150,7 +162,6 @@ def edit_family_member(request, fid):
                     obj.work_sector_type = None
                     obj.work_sector_type_txt = None
                     obj.member_status = 1
-
                 elif obj.age >= 10 and obj.age < 15:
                     obj.education_status = None
                     obj.study_field = None
@@ -165,8 +176,6 @@ def edit_family_member(request, fid):
                     obj.work_sector_type = None
                     obj.work_sector_type_txt = None
                     obj.member_status = 1
-
-
             obj.gender = int(request.POST['gender'])
             obj.nationality = int(request.POST['nationality'])
             obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
@@ -187,14 +196,13 @@ def edit_family_member(request, fid):
                 obj.difficulty_6_degree = int(request.POST['difficulty_6_degree'])
             if obj.difficulty_7_degree:
                 obj.difficulty_7_degree = int(request.POST['difficulty_7_degree'])
-            # if obj.place_birth:
-            #     obj.place_birth = int(request.POST['place_birth'])
-            # if obj.place_stay_previous:
-            #     obj.place_stay_previous = int(request.POST['place_stay_previous'])
-            # if obj.place_stay:
-            #     obj.place_stay = int(request.POST['place_stay'])
 
             obj.save()
+            message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+            if "error" in type:
+                return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+            if "warning" in type:
+                return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
         return HttpResponseRedirect(reverse('survey:home'))
     return render(request, 'family-member-form-step1.html', context)
 
@@ -208,6 +216,7 @@ def familyMembersList(request, fid):
     return render(request, 'family-members-list.html', context)
 
 def add_member_info(request, fm_id):
+    sample_id = request.session.get('sample_id')
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
     form = FamilyMemberFormStep2(instance = instance)
     #form.fields['member_status'].initial = 2
@@ -261,14 +270,6 @@ def add_member_info(request, fm_id):
             form.fields['economic_activity'].choices = CHOICESECOAct
     except:
         pass
-
-    if request.method == 'POST':
-        form = FamilyMemberFormStep2(request.POST,instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
-        if form.is_valid():
-            f = form.save(commit = False)
-            f.member_status = 2
-            f.save()
-            return HttpResponseRedirect(reverse('survey:home'))
     show_female_fields = False
     if instance.gender == 1600002:
         show_female_fields = True
@@ -290,6 +291,33 @@ def add_member_info(request, fm_id):
         three_years_age_flag = True
         ten_years_age_flag = True
         greater_age_flag = True
+
+    if request.method == 'POST':
+        form = FamilyMemberFormStep2(request.POST,instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
+        if form.is_valid():
+            # post if he dismiss warning
+            if request.POST.get('post') == "post-after-warning":
+                print('after warning post')
+                obj = form.save(commit=False)
+                message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+                if "error" in type:
+                    return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
+                else:
+                    storage = get_messages(request)
+                    for item in storage:
+                        if item.tags == "warning":
+                            del item
+                    messages.success(request, _('Saved !'))
+                    return HttpResponseRedirect(reverse('survey:home'))
+            obj = form.save(commit = False)
+            obj.member_status = 2
+            obj.save()
+            message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+            if "error" in type:
+                return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
+            if "warning" in type:
+                return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
+            return HttpResponseRedirect(reverse('survey:home'))
 
     context = {'form_step2': form, 'female_fields': show_female_fields,'three_years_age':three_years_age_flag, 'ten_years_age':ten_years_age_flag, 'greater_age':greater_age_flag}
     return render(request, 'family-member-form-step2.html', context)
@@ -337,10 +365,10 @@ def login(request, token):
             request.session['user_id'] = user_info.id_number
             request.session['sample_id'] = user_info.sample_id
             request.session['family_id'] = user_info.sample_id
-            UserLog.objects.create(user_id=user_info.id_number, input_id = member_id, success=True)
+            # UserLog.objects.create(user_id=user_info.id_number, input_id = member_id, success=True)
             return HttpResponseRedirect(reverse('survey:home'))
         else:
-            UserLog.objects.create(user_id=user_info.id_number, input_id=member_id, success=False)
+            # UserLog.objects.create(user_id=user_info.id_number, input_id=member_id, success=False)
             messages.error(request, _('invalid id or password'))
     context = {}
     return render(request, 'login.html', context)
@@ -378,7 +406,7 @@ def add_house(request):
                 if "error" in type:
                     return HttpResponseRedirect(reverse('survey:add-house'))
                 if "warning" in type:
-                    return HttpResponseRedirect(reverse('survey:add-house') )
+                    return HttpResponseRedirect(reverse('survey:add-house'))
                 # return HttpResponseRedirect(reverse('survey:add-house'))
 
                 return HttpResponseRedirect(reverse('survey:add-house'))
@@ -486,15 +514,27 @@ def delete_member(request):
     return JsonResponse(data)
 
 
-def delete_death_member(request):
-    member_id = request.GET.get('member_id', None)
-    print(member_id)
-    member = FcpFamilyDeathTab.objects.get(f_m_id= member_id)
-    member.member_delete_status = 1
-    member.save()
-    messages.success(request, "Member is deleted")
-    data = {
-        'is_deleted': "Member is deleted "
-    }
+def change_number(request):
+    string = None
+    data = {}
+    sample_id = request.GET.get('sample_id', None)
+    new_value = request.GET.get('new_value', None)
+    sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
+    members_number = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1)).count()
+    if int(members_number) > int(new_value):
+        string = _('value less than members already exists')
+        data = {
+            'messages': string,
+            'type': 0
+        }
+    else:
+        sample_obj.no_of_member = new_value
+        sample_obj.save()
+        string = _('change done')
+        data = {
+            'messages': string,
+            'type': 1
+        }
+
     return JsonResponse(data)
 
