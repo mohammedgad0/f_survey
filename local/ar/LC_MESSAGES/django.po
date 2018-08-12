@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-08 12:01+0300\n"
+"POT-Creation-Date: 2018-08-12 14:49+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,8 +27,8 @@ msgstr ""
 msgid "Arabic"
 msgstr ""
 
-#: survey/forms.py:18 survey/forms.py:216 survey/forms.py:287
-#: survey/forms.py:321
+#: survey/forms.py:18 survey/forms.py:189 survey/forms.py:260
+#: survey/forms.py:294
 msgid "Choice"
 msgstr "اختر..."
 
@@ -40,329 +40,342 @@ msgstr "داخل السعودية"
 msgid "Outside KSA"
 msgstr "خارج السعودية"
 
-#: survey/forms.py:217
+#: survey/forms.py:190
 msgid "Connect"
 msgstr "متصل"
 
-#: survey/forms.py:218
+#: survey/forms.py:191
 msgid "Disconnect"
 msgstr "غير متصل"
 
-#: survey/forms.py:224 survey/forms.py:270
+#: survey/forms.py:197 survey/forms.py:243
 msgid "Internet connection"
 msgstr "الاتصال بشبكة الإنترنت"
 
-#: survey/forms.py:225 survey/forms.py:262
+#: survey/forms.py:198 survey/forms.py:235
 msgid "Housing type"
 msgstr "نوع المسكن"
 
-#: survey/forms.py:226
+#: survey/forms.py:199
 msgid "Building material"
 msgstr "مادة البناء"
 
-#: survey/forms.py:227
+#: survey/forms.py:200
 msgid "Housing stay type"
 msgstr "نوع الإقامة بالمسكن"
 
-#: survey/forms.py:228
+#: survey/forms.py:201
 msgid "Holding type"
 msgstr "نوع الحيازة"
 
-#: survey/forms.py:229
+#: survey/forms.py:202
 msgid "Electric source"
 msgstr "المصدر الرئيسي للكهرباء"
 
-#: survey/forms.py:230
+#: survey/forms.py:203
 msgid "Water source"
 msgstr "المصدر الرئيسي للمياه"
 
-#: survey/forms.py:231
+#: survey/forms.py:204
 msgid "Sewage source"
 msgstr "المصدر الرئيسي للصرف الصحي"
 
-#: survey/forms.py:232
+#: survey/forms.py:205
 msgid "Income avg"
 msgstr "متوسط الدخل الشهري لكافة أفراد الأسرة"
 
-#: survey/forms.py:233
+#: survey/forms.py:206
 msgid "Housing act economic"
 msgstr "هل تمارس الأسرة او أحد أفرادها نشاط اقتصادي منزلي؟"
 
-#: survey/forms.py:263
+#: survey/forms.py:236
 msgid "building material text"
 msgstr "مادة البناء(أخرى)"
 
-#: survey/forms.py:264
+#: survey/forms.py:237
 msgid "Housing Type text"
 msgstr "نوع المسكن(أخرى)"
 
-#: survey/forms.py:265
+#: survey/forms.py:238
 msgid "holding type txt"
 msgstr "نوع الحيازة(أخرى)"
 
-#: survey/forms.py:266
+#: survey/forms.py:239
 #, fuzzy
 #| msgid "Electric source"
 msgid "electric sources txt"
 msgstr "المصدر الرئيسي للكهرباء"
 
-#: survey/forms.py:267
+#: survey/forms.py:240
 msgid "water sources txt"
 msgstr "المصدر الرئيسي للمياه(أخرى)"
 
-#: survey/forms.py:268
+#: survey/forms.py:241
 msgid "sewage txt"
 msgstr "المصدر الرئيسي للصرف الصحي(أخرى)"
 
-#: survey/forms.py:269
+#: survey/forms.py:242
 msgid "Housing space"
 msgstr "مساحة المسكن"
 
-#: survey/forms.py:271
+#: survey/forms.py:244
 msgid "Mobile Count"
 msgstr "عدد خطوط الهاتف النقال"
 
-#: survey/forms.py:272
+#: survey/forms.py:245
 msgid "Telephone Count"
 msgstr "عدد خطوط الهاتف الثابت"
 
-#: survey/forms.py:273
+#: survey/forms.py:246
 msgid "Internet users count"
 msgstr "عدد مستخدمي الإنترنت"
 
-#: survey/forms.py:274
+#: survey/forms.py:247
 msgid "Car count"
 msgstr "عدد السيارات"
 
-#: survey/forms.py:275
+#: survey/forms.py:248
 msgid "Tv count"
 msgstr "عدد أجهزة التلفزيون"
 
-#: survey/forms.py:276
+#: survey/forms.py:249
 msgid "Bed count"
 msgstr "عدد غرف النوم"
 
-#: survey/forms.py:277
+#: survey/forms.py:250
 msgid "other count"
 msgstr "عدد الغرف الأخرى"
 
-#: survey/forms.py:278
+#: survey/forms.py:251
 msgid "kitchen count"
 msgstr "عدد المطابخ"
 
-#: survey/forms.py:279
+#: survey/forms.py:252
 msgid "bath count"
 msgstr "عدد الحمامات"
 
-#: survey/forms.py:312 survey/templates/family-members-list.html:21
-#: survey/templates/home.html:152 survey/templates/home.html:217
-#: survey/templates/home.html:274
+#: survey/forms.py:285 survey/templates/family-members-list.html:21
+#: survey/templates/home.html:160 survey/templates/home.html:230
+#: survey/templates/home.html:294 survey/templates/submit_form.html:30
 msgid "Name"
 msgstr "الأسم"
 
-#: survey/forms.py:313
+#: survey/forms.py:286
 msgid "death age"
 msgstr "العمر عند الوفاة"
 
-#: survey/forms.py:314
+#: survey/forms.py:287
 msgid "reason death text"
 msgstr "أسباب الوفاة(أخرى)"
 
-#: survey/templates/add_house.html:34
+#: survey/templates/add_house.html:65 survey/templates/death_form.html:51
+#: survey/templates/family-member-form-step1.html:62
+#: survey/templates/family-member-form-step2.html:54
+msgid "Save And Continue"
+msgstr ""
+
+#: survey/templates/add_house.html:66 survey/templates/death_form.html:52
+#: survey/templates/family-member-form-step1.html:63
+#: survey/templates/family-member-form-step2.html:55
+#: survey/templates/submit_form.html:54 survey/templates/submit_form.html:95
+msgid "Back"
+msgstr "رجوع"
+
+#: survey/templates/add_house.html:77
 msgid "House Information"
 msgstr "بيانات المسكن"
 
-#: survey/templates/add_house.html:94
+#: survey/templates/add_house.html:137
 msgid "House detail"
 msgstr "مكونات السكن"
 
-#: survey/templates/add_house.html:200
+#: survey/templates/add_house.html:243
 msgid "Communications"
 msgstr "وسائل الاتصالات والنقل والترفيه للأسرة"
 
-#: survey/templates/add_house.html:265 survey/templates/death_form.html:99
-#: survey/templates/family-member-form-step1.html:399
-#: survey/templates/family-member-form-step2.html:206
+#: survey/templates/add_house.html:308 survey/templates/death_form.html:127
+#: survey/templates/family-member-form-step1.html:420
+#: survey/templates/family-member-form-step2.html:234
 msgid "Save"
 msgstr "حفظ"
 
-#: survey/templates/death_form.html:35
+#: survey/templates/death_form.html:63
 msgid "Death information"
 msgstr "الوفيات داخل الأسرة"
 
-#: survey/templates/family-member-form-step1.html:13
+#: survey/templates/family-member-form-step1.html:21
 #: survey/templates/family-member-form-step2.html:13
 msgid "View all members"
 msgstr "عرض جميع أفراد الأسرة"
 
-#: survey/templates/family-member-form-step1.html:49
-#: survey/templates/family-member-form-step1.html:54
+#: survey/templates/family-member-form-step1.html:41
+#: survey/templates/family-member-form-step1.html:74
 #: survey/templates/family-member-form-step2.html:33
-#: survey/templates/family-member-form-step2.html:38
+#: survey/templates/family-member-form-step2.html:66
 msgid "Add Family Member"
 msgstr "إضافة بيانات للفرد"
 
-#: survey/templates/family-member-form-step1.html:61
+#: survey/templates/family-member-form-step1.html:81
 msgid "First Name"
 msgstr "الاسم الاول"
 
-#: survey/templates/family-member-form-step1.html:69
+#: survey/templates/family-member-form-step1.html:89
 msgid "Second Name"
 msgstr "الاسم الثاني"
 
-#: survey/templates/family-member-form-step1.html:77
+#: survey/templates/family-member-form-step1.html:97
 msgid "Third Name"
 msgstr "الاسم الثالث"
 
-#: survey/templates/family-member-form-step1.html:87
+#: survey/templates/family-member-form-step1.html:107
 msgid "No. (National Identity / Residence / Visitor Limit) per person"
 msgstr "رقم (الهوية الوطنية / الإقامة / الحدود للزائرين) للفرد"
 
-#: survey/templates/family-member-form-step1.html:95
+#: survey/templates/family-member-form-step1.html:115
 msgid "Relation"
 msgstr "العلاقة برئيس الأسرة"
 
-#: survey/templates/family-member-form-step1.html:103
+#: survey/templates/family-member-form-step1.html:123
 msgid "Gender"
 msgstr "الجنس"
 
-#: survey/templates/family-member-form-step1.html:113
+#: survey/templates/family-member-form-step1.html:134
 msgid "Age"
 msgstr "العمر وتاريخ الميلاد"
 
-#: survey/templates/family-member-form-step1.html:121
+#: survey/templates/family-member-form-step1.html:142
 msgid "Birth Year"
 msgstr "سنة الميلاد"
 
-#: survey/templates/family-member-form-step1.html:129
+#: survey/templates/family-member-form-step1.html:150
 msgid "Nationality"
 msgstr "الجنسية بالتفصيل"
 
-#: survey/templates/family-member-form-step1.html:136
+#: survey/templates/family-member-form-step1.html:157
 msgid "Difficulty type"
 msgstr "نوع الصعوبة فى وظائف الجسم"
 
-#: survey/templates/family-member-form-step1.html:142
+#: survey/templates/family-member-form-step1.html:163
 msgid "Eyesight difficulty"
 msgstr "النظر"
 
-#: survey/templates/family-member-form-step1.html:168
+#: survey/templates/family-member-form-step1.html:189
 msgid "Hearing power difficulty"
 msgstr "السمع"
 
-#: survey/templates/family-member-form-step1.html:196
+#: survey/templates/family-member-form-step1.html:217
 msgid "Movement difficulty"
 msgstr "الحركة"
 
-#: survey/templates/family-member-form-step1.html:222
+#: survey/templates/family-member-form-step1.html:243
 msgid "Memory difficulty"
 msgstr "التزكر"
 
-#: survey/templates/family-member-form-step1.html:248
+#: survey/templates/family-member-form-step1.html:269
 msgid "Personal care"
 msgstr "العنايةالشخصية"
 
-#: survey/templates/family-member-form-step1.html:275
+#: survey/templates/family-member-form-step1.html:296
 msgid "Communincation"
 msgstr "التخاطب والتواصل"
 
-#: survey/templates/family-member-form-step1.html:301
+#: survey/templates/family-member-form-step1.html:322
 msgid "Other"
 msgstr "اخرى (توضح)"
 
-#: survey/templates/family-member-form-step1.html:311
+#: survey/templates/family-member-form-step1.html:332
 msgid "Type of difficulty"
 msgstr "نوع الصعوبة"
 
-#: survey/templates/family-member-form-step1.html:337
+#: survey/templates/family-member-form-step1.html:358
 msgid "Not Found"
 msgstr "لايوجد"
 
-#: survey/templates/family-member-form-step1.html:347
-#: survey/templates/family-member-form-step1.html:360
+#: survey/templates/family-member-form-step1.html:368
+#: survey/templates/family-member-form-step1.html:381
 msgid "Place of Birth"
 msgstr "مكان الميلاد "
 
-#: survey/templates/family-member-form-step1.html:368
+#: survey/templates/family-member-form-step1.html:389
 msgid "Details of current stay"
 msgstr "تفاصيل الإقامة "
 
-#: survey/templates/family-member-form-step1.html:380
+#: survey/templates/family-member-form-step1.html:401
 msgid "Previous place of stay"
 msgstr "مكان الإقامة السابق"
 
-#: survey/templates/family-member-form-step1.html:390
+#: survey/templates/family-member-form-step1.html:411
 msgid "Current place of stay"
 msgstr "مكان الإقامة المعتاد"
 
-#: survey/templates/family-member-form-step2.html:45
+#: survey/templates/family-member-form-step2.html:73
 #, fuzzy
 #| msgid "Add Family Member"
 msgid "Family Member ID"
 msgstr "إضافة بيانات للفرد"
 
-#: survey/templates/family-member-form-step2.html:54
+#: survey/templates/family-member-form-step2.html:82
 msgid "Study Status"
 msgstr "الحالة الدراسية"
 
-#: survey/templates/family-member-form-step2.html:66
+#: survey/templates/family-member-form-step2.html:94
 msgid "Education Status"
 msgstr "الحالة التعليم (اسم أعلى شهادة)"
 
-#: survey/templates/family-member-form-step2.html:74
-#: survey/templates/family-member-form-step2.html:90
+#: survey/templates/family-member-form-step2.html:102
+#: survey/templates/family-member-form-step2.html:118
 msgid "Study Field"
 msgstr "مجال الدراسة (التخصص)"
 
-#: survey/templates/family-member-form-step2.html:102
+#: survey/templates/family-member-form-step2.html:130
 msgid "Marital Status"
 msgstr "الحالة الزوجية (الاجتماعية)"
 
-#: survey/templates/family-member-form-step2.html:111
+#: survey/templates/family-member-form-step2.html:139
 msgid "Males Count"
 msgstr "ذكور"
 
-#: survey/templates/family-member-form-step2.html:120
+#: survey/templates/family-member-form-step2.html:148
 msgid "Females Count"
 msgstr "إناث"
 
-#: survey/templates/family-member-form-step2.html:129
+#: survey/templates/family-member-form-step2.html:157
 msgid "Labour Status"
 msgstr "الحالة العملية للفرد"
 
-#: survey/templates/family-member-form-step2.html:137
+#: survey/templates/family-member-form-step2.html:165
 msgid "Labour Status (Other)"
 msgstr " الحالة العملية للفرد - أخرى (توضح)"
 
-#: survey/templates/family-member-form-step2.html:143
+#: survey/templates/family-member-form-step2.html:171
 msgid "Main Job"
 msgstr "المهنة الرئيسية بالتفصيل"
 
-#: survey/templates/family-member-form-step2.html:163
+#: survey/templates/family-member-form-step2.html:191
 msgid "Economic Activity"
 msgstr "النشاط الاقتصادي الرئيسي للجهة التي يعمل بها الفرد"
 
-#: survey/templates/family-member-form-step2.html:187
+#: survey/templates/family-member-form-step2.html:215
 msgid "Work Sector Type"
 msgstr "قطاع الجهة"
 
-#: survey/templates/family-member-form-step2.html:196
+#: survey/templates/family-member-form-step2.html:224
 #, fuzzy
 #| msgid "Work Sector Type"
 msgid "Work Sector Type (Other)"
 msgstr "قطاع الجهة"
 
-#: survey/templates/family-members-list.html:15 survey/templates/home.html:211
+#: survey/templates/family-members-list.html:15 survey/templates/home.html:222
 msgid "Add family member"
 msgstr "إضافة فرد جديد"
 
-#: survey/templates/family-members-list.html:20 survey/templates/home.html:216
-#: survey/templates/home.html:273
+#: survey/templates/family-members-list.html:20 survey/templates/home.html:229
+#: survey/templates/home.html:293
 msgid "Member Number"
 msgstr "رقم الفرد"
 
-#: survey/templates/family-members-list.html:22 survey/templates/home.html:218
-#: survey/templates/home.html:275
+#: survey/templates/family-members-list.html:22 survey/templates/home.html:231
+#: survey/templates/home.html:295
 msgid "Status"
 msgstr "الحالة"
 
@@ -370,19 +383,19 @@ msgstr "الحالة"
 msgid "Date"
 msgstr "التاريخ"
 
-#: survey/templates/family-members-list.html:24 survey/templates/home.html:219
-#: survey/templates/home.html:276
+#: survey/templates/family-members-list.html:24 survey/templates/home.html:232
+#: survey/templates/home.html:296
 msgid "Actions"
 msgstr "إجراءات"
 
-#: survey/templates/family-members-list.html:36 survey/templates/home.html:231
-#: survey/templates/home.html:290
+#: survey/templates/family-members-list.html:36 survey/templates/home.html:245
+#: survey/templates/home.html:310
 msgid "Incomplete Info"
 msgstr "معلومات غير كاملة"
 
-#: survey/templates/family-members-list.html:39 survey/templates/home.html:175
-#: survey/templates/home.html:187 survey/templates/home.html:234
-#: survey/templates/home.html:287
+#: survey/templates/family-members-list.html:39 survey/templates/home.html:183
+#: survey/templates/home.html:196 survey/templates/home.html:248
+#: survey/templates/home.html:307
 msgid "Complete"
 msgstr "اكتمال"
 
@@ -390,17 +403,20 @@ msgstr "اكتمال"
 msgid "View"
 msgstr "عرض"
 
-#: survey/templates/family-members-list.html:47 survey/templates/home.html:239
+#: survey/templates/family-members-list.html:47 survey/templates/home.html:254
+#: survey/templates/home.html:258
 msgid "Complete Info..."
 msgstr "استكمال البيانات"
 
-#: survey/templates/family-members-list.html:49 survey/templates/home.html:238
-#: survey/templates/home.html:294
+#: survey/templates/family-members-list.html:49 survey/templates/home.html:253
+#: survey/templates/home.html:257 survey/templates/home.html:315
+#: survey/templates/home.html:318
 msgid "Edit"
 msgstr "تحرير"
 
-#: survey/templates/family-members-list.html:52 survey/templates/home.html:240
-#: survey/templates/home.html:295
+#: survey/templates/family-members-list.html:52 survey/templates/home.html:255
+#: survey/templates/home.html:259 survey/templates/home.html:316
+#: survey/templates/home.html:319
 msgid "Delete"
 msgstr "حذف"
 
@@ -418,57 +434,89 @@ msgstr "التالى"
 msgid "No records available"
 msgstr "لا توجد بيانات"
 
-#: survey/templates/home.html:135
+#: survey/templates/home.html:138 survey/templates/home.html:140
 msgid "Add House information"
 msgstr "إضافة بيانات المسكن"
 
-#: survey/templates/home.html:143
+#: survey/templates/home.html:141
+msgid "Submit Form"
+msgstr "إعتماد البيانات"
+
+#: survey/templates/home.html:151
 msgid "General information"
 msgstr "المعلومات الرئيسية"
 
-#: survey/templates/home.html:160 survey/templates/login.html:87
+#: survey/templates/home.html:168 survey/templates/login.html:87
 msgid "Id number"
 msgstr "رقم الهوية"
 
-#: survey/templates/home.html:171
+#: survey/templates/home.html:179
 msgid "Member status"
 msgstr "حالة الأفراد"
 
-#: survey/templates/home.html:177 survey/templates/home.html:189
+#: survey/templates/home.html:185 survey/templates/home.html:198
 msgid "Incomplete"
 msgstr "معلومات غير كاملة"
 
-#: survey/templates/home.html:183
+#: survey/templates/home.html:192
 msgid "Submitted"
 msgstr "حالة الاستمارة"
 
-#: survey/templates/home.html:204
+#: survey/templates/home.html:214
 msgid "Member onformation"
 msgstr "بيانات الأفراد"
 
-#: survey/templates/home.html:261
+#: survey/templates/home.html:223
+msgid "Edit members numer"
+msgstr "تغير عدد أفراد الأسرة"
+
+#: survey/templates/home.html:280
 msgid "Death onformation"
 msgstr "الوفيات داخل الأسرة أخر 12 شهر"
 
-#: survey/templates/home.html:268
+#: survey/templates/home.html:288
 msgid "Add member"
 msgstr "إضافة فرد "
 
-#: survey/templates/home.html:322
+#: survey/templates/home.html:347 survey/templates/home.html:367
 msgid "Confirm Delete"
 msgstr "تأكيد حذف"
 
-#: survey/templates/home.html:325
+#: survey/templates/home.html:350
 msgid "Are you sure want to delete the product?"
 msgstr "هل أنت متأكد من حذف؟"
 
-#: survey/templates/home.html:361
+#: survey/templates/home.html:353
+msgid "Yes"
+msgstr "نعم"
+
+#: survey/templates/home.html:355
+msgid "No"
+msgstr "لا"
+
+#: survey/templates/home.html:375
+msgid "family members number"
+msgstr "عدد أفراد الأسرة"
+
+#: survey/templates/home.html:380
+msgid "edit"
+msgstr "تعديل"
+
+#: survey/templates/home.html:382
+msgid "Close"
+msgstr "اغلاق"
+
+#: survey/templates/home.html:412
 msgid "Confirm Delete #"
 msgstr "تأكيد حذف #"
 
-#: survey/templates/home.html:362
+#: survey/templates/home.html:413
 msgid "Are you sure want to delete"
 msgstr "هل أنت متأكد من حذف "
+
+#: survey/templates/home.html:447
+msgid "change family members number #"
+msgstr "تغير عدد أفراد الأسرة"
 
 #: survey/templates/login.html:92
 msgid "password"
@@ -477,6 +525,22 @@ msgstr "كلمه السر"
 #: survey/templates/login.html:95
 msgid "Login"
 msgstr "تسجيل الدخول"
+
+#: survey/templates/submit_form.html:22
+msgid "Data is correct"
+msgstr "إقرار بصحة البيانات"
+
+#: survey/templates/submit_form.html:37
+msgid "Mobile"
+msgstr "رقم الجوال"
+
+#: survey/templates/submit_form.html:44
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: survey/templates/submit_form.html:53
+msgid "Submit"
+msgstr "إعتماد"
 
 #: survey/validators.py:13
 msgid "First family member must be Family head"
@@ -488,23 +552,41 @@ msgid ""
 "member"
 msgstr "يوجد رئيس الأسرة ، يرجى تحديد العلاقة الصحيحة مع هذا الفرد"
 
-#: survey/views.py:306
-msgid "invalid id or password"
-msgstr "خطأ فى رقم الهوية او كلمة المرور"
-
-#: survey/views.py:321
-msgid "House Added successfully."
-msgstr "تمت إضافة بيانات المسكن بنجاح"
-
-#: survey/views.py:349 survey/views.py:365
+#: survey/views.py:147 survey/views.py:314 survey/views.py:418
+#: survey/views.py:474 survey/views.py:509 survey/views.py:522
 msgid "Saved !"
 msgstr "تم الحفظ"
 
-#: survey/views.py:414 survey/views.py:419
-#, fuzzy
-#| msgid "Member status"
+#: survey/views.py:384
+msgid "invalid id or password"
+msgstr "خطأ فى رقم الهوية او كلمة المرور"
+
+#: survey/views.py:395 survey/views.py:446 survey/views.py:487
+msgid "Your Form is Complete"
+msgstr "بيانات الأسرة مكتملة ومعتمدة"
+
+#: survey/views.py:432
+msgid "Cannot add house before complete members"
+msgstr "لا يمكن إضافة بيانات المسكن الا بعد اكتمال بيانات أفراد الأسرة"
+
+#: survey/views.py:550
+msgid "Error database"
+msgstr " خطأ من قاعدة البيانات"
+
+#: survey/views.py:579 survey/views.py:584
 msgid "Member is deleted"
-msgstr "حالة الأفراد"
+msgstr "تم الحذف"
+
+#: survey/views.py:599
+msgid "value less than members already exists"
+msgstr " العدد المدخل أقل من عدد الأفراد المسجلين من قبل"
+
+#: survey/views.py:607
+msgid "change done"
+msgstr "تم التغير بنجاح"
+
+#~ msgid "House Added successfully."
+#~ msgstr "تمت إضافة بيانات المسكن بنجاح"
 
 #, fuzzy
 #~| msgid "House detail"

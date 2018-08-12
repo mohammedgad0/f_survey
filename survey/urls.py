@@ -34,5 +34,7 @@ urlpatterns = [
     path('delete-member/', delete_member, name='delete-member'),
     # popup change family mebmers number
     path('change-family-members-number/', change_number, name='change-number'),
+    # Submit Form, Last step
+    path('submit-form/', submit_form, name='submit-form'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

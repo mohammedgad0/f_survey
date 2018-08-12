@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}بيانات الوفيات{% endblock %}
+{% block stylesheets %}
+{{ block.super }}
+    <style>
+    .container-form{ padding: 1rem 2rem 0 !important;}
+   footer {position:  fixed !important;}
+    .form-group .bar {
+    position: relative;
+    border-bottom: 1px solid #999 !important;
+    display: block;}
+    </style>
+{% endblock %}
+
+{% block content %}
+        <div class="container-form">
+
+        {% if form_complete %}
+<form id="js-form" action="" method="post" >
+              <fieldset class="scheduler-border">
+                 <legend class="scheduler-border"><i class="fa fa-edit"></i> {{ _('Data is correct')}}</legend>
+                        <h5>إقرار بأن جميع البيانات صحيحة</h5>
+                    <hr>
+                        {% csrf_token %}
+                  <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" style="">
+                    <input type="text" name="s_name" maxlength="250" id="s_name" required>
+                    <label for="input" class="control-label"><label for="s_name">{{ _('Name') }}</label></label>
+                    <i class="bar"></i>
+                    </div>
+                    </div>
+                      <div class="col-md-4">
+                    <div class="form-group" style="">
+                    <input type="text" name="s_mobile" maxlength="250" id="s_mobile" required>
+                    <label for="input" class="control-label"><label for="s_mobile">{{ _('Mobile') }}</label></label>
+                    <i class="bar"></i>
+                    </div>
+                    </div>
+                      <div class="col-md-4">
+                    <div class="form-group" style="">
+                    <input type="email" name="s_email" maxlength="250" id="s-s_email">
+                    <label for="input" class="control-label"><label for="s-s_email">{{ _('Email') }}</label></label>
+                    <i class="bar"></i>
+                    </div>
+                    </div>
+                </div>
+
+              </fieldset>
+
+                    <div class="button-container-form">
+                        <button id="btn-submit" type="submit" class="button"><span>{{ _('Submit') }} <i class="fa fa-check-circle"></i></span></button>
+                           <a href="{%  url 'survey:home' %}" class="button" style="color: #fff; background-color: #00b3ee" >{{ _('Back') }} <i class="fa fa-arrow-circle-left"></i></a>
+                    </div>
+                    </form>
+            {% else %}
+<h3> لايمكن اعتماد الاستمارة الا باكتمال الملاحظات ادناه</h3>
+            <hr>
+{% if not member_status  %}
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-alert"></span>
+برجاء إكمال بيانات الأفراد اولاً
+</div>
+{% endif %}
+{% if not death_status %}
+<div class="alert alert-warning">
+<span class="glyphicon glyphicon-alert"></span>
+برجاء إكمال بيانات الوفيات آخر 12 شهر
+</div>
+{% endif %}
+
+                 {% if messages %}
+<div class="messages">
+<ul class="messages">
+{% for message in messages %}
+<div  {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %}>
+{% if message.tags == 'error' %}
+<span class="glyphicon glyphicon-remove-sign"></span>
+{% elif message.tags == 'warning' %}
+<span class="glyphicon glyphicon-alert"></span>
+ {% else %}
+  <span class="glyphicon glyphicon-ok"></span>
+{% endif %}
+{{ message }}
+</div>
+
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+       <div class="clearfix"></div>
+
+                    <div class="button-container-form">
+                           <a href="{%  url 'survey:home' %}" class="button" style="display:inline-block; color: #fff; background-color: #00b3ee" >{{ _('Back') }} <i class="fa fa-arrow-circle-left"></i></a>
+                    </div>
+{% endif %}
+
+
+ </div>
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+    <script>
+    </script>
+{% endblock %}

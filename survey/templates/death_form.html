@@ -30,7 +30,35 @@
           {% endfor %}
       {% endif %}
 
-<form action="" method="post" >
+<form id="js-form" action="" method="post" >
+     {% if messages %}
+<div class="messages">
+<ul class="messages">
+{% for message in messages %}
+<div  {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %}>
+{% if message.tags == 'error' %}
+<span class="glyphicon glyphicon-remove-sign"></span>
+{% elif message.tags == 'warning' %}
+<span class="glyphicon glyphicon-alert"></span>
+ {% else %}
+  <span class="glyphicon glyphicon-ok"></span>
+{% endif %}
+{{ message }}
+</div>
+ {% if message.tags == 'warning' and forloop.last %}
+     <input class="js-warning" type="text" hidden value="warning">
+<div class="button-container-form">
+<button id="btn-warning" type="submit" name="post" value="post-after-warning" class="button"><span>{{ _('Save And Continue') }}</span></button>
+ <a href="{% url "survey:death-form-edit"  member_obj.f_m_id %}"> <button type="button" class="button" style="background-color: #17a2b8;"><span>{{ _('Back') }}</span></button></a>
+</div>
+
+
+
+ {% endif  %}
+{% endfor %}
+</ul>
+</div>
+{% endif %}
               <fieldset class="scheduler-border">
                  <legend class="scheduler-border"><i class="fa fa-user"></i> {{ _('Death information')}}</legend>
                         <h5> الوفيات فى الأسرة خلال الإثني عشر شهراً الماضية</h5>
@@ -96,7 +124,7 @@
                         </div>
               </fieldset>
                     <div class="button-container-form">
-                        <button type="submit" class="button"><span>{{ _('Save') }}</span></button>
+                        <button id="btn-submit" type="submit" class="button"><span>{{ _('Save') }}</span></button>
                     </div>
 
                     </form>
@@ -110,7 +138,24 @@
 {% block javascripts %}
   {{ block.super }}
     <script>
-
+$(document).ready(function() {
+    var warning = $('.js-warning').val();
+    if (warning != null) {
+        console.log('warning javascript')
+        $("#btn-submit").hide();
+        $("#js-form select").each(function () {
+            $(this).prop('disabled', true);
+        });
+        $("#js-form input").each(function () {
+            $(this).prop('readonly', true);
+        });
+    }
+    $("#btn-warning").click(function () {
+        $("#js-form input, #js-form select").each(function () {
+            $(this).prop('disabled', false);
+        });
+    })
+});
   $('select').on('change', function() {
       var select_id = $(this).attr('id');
       console.log(select_id)
