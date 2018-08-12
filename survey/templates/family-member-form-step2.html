@@ -132,7 +132,7 @@
                         </div>
                       </div>
                       <!--  col-md-12   -->
-                      <div class="col-md-6" id="males-count">
+                      <div class="col-md-3" id="males-count">
                         <div class="form-group">
 
                           {{ form_step2.males_count }}
@@ -141,7 +141,7 @@
                           </div>
                       </div>
                       <!--  col-md-12   -->
-                      <div class="col-md-6" id="females-count">
+                      <div class="col-md-3" id="females-count">
                         <div class="form-group">
 
                           {{ form_step2.females_count }}
@@ -254,10 +254,13 @@
       if( study_field_id >= 10500005 && study_field_id <= 10500012 )
       {
         $('#study-field-fieldset').show();
+        $("#study-field-child select").attr('required', true);
       //  $('#study-field-parent select').trigger('change');
       }
       else{
         $('#study-field-fieldset').hide();
+        $("#study-field-child select").attr('required', false);
+        $("#study-field-child select").val();
         //$('#study-field-child').hide();
       }
   });
@@ -273,6 +276,7 @@
         success: function (data) {   // `data` is the return of the `load_cities` view function
           //$('#study-field-child').show();
           $("#study-field-child select").html(data);  // replace the contents of the city input with the data that came from the server
+          $("#study-field-child select").attr('required', true);
         }
       });
 
@@ -334,6 +338,7 @@
         success: function (data) {   // `data` is the return of the `load_cities` view function
           //$('#main-job-child').show();
           $("#main-job-child select").html(data);  // replace the contents of the city input with the data that came from the server
+          //$("#main-job-child select").attr('required', true);
         }
       });
 

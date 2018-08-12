@@ -147,6 +147,15 @@ def edit_family_member(request, fid):
                     messages.success(request, _('Saved !'))
                     return HttpResponseRedirect(reverse('survey:home'))
             obj = form.save(commit = False)
+
+            if old_record.gender != obj.gender:
+                obj.member_status = 1
+
+                if obj.gender == '1600001':
+
+                    obj.males_count = None
+                    obj.females_count = None
+
             if old_record.age != obj.age:
                 obj.member_status = 1
                 if obj.age >= 3 and obj.age < 10:
@@ -178,6 +187,8 @@ def edit_family_member(request, fid):
                     obj.work_sector_type = None
                     obj.work_sector_type_txt = None
                     obj.member_status = 1
+
+            #obj.gender = int(request.POST['gender'])
             obj.gender = int(request.POST['gender'])
             obj.nationality = int(request.POST['nationality'])
             obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=int(request.POST['nationality'])).list_name
@@ -223,57 +234,50 @@ def add_member_info(request, fm_id):
     sample_id = request.session.get('sample_id')
     instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
     form = FamilyMemberFormStep2(instance = instance)
-    #form.fields['member_status'].initial = 2
+
     if instance.study_field:
         edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
         edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=edu_parent).order_by('seq_no')
-    else:
-        edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=1100001).order_by('seq_no')
 
-    CHOICES = []
-    for x in edu_child_list:
-        CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+        CHOICES = []
+        for x in edu_child_list:
+            CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+        form.fields['study_field_parent'].initial = edu_parent
+        form.fields['study_field'].initial = instance.study_field
+        if CHOICES:
+            form.fields['study_field'].choices = CHOICES
+    else:
+        form.fields['study_field'].choices = ""
 
     if instance.main_job:
         mainjob_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
         mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=mainjob_parent).order_by('seq_no')
-    else:
-        mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=1100001).order_by('seq_no')
+        CHOICESMAINJOB = []
+        for x in mainjob_child_list:
+            CHOICESMAINJOB.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
 
-    CHOICESMAINJOB = []
-    for x in mainjob_child_list:
-        CHOICESMAINJOB.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+        form.fields['main_job_parent'].initial = mainjob_parent
+        form.fields['main_job'].initial = instance.main_job
+        if CHOICESMAINJOB:
+            form.fields['main_job'].choices = CHOICESMAINJOB
+    else:
+        form.fields['main_job'].choices = ""
 
     if instance.economic_activity:
         economic_activity_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
         economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=economic_activity_parent).order_by('seq_no')
-    else:
-        economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=2000099).order_by('seq_no')
+        CHOICESECOAct = []
+        for y in economic_activity_child:
+            CHOICESECOAct.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
 
+        form.fields['economic_activity_parent'].initial = economic_activity_parent
+        form.fields['economic_activity'].initial = instance.economic_activity
 
-    CHOICESECOAct = []
-    for y in economic_activity_child:
-        CHOICESECOAct.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
-
-    try:
-        if instance.f_m_id:
-            form.fields['family_member_id'].initial = instance.f_m_id
-
-        if instance.study_field:
-            form.fields['study_field_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
-            form.fields['study_field'].initial = instance.study_field
-            form.fields['study_field'].choices = CHOICES
-
-
-        if instance.main_job:
-            form.fields['main_job_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
-            form.fields['main_job'].choices = CHOICESMAINJOB
-
-        if instance.economic_activity:
-            form.fields['economic_activity_parent'].initial = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
+        if CHOICESECOAct:
             form.fields['economic_activity'].choices = CHOICESECOAct
-    except:
-        pass
+    else:
+        form.fields['economic_activity'].choices = ""
+
     show_female_fields = False
     if instance.gender == 1600002:
         show_female_fields = True

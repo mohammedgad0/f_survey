@@ -640,7 +640,6 @@ $('input[name=age]').keyup(age_check);
 
   function age_check(){
 
-
         $("input[name=age]").popover({
             trigger: 'manual',
             html:'true',
@@ -658,6 +657,26 @@ $('input[name=age]').keyup(age_check);
   });
 
   }
+
+  $('select[name=gender]').on('change', gender_check);
+
+    function gender_check(){
+
+          $("select[name=gender]").popover({
+              trigger: 'manual',
+              html:'true',
+              content: "<div class='alert alert-warning'>"
+                +"<i class='fa fas fa-exclamation-triangle'></i> تنبيه! التغير فى العمر قد يترتب عليه تغير بعض القيم المدخلة سابقاً"
+                +"</div>",
+              placement : 'top'
+          });
+          $("select[name=gender]").popover('show');
+          $('select[name=gender]').parent().addClass( "has-error has-warning has-feedback" );
+
+    }
+    $('select[name=gender]').on('focusout', function(){
+        $(this).popover('hide');
+    });
 </script>
 
 {% endblock %}
