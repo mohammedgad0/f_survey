@@ -26,6 +26,7 @@ def dropListOptions(rp_id,lookup_id,l_list_active):
 
     return OPTIONS
 
+
 def add_family_member(request):
     form = FamilyMemberFormStep1()
     context = {'form_step1':form}
@@ -88,6 +89,7 @@ def add_family_member(request):
 
         return HttpResponseRedirect(reverse('survey:home'))
     return render(request, 'family-member-form-step1.html', context)
+
 
 def edit_family_member(request, fid):
     sample_id = request.session.get('sample_id')
@@ -206,6 +208,7 @@ def edit_family_member(request, fid):
         return HttpResponseRedirect(reverse('survey:home'))
     return render(request, 'family-member-form-step1.html', context)
 
+
 def familyMembersList(request, fid):
     members_list = FcpFamilyMemberTab.objects.filter(sample_id=fid).order_by('member_no')
     paginator = Paginator(members_list, 25)
@@ -214,6 +217,7 @@ def familyMembersList(request, fid):
         members_list = paginator.get_page(pag)
     context = {'members_list': members_list}
     return render(request, 'family-members-list.html', context)
+
 
 def add_member_info(request, fm_id):
     sample_id = request.session.get('sample_id')
@@ -322,6 +326,7 @@ def add_member_info(request, fm_id):
     context = {'form_step2': form, 'female_fields': show_female_fields,'three_years_age':three_years_age_flag, 'ten_years_age':ten_years_age_flag, 'greater_age':greater_age_flag}
     return render(request, 'family-member-form-step2.html', context)
 
+
 def ajax_render_list_options(request):
     lookup_list_id = request.GET.get('lookup_list_id')
     lookup_id = request.GET.get('lookup_id')
@@ -335,23 +340,30 @@ def ajax_render_list_options(request):
 
 
 def home(request):
-    sample_id = request.session.get('sample_id')
-    sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
-    family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
-    members = FcpFamilyMemberTab.objects.filter(sample_id=sample_id).order_by('member_no')
-    members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1))
-    members_enter_count = members.count()
-    members_complete_count = FcpFamilyMemberTab.objects.filter(sample_id=sample_id, member_status= 2).count()
-    member_status = False
-    if members_complete_count == sample_obj.no_of_member:
-        member_status = True
-    else:
+    if request.session.get('Is_auth'):
+        sample_id = request.session.get('sample_id')
+        sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
+        family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
+        members = FcpFamilyMemberTab.objects.filter(sample_id=sample_id).order_by('member_no')
+        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1))
+        members_enter_count = members.count()
+        members_complete_count = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & Q(member_status=2) & ~Q(member_delete_status=1)).count()
         member_status = False
+        if members_complete_count == sample_obj.no_of_member:
+            member_status = True
+        else:
+            member_status = False
 
-    death_list = FcpFamilyDeathTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1))
-    context = {'members_count':sample_obj.no_of_member, 'members_enter_count':members_enter_count, 'member_status': member_status,
-               'family_status': sample_obj.family_status, 'sample_obj': sample_obj, 'family_obj': family_obj, 'members': members, 'death_list': death_list}
+        death_list = FcpFamilyDeathTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1))
+        family_status = True
+        if sample_obj.family_status != 2:
+            family_status = False
+        context = {'members_count':sample_obj.no_of_member, 'members_enter_count':members_enter_count, 'member_status': member_status,
+                   'family_status': family_status, 'sample_obj': sample_obj, 'family_obj': family_obj, 'members': members, 'death_list': death_list}
+    else:
+        raise Http404
     return render(request, 'home.html', context)
+
 
 def login(request, token):
     user_info = AuthUserTab.objects.filter(token_key= token)
@@ -378,38 +390,48 @@ def add_house(request):
     if request.session.get('Is_auth'):
         sample_id = request.session.get('sample_id')
         instance = FcpFamilyTab.objects.get(sample=sample_id)
-        form = AddHouse(instance=instance)
-        if request.method == 'POST':
-            form = AddHouse(request.POST, instance=instance)
-            if form.is_valid():
-                print("form valid")
-                # check if he ignore warninig
-                if request.POST.get('post') == "post-after-warning":
-                    print('after warning post')
+        sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
+        if sample_obj.family_status == 2:
+            messages.info(request, _('Your Form is Complete'))
+            return HttpResponseRedirect(reverse('survey:home'))
+        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id)& Q(member_status= 2) & ~Q(member_delete_status=1)).count()
+        # All members status is complete
+        if members == sample_obj.no_of_member:
+            form = AddHouse(instance=instance)
+            if request.method == 'POST':
+                form = AddHouse(request.POST, instance=instance)
+                if form.is_valid():
+                    print("form valid")
+                    # check if he ignore warninig
+                    if request.POST.get('post') == "post-after-warning":
+                        print('after warning post')
+                        obj = form.save(commit=False)
+                        obj.save()
+                        message, type = check_errors(request, 3, sample_id, None)
+                        if "error" in type:
+                            return HttpResponseRedirect(reverse('survey:add-house'))
+                        else:
+                            storage = get_messages(request)
+                            for item in storage:
+                                if item.tags == "warning":
+                                    del item
+                            messages.success(request, _('Saved !'))
+                            return HttpResponseRedirect(reverse('survey:home'))
                     obj = form.save(commit=False)
+                    obj.insert_by = request.session.get('user_id')
                     obj.save()
                     message, type = check_errors(request, 3, sample_id, None)
                     if "error" in type:
                         return HttpResponseRedirect(reverse('survey:add-house'))
-                    else:
-                        storage = get_messages(request)
-                        for item in storage:
-                            if item.tags == "warning":
-                                del item
-                        messages.success(request, _('Saved !'))
-                        return HttpResponseRedirect(reverse('survey:home'))
+                    if "warning" in type:
+                        return HttpResponseRedirect(reverse('survey:add-house'))
+                    # return HttpResponseRedirect(reverse('survey:add-house'))
 
-                obj = form.save(commit=False)
-                obj.insert_by = request.session.get('user_id')
-                obj.save()
-                message, type = check_errors(request, 3, sample_id, None)
-                if "error" in type:
                     return HttpResponseRedirect(reverse('survey:add-house'))
-                if "warning" in type:
-                    return HttpResponseRedirect(reverse('survey:add-house'))
-                # return HttpResponseRedirect(reverse('survey:add-house'))
+        else:
+            messages.warning(request, _('Cannot add house before complete members'))
+            return HttpResponseRedirect(reverse('survey:home'))
 
-                return HttpResponseRedirect(reverse('survey:add-house'))
     else:
         raise Http404
     context = {'form': form,}
@@ -417,45 +439,92 @@ def add_house(request):
 
 
 def death_form(request):
-    sample_id = request.session.get('sample_id')
-    member_no = FcpFamilyDeathTab.objects.filter(sample_id=sample_id)
-    if not member_no:
-        member_no = 1
-    else:
-        # count and incrementing by 1 as family member number
-        member_num = member_no.count() + 1
-        print(member_num)
-        member_no = member_num
-    form = DeathForm()
-    if request.method == 'POST':
-        form = DeathForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.f_m_id = int(sample_id) * 1000 + int(member_no)
-            obj.sample_id = sample_id
-            obj.member_no = member_no
-            obj.member_status = 1
-            print(obj.f_m_id)
-            form.save()
-            messages.success(request, _('Saved !'))
+    if request.session.get('Is_auth'):
+        sample_id = request.session.get('sample_id')
+        sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
+        if sample_obj.family_status == 2:
+            messages.info(request, _('Your Form is Complete'))
             return HttpResponseRedirect(reverse('survey:home'))
-    context = {'form': form}
+        member_no = FcpFamilyDeathTab.objects.filter(sample_id=sample_id)
+        if not member_no:
+            member_no = 1
+        else:
+            # count and incrementing by 1 as family member number
+            member_num = member_no.count() + 1
+            print(member_num)
+            member_no = member_num
+        form = DeathForm()
+        if request.method == 'POST':
+            form = DeathForm(request.POST)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.f_m_id = int(sample_id) * 1000 + int(member_no)
+                obj.sample_id = sample_id
+                obj.member_no = member_no
+                obj.member_status = 1
+                print(obj.f_m_id)
+                obj.save()
+                message, type = check_errors(request, 4, sample_id, str(obj.f_m_id))
+                if "error" in type:
+                    return HttpResponseRedirect(reverse('survey:death-form-edit', kwargs={'member_id': obj.f_m_id}))
+                if "warning" in type:
+                    return HttpResponseRedirect(reverse('survey:death-form-edit', kwargs={'member_id': obj.f_m_id}))
+                obj.member_status = 2
+                obj.save()
+                messages.success(request, _('Saved !'))
+                return HttpResponseRedirect(reverse('survey:home'))
+        context = {'form': form}
+    else:
+        raise Http404
     return render(request, 'death_form.html', context)
 
 
 def death_form_edit(request, member_id):
-    instance = FcpFamilyDeathTab.objects.get(f_m_id = member_id)
-    form = DeathForm(instance=instance)
-    if request.method == 'POST':
-        form = DeathForm(request.POST, instance=instance)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.member_status = 1
-            print(obj.f_m_id)
-            form.save()
-            messages.success(request, _('Saved !'))
+    if request.session.get('Is_auth'):
+        sample_id = request.session.get('sample_id')
+        sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
+        if sample_obj.family_status == 2:
+            messages.info(request, _('Your Form is Complete'))
             return HttpResponseRedirect(reverse('survey:home'))
-    context = {'form': form}
+        instance = FcpFamilyDeathTab.objects.get(f_m_id = member_id)
+        form = DeathForm(instance=instance)
+        if request.method == 'POST':
+            form = DeathForm(request.POST, instance=instance)
+            if form.is_valid():
+                # check if he ignore warninig
+                if request.POST.get('post') == "post-after-warning":
+                    print('after warning post')
+                    obj = form.save(commit=False)
+                    obj.save()
+                    message, type = check_errors(request, 3, sample_id, None)
+                    if "error" in type:
+                        return HttpResponseRedirect(reverse('survey:death-form-edit', kwargs={'member_id': obj.f_m_id}))
+                    else:
+                        storage = get_messages(request)
+                        for item in storage:
+                            if item.tags == "warning":
+                                del item
+                        obj.member_status = 2
+                        obj.save()
+                        messages.success(request, _('Saved !'))
+                        return HttpResponseRedirect(reverse('survey:home'))
+                obj = form.save(commit=False)
+                obj.member_status = 1
+                print(obj.f_m_id)
+                form.save()
+                message, type = check_errors(request, 4, sample_id, str(obj.f_m_id))
+                if "error" in type:
+                    return HttpResponseRedirect(reverse('survey:death-form-edit', kwargs={'member_id': obj.f_m_id}))
+                if "warning" in type:
+                    return HttpResponseRedirect(reverse('survey:death-form-edit', kwargs={'member_id': obj.f_m_id}))
+                obj.member_status = 2
+                obj.save()
+                messages.success(request, _('Saved !'))
+                return HttpResponseRedirect(reverse('survey:home'))
+        context = {'form': form, 'member_obj': instance}
+    else:
+        raise Http404
+
     return render(request, 'death_form.html', context)
 
 
@@ -473,8 +542,13 @@ def check_errors(request, part_id, sample_id, member_id):
         if where:
             query = "SELECT * FROM " + error.table_name + " WHERE " + where
             query_list.append(query)
-        cursor.execute(query)
-        row = cursor.fetchone()
+        row = []
+        try:
+            cursor.execute(query)
+            row = cursor.fetchone()
+        except Exception:
+            messages.error(request, _('Error database') + " " + error.error_code )
+            break
         if row:
             if error.error_type == 1:
                 error_type.append('error')
@@ -488,8 +562,8 @@ def check_errors(request, part_id, sample_id, member_id):
 
 def check_error(request):
     sample_id = request.session.get('sample_id')
-    member_id = "6"
-    message, error_type = check_errors(request, sample_id, member_id)
+    member_id = '59071008'
+    message, error_type = check_errors(request, 1 , sample_id, member_id)
     print(error_type)
     context = {}
     return render(request, 'check_error.html', context)
@@ -538,3 +612,52 @@ def change_number(request):
 
     return JsonResponse(data)
 
+
+def submit_form(request):
+    if request.session.get('Is_auth'):
+        sample_id = request.session.get('sample_id')
+        sample_obj = GenSampleTab.objects.get(sample_id= sample_id)
+        family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
+        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & Q(member_status=2) & ~Q(member_delete_status=1))
+        death = FcpFamilyDeathTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_status=2) & ~Q(member_delete_status=1))
+        members_enter_count = members.count()
+
+        member_status = False
+        if members_enter_count == sample_obj.no_of_member:
+            member_status = True
+
+        death_status = True
+        if death:
+            death_status = False
+
+        family_status = True
+        message, error_type = check_errors(request, 3, sample_id, None)
+        if error_type:
+            family_status = False
+
+        form_complete = False
+        if member_status and death_status and family_status:
+            form_complete = True
+        if request.method == 'POST':
+            name = request.POST.get('s_name', None)
+            email = request.POST.get('s_email', None)
+            mobile = request.POST.get('s_mobile', None)
+            if name is None:
+                messages.error(request, 'برجاء إدخال الأسم')
+                return HttpResponseRedirect(reverse('survey:submit-form'))
+            if name is None:
+                messages.error(request, 'برجاء إدخال رقم الجوال')
+                return HttpResponseRedirect(reverse('survey:submit-form'))
+            sample_obj.family_status = 2
+            sample_obj.data_giver_name = name
+            sample_obj.data_giver_phone = mobile
+            if email:
+                sample_obj.data_giver_email = email
+            sample_obj.save()
+            messages.success(request, 'تم الاعتماد')
+            return HttpResponseRedirect(reverse('survey:home'))
+            print(name, mobile, email)
+        context = {'member_status': member_status, 'death_status': death_status, 'family_status': family_status, 'form_complete': form_complete}
+    else:
+        raise Http404
+    return render(request, 'submit_form.html', context)
