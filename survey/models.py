@@ -187,6 +187,7 @@ class GenErrorTab(models.Model):
     error_code = models.CharField(max_length=500, blank=True, null=True)
     error_type = models.NullBooleanField()
     part_error = models.FloatField(blank=True, null=True)
+    part_web = models.FloatField(blank=True, null=True)
     table_name = models.CharField(max_length=3000, blank=True, null=True)
     tablet_condition = models.CharField(max_length=3000, blank=True, null=True)
     desktop_condition = models.CharField(max_length=3000, blank=True, null=True)

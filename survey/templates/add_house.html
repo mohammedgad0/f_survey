@@ -10,10 +10,23 @@
     position: relative;
     border-bottom: 1px solid #999 !important;
     display: block;}
+
+.form-group input:disabled ~ .control-label ,
+.form-group input:read-only ~ .control-label{
+font-size: 0.8rem !important;
+color: gray !important;
+top: -1rem !important;
+right: 0 !important;
+}
+.form-group input:disabled{color: #000 !important;}
+
     </style>
 {% endblock %}
 
 {% block content %}
+    {% if messages %}
+    {{ messages.0 }}
+{% endif %}
         <div class="container-form">
                 {% if form.errors %}
           {% for field in form %}
@@ -29,11 +42,41 @@
               </div>
           {% endfor %}
       {% endif %}
-<form action="" method="post" >
+
+<form id="js-form" action="" method="post" >
+
+ {% if messages %}
+<div class="messages">
+<ul class="messages">
+{% for message in messages %}
+<div  {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %}>
+{% if message.tags == 'error' %}
+<span class="glyphicon glyphicon-remove-sign"></span>
+{% elif message.tags == 'warning' %}
+<span class="glyphicon glyphicon-alert"></span>
+ {% else %}
+  <span class="glyphicon glyphicon-ok"></span>
+{% endif %}
+{{ message }}
+</div>
+ {% if message.tags == 'warning' and forloop.last %}
+     <input class="js-warning" type="text" hidden value="warning">
+<div class="button-container-form">
+<button id="btn-warning" type="submit" name="post" value="post-after-warning" class="button"><span>{{ _('Save And Continue') }}</span></button>
+ <a href="{% url "survey:add-house" %}"> <button type="button" class="button" style="background-color: #17a2b8;"><span>{{ _('Back') }}</span></button></a>
+</div>
+
+
+
+ {% endif  %}
+{% endfor %}
+</ul>
+</div>
+{% endif %}
               <fieldset class="scheduler-border">
                  <legend class="scheduler-border"><i class="fa fa-home"></i> {{ _('House Information')}}</legend>
+  {% csrf_token %}
 
-                        {% csrf_token %}
                         <div class="row r-1 ">
                         <!-- start column -->
                          <div class="col-md-4">
@@ -262,9 +305,8 @@
                         </div>
        </fieldset>
                     <div class="button-container-form">
-                        <button type="submit" class="button"><span>{{ _('Save') }}</span></button>
+                        <button id="btn-submit" type="submit" class="button"><span>{{ _('Save') }}</span></button>
                     </div>
-
                     </form>
 
                 <!--</fieldset>-->
@@ -276,6 +318,14 @@
 {% block javascripts %}
   {{ block.super }}
     <script>
+        $("#js-form input[type=text]").each(function() {
+            var value = $(this).val();
+            var id = $(this).attr('id');
+            if(value != "") {
+                $('#' + id).parent().show()
+            }
+        });
+
 
   $('select').on('change', function() {
       var select_id = $(this).attr('id');
@@ -304,7 +354,7 @@
                  console.log(code)
                  console.log(value_code)
                      if (code == value_code) {
-                         $('#'+ select_id + '_txt').attr('required', true)
+                        // $('#'+ select_id + '_txt').attr('required', true)
                           $('#'+ select_id + '_txt').parent().slideToggle('slow','linear');
                      }
                      else{
@@ -313,6 +363,54 @@
                                $('#'+ select_id + '_txt').val("")
                      }
   })
-
+$(document).ready(function() {
+var warning = $('.js-warning').val();
+if (warning != null){
+    console.log('warning javascript')
+    $("#btn-submit").hide();
+    $("#js-form select").each(function() {
+        $(this).prop('disabled', true);
+    });
+        $("#js-form input").each(function() {
+        $(this).prop('readonly', true);
+    });
+}
+$("#btn-warning").click(function() {
+        $("#js-form input, #js-form select").each(function() {
+        $(this).prop('disabled', false);
+    });
+})
+    $("#js-form select").each(function() {
+        var select_id = $(this).attr('id');
+        console.log(select_id)
+        switch (select_id) {
+            case 'id_housing_type':
+                var code = 10400006;
+                break;
+            case 'id_building_material':
+                var code = 900005;
+                break;
+            case 'id_holding_type':
+                var code = 1300004;
+                break;
+            case 'id_electric_sources':
+                var code = 10000004;
+                break;
+            case 'id_water_sources':
+                var code = 1400004;
+                break;
+            case 'id_sewage':
+                var code = 10200005;
+                break;
+        }
+        var value_code = $(this).val();
+        console.log(code)
+        console.log(value_code)
+        if (code == value_code) {
+            // $('#'+ select_id + '_txt').attr('required', true)
+            $('#' + select_id + '_txt').parent().show();
+        }
+    });
+});
     </script>
 {% endblock %}

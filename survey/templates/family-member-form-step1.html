@@ -4,6 +4,14 @@
 {% block stylesheets %}
   {{ block.super }}
   <style>
+.form-group input:disabled ~ .control-label ,
+.form-group input:read-only ~ .control-label{
+font-size: 0.8rem !important;
+color: gray !important;
+top: -1rem !important;
+right: 0 !important;
+}
+.form-group input:disabled{color: #000 !important;}
 
   label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 10px; display:block }
   </style>
@@ -13,22 +21,6 @@
         <button type='submit' onclick="location.href='/family/2'"  class="button"><span><i class="fa fas fa-users"></i> {{ _('View all members') }}</span></button>
 
       <div class="container-form">
-      {% if messages %}
-<div class="messages">
-<ul class="messages">
-{% for message in messages %}
-<div  {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %}>
-{% if message.tags == 'error' %}
-<span class="glyphicon glyphicon-exclamation-sign"></span>
-{% else %}
-<span class="glyphicon glyphicon-ok"></span>
-{% endif %}
-{{ message }}
-</div>
-{% endfor %}
-</ul>
-</div>
-{% endif %}
         {% if form_step1.errors %}
           {% for field in form_step1 %}
               {% for error in field.errors %}
@@ -50,6 +42,34 @@
           </div>
         </div>-->
         <form action="" method="POST" id="family-survey-from">
+         {% if messages %}
+<div class="messages">
+<ul class="messages">
+{% for message in messages %}
+<div  {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %}>
+{% if message.tags == 'error' %}
+<span class="glyphicon glyphicon-remove-sign"></span>
+{% elif message.tags == 'warning' %}
+<span class="glyphicon glyphicon-alert"></span>
+ {% else %}
+  <span class="glyphicon glyphicon-ok"></span>
+{% endif %}
+{{ message }}
+</div>
+ {% if message.tags == 'warning' and forloop.last %}
+     <input class="js-warning" type="text" hidden value="warning">
+<div class="button-container-form">
+<button id="btn-warning" type="submit" name="post" value="post-after-warning" class="button"><span>{{ _('Save And Continue') }}</span></button>
+ <a href="{% url "survey:edit-family-member" mem_obj.f_m_id %}"> <button type="button" class="button" style="background-color: #17a2b8;"><span>{{ _('Back') }}</span></button></a>
+</div>
+
+
+
+ {% endif  %}
+{% endfor %}
+</ul>
+</div>
+{% endif %}
               <fieldset class="scheduler-border">
                  <legend class="scheduler-border"><i class="fas fa fa-user-plus"></i> {{ _('Add Family Member') }}</legend>
 
@@ -397,7 +417,7 @@
                   </fieldset>
 
                     <div class="button-container-form">
-                        <button type="submit" class="button"><span>{{ _('Save') }}</span></button>
+                        <button id="btn-submit" type="submit" class="button"><span>{{ _('Save') }}</span></button>
                     </div>
 
                 </form>
@@ -413,6 +433,26 @@
 <script src="/static/build/js/plugins/moment-with-locales.min.js"></script>
 <script src="/static/build/js/plugins/moment-hijri.js"></script>
 <script>
+
+// warning action
+$(document).ready(function() {
+    var warning = $('.js-warning').val();
+    if (warning != null) {
+        console.log('warning javascript')
+        $("#btn-submit").hide();
+        $("#family-survey-from select , #family-survey-from input[type=checkbox]").each(function () {
+            $(this).prop('disabled', true);
+        });
+        $("#family-survey-from input").each(function () {
+            $(this).prop('readonly', true);
+        });
+    }
+    $("#btn-warning").click(function () {
+        $("#family-survey-from input, #family-survey-from select, #family-survey-from input[type=checkbox]").each(function () {
+            $(this).prop('disabled', false);
+        });
+    });
+});
 
 // hide all required sections initially
   $('.levels').hide();

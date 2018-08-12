@@ -34,6 +34,34 @@
           </div>
         </div>-->
         <form action="" method="POST" id="family-survey-from">
+         {% if messages %}
+<div class="messages">
+<ul class="messages">
+{% for message in messages %}
+<div  {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %}>
+{% if message.tags == 'error' %}
+<span class="glyphicon glyphicon-remove-sign"></span>
+{% elif message.tags == 'warning' %}
+<span class="glyphicon glyphicon-alert"></span>
+ {% else %}
+  <span class="glyphicon glyphicon-ok"></span>
+{% endif %}
+{{ message }}
+</div>
+ {% if message.tags == 'warning' and forloop.last %}
+     <input class="js-warning" type="text" hidden value="warning">
+<div class="button-container-form">
+<button id="btn-warning" type="submit" name="post" value="post-after-warning" class="button"><span>{{ _('Save And Continue') }}</span></button>
+ <a href="{% url "survey:add-house" %}"> <button type="button" class="button" style="background-color: #17a2b8;"><span>{{ _('Back') }}</span></button></a>
+</div>
+
+
+
+ {% endif  %}
+{% endfor %}
+</ul>
+</div>
+{% endif %}
               <fieldset class="scheduler-border">
                  <legend class="scheduler-border"><i class="fas fa fa-user-plus"></i> {{ _('Add Family Member') }}</legend>
 
