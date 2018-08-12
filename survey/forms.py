@@ -53,7 +53,7 @@ class FamilyMemberFormStep1(forms.ModelForm):
     #gender = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=16,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'form-control'}))
     gender = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=16, l_list_active=1))
     #nationality = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=18,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
-    nationality = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=18, l_list_active=1, type='radio'))
+    nationality = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=18, l_list_active=1, type='select'))
     difficulty_1 = forms.NullBooleanField(label='النظر', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
     #difficulty_1_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=False, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_1_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': ' form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
@@ -172,7 +172,7 @@ class FamilyMemberFormStep2(forms.ModelForm):
 
     study_status = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=174, l_list_active=1))
     education_status = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=105, l_list_active=1))
-    study_field_parent = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control','data-child-lookup-id': '10'}), choices=dropDownList(rp_id=9, lookup_id=11, l_list_active=1))
+    study_field_parent = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=11, l_list_active=1))
     study_field = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=10, l_list_active=1))
     marital_status = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=106, l_list_active=1))
     males_count = forms.IntegerField(required=False,widget=forms.TextInput({'class': 'form-control' }))

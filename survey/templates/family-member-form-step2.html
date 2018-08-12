@@ -255,12 +255,14 @@
       {
         $('#study-field-fieldset').show();
         $("#study-field-child select").attr('required', true);
-      //  $('#study-field-parent select').trigger('change');
+        $('#study-field-parent select').attr('required', true);
       }
       else{
         $('#study-field-fieldset').hide();
         $("#study-field-child select").attr('required', false);
-        $("#study-field-child select").val();
+        $("#study-field-child select option:selected").prop("selected", false);
+        $("#id_study_field_parent").attr('required', false);
+        $("#id_study_field_parent option:selected").prop("selected", false);
         //$('#study-field-child').hide();
       }
   });
