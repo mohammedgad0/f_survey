@@ -274,15 +274,6 @@ def add_member_info(request, fm_id):
     else:
         form.fields['economic_activity'].choices = ""
 
-
-    if request.method == 'POST':
-        form = FamilyMemberFormStep2(request.POST,instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
-        if form.is_valid():
-            obj = form.save(commit = False)
-            obj.member_status = 2
-            obj.save()
-            return HttpResponseRedirect(reverse('survey:home'))
-    
     show_female_fields = False
     if instance.gender == 1600002:
         show_female_fields = True
