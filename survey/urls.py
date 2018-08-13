@@ -17,11 +17,11 @@ urlpatterns = [
     # ajax path to populate dependend child select field with correct values
     path('ajax/options/', ajax_render_list_options, name='ajax-options'),
     # list family members by family id
-    re_path(r'^family/(?P<fid>\w+)/$', familyMembersList, name='list-family'),
+    #re_path(r'^family/(?P<fid>\w+)/$', familyMembersList, name='list-family'),
     # complete member info (step2)
     re_path(r'^add-member-info/(?P<fm_id>\w+)/$', add_member_info , name='add-member-info'),
     #edit member on step 1
-    re_path(r'^edit-member/(?P<fid>\w+)/$', edit_family_member, name='edit-family-member'),
+    re_path(r'^edit-member/(?P<fm_id>\w+)/$', edit_family_member, name='edit-family-member'),
     # Page to add house form
     path('add-house/', add_house, name='add-house'),
     # Death form

@@ -14,6 +14,7 @@ right: 0 !important;
 .form-group input:disabled{color: #000 !important;}
 
   label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 10px; display:block }
+  
   </style>
 {% endblock stylesheets %}
 
@@ -151,7 +152,7 @@ right: 0 !important;
                         </div>
                       </div>
 </div>
-                      <div class="col-lg-12">
+                      <div class="col-lg-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <fieldset class="scheduler-border">
                         <legend  class="scheduler-border"><i class="fa fa-wheelchair" style="font-size:24px;"></i> {{ _('Difficulty type') }}</legend>
                       <div class="error" id="form_error"></div>
@@ -164,7 +165,7 @@ right: 0 !important;
                        </div>
                       </div>
 
-                      <div class="col-lg-12 levels level-1 id_difficulty_1">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 levels level-1 id_difficulty_1">
                         <span>{{ form_step1.difficulty_1_degree.label }}</span>
                         <div class="form-radio">
 
@@ -181,7 +182,7 @@ right: 0 !important;
                         </div>
                       </div>
 
-                      <div class="col-md-12 require-one">
+                      <div class="col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_2 }}
@@ -191,7 +192,7 @@ right: 0 !important;
 
                       </div>
 
-                      <div class="col-lg-12 levels level-2 id_difficulty_2">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 levels level-2 id_difficulty_2">
                         <span>{{ form_step1.difficulty_2_degree.label }}</span>
 
                         <div class="form-radio">
@@ -209,7 +210,7 @@ right: 0 !important;
                         </div>
                       </div>
 
-                      <div class="col-md-12 require-one">
+                      <div class="col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_3 }}
@@ -219,7 +220,7 @@ right: 0 !important;
 
                       </div>
 
-                      <div class="col-lg-12 levels level-3 id_difficulty_3">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 levels level-3 id_difficulty_3">
                         <span>{{ form_step1.difficulty_3_degree.label }}</span>
                         <div class="form-radio">
                           {% for choice in form_step1.difficulty_3_degree %}
@@ -235,7 +236,7 @@ right: 0 !important;
                         </div>
                       </div>
 
-                      <div class="col-md-12 require-one">
+                      <div class="col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_4 }}
@@ -244,7 +245,7 @@ right: 0 !important;
                        </div>
                       </div>
 
-                      <div class="col-lg-12 levels level-4 id_difficulty_4">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 levels level-4 id_difficulty_4">
                         <span>{{ form_step1.difficulty_4_degree.label }}</span>
 
                         <div class="form-radio ">
@@ -261,7 +262,7 @@ right: 0 !important;
                         </div>
                       </div>
 
-                      <div class="col-md-12 require-one">
+                      <div class="col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_5 }}
@@ -271,7 +272,7 @@ right: 0 !important;
 
                       </div>
 
-                      <div class="col-lg-12 levels level-5 id_difficulty_5">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 levels level-5 id_difficulty_5">
                         <span>{{ form_step1.difficulty_5_degree.label }}</span>
 
                         <div class="form-radio ">
@@ -288,7 +289,7 @@ right: 0 !important;
                         </div>
                       </div>
 
-                      <div class="col-md-12 require-one">
+                      <div class="col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_6 }}
@@ -297,7 +298,7 @@ right: 0 !important;
                        </div>
                       </div>
 
-                      <div class="col-lg-12 levels level-6 id_difficulty_6">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 levels level-6 id_difficulty_6">
                         <span>{{ form_step1.difficulty_6_degree.label }}</span>
 
                         <div class="form-radio">
@@ -314,7 +315,7 @@ right: 0 !important;
                         </div>
                       </div>
 
-                      <div class="col-md-12">
+                      <div class="col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_other }}
@@ -324,7 +325,7 @@ right: 0 !important;
 
                       </div>
 
-                      <div class="col-md-12 levels id_difficulty_other">
+                      <div class="col-md-12 col-md-12 col-sm-12 col-xs-12 levels id_difficulty_other">
                         <div class="form-group">
 
                           {{ form_step1.difficulty_7_txt }}
@@ -333,7 +334,7 @@ right: 0 !important;
                         </div>
                       </div>
 
-                      <div class="col-lg-12 levels id_difficulty_other">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 levels id_difficulty_other">
                         <span>{{ form_step1.difficulty_7_degree.label }}</span>
                         <div class="form-radio">
 
@@ -350,7 +351,7 @@ right: 0 !important;
                         </div>
                       </div>
 
-                      <div class="col-md-12 require-one">
+                      <div class="col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 require-one">
                         <div class="checkbox">
                           <label>
                           {{ form_step1.difficulty_8 }}
@@ -560,30 +561,44 @@ $(window).load(function(){
   moment.locale('en-US');
   m = moment();
   $('#id_age').on('change', function(){
-    var dob_year = moment().subtract($(this).val(), 'years').calendar();
-    var year = dob_year.split("/");
-    var myear = year[2];
-    //console.log(dob_year);
-    var hyear = moment(myear, 'YYYY').endOf('iMonth').format('iYYYY');
-    $('#id_birth_year').val("");
-    $('#id_birth_year').val(hyear);
+
+    var user_input_age = $(this).val();
+
+    if (user_input_age.length <= 3){
+
+      var dob_year = moment().subtract(user_input_age, 'years').calendar();
+      var year = dob_year.split("/");
+      var myear = year[2];
+      //console.log(dob_year);
+      var hyear = moment(myear, 'YYYY').endOf('iMonth').format('iYYYY');
+      $('#id_birth_year').val("");
+      $('#id_birth_year').val(hyear);
+    }
+
   });
 
   $('#id_birth_year').on('change', function(){
+
     var year = $(this).val();
     var age = "";
-    if(year > 1500)
-    {
-      current_year = m.format('YYYY');
-       age = (current_year - year);
+
+    if( year.length == 4){
+
+      if(year > 1500)
+      {
+        current_year = m.format('YYYY');
+         age = (current_year - year);
+      }
+      else if(year < 1500)
+      {
+        current_year = m.format('iYYYY');
+        age = (current_year - year) - 1;
+      }
+      $('#id_age').val("");
+      $('#id_age').val(age);
+
     }
-    else if(year < 1500)
-    {
-      current_year = m.format('iYYYY');
-      age = (current_year - year) - 1;
-    }
-    $('#id_age').val("");
-    $('#id_age').val(age);
+
   });
 
 $('#id_in_or_out_birth').on('change', function(){
@@ -638,7 +653,6 @@ $('#id_in_or_out_prev_stay').on('change', function(){
 //var age = {{ mem_obj.age }}
 
 var age = $('input[name=age]').val();
-var gender = $('select[name=gender]').val();
 //var member_id = {{ mem_obj.f_m_id }};
 if( age > 0 ) {
 $('input[name=age]').keyup(age_check);
@@ -660,31 +674,9 @@ $('input[name=age]').keyup(age_check);
   $('input[name=age]').on('focusout', function(){
     $(this).popover('hide');
   });
-
-  }
-
-if(gender > 0){
-
-  $('select[name=gender]').on('change', gender_check);
-
-    function gender_check(){
-
-          $("select[name=gender]").popover({
-              trigger: 'manual',
-              html:'true',
-              content: "<div class='alert alert-warning'>"
-                +"<i class='fa fas fa-exclamation-triangle'></i> تنبيه! التغير فى العمر قد يترتب عليه تغير بعض القيم المدخلة سابقاً"
-                +"</div>",
-              placement : 'top'
-          });
-          $("select[name=gender]").popover('show');
-          $('select[name=gender]').parent().addClass( "has-error has-warning has-feedback" );
-
-    }
-    $('select[name=gender]').on('focusout', function(){
-        $(this).popover('hide');
-    });
 }
+
+
 
 </script>
 
