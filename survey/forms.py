@@ -33,63 +33,35 @@ class FamilyMemberFormStep1(forms.ModelForm):
         self.fields['difficulty_5_degree'].empty_label = None
         self.fields['difficulty_6_degree'].empty_label = None
         self.fields['difficulty_7_degree'].empty_label = None
-        #self.fields['place_birth'].queryset = None
-        #self.fields['member_status'].initial = 0
         self.fields['family_relation'].empty_label = None
-        #self.fields['place_birth'].empty_label = None
-        #self.fields['place_stay_previous'].empty_label = None
-        #self.fields['place_stay'].empty_label = None
-        #self.fields['gender'].empty_label = None
 
     member_name_first = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
     member_name_second = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
     member_name_third = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
-    id_number_member = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
+    id_number_member = forms.CharField(max_length=10, required=True,widget=forms.TextInput({'class': 'form-control', 'type': 'number', 'min': 0, 'step': 1, 'pattern': "\d*", 'oninput': "validity.valid||(value='');", 'onKeyPress': 'if(this.value.length==3) return false;'}))
     age = forms.CharField(max_length=2, required=True,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
-    #birth_month = forms.CharField(max_length=254,widget=forms.TextInput({'class': 'form-control'}))
     birth_year = forms.CharField(max_length=4, required=False,widget=forms.TextInput({'class': 'form-control', 'type': 'number','min': 0, 'pattern': "/^-?\d+\.?\d*$/" }))
-    #family_relation = dropList(queryset=GenLookupListView.objects.filter(rp_id=1,lookup_id=17,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}),validators=[validate_family_relation])
     family_relation = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9,lookup_id=17,l_list_active=1, type='radio' ))
-    #gender = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=16,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'form-control'}))
     gender = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=16, l_list_active=1))
-    #nationality = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=18,l_list_active=1),to_field_name="lookup_list_id",required=True,widget=forms.Select(attrs={'class': 'chosen-select form-control'}))
     nationality = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=18, l_list_active=1, type='select'))
     difficulty_1 = forms.NullBooleanField(label='النظر', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
-    #difficulty_1_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=False, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_1_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': ' form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
     difficulty_2 = forms.NullBooleanField(label='السمع', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
-
-    #difficulty_2_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=False, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_2_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
-
     difficulty_3 = forms.NullBooleanField(label='الحركة', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
-    #difficulty_3_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=False, label='درجةالصعوبة',widget=forms.RadioSelect())
     difficulty_3_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
-
     difficulty_4 = forms.NullBooleanField(label='التزكر', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
-
-    #difficulty_4_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=False, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_4_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
-
     difficulty_5 = forms.NullBooleanField(label='العناية الشخصية', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
-
-    #difficulty_5_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=False, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_5_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
-
     difficulty_6 = forms.NullBooleanField(label='التخاطب والتواصل', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
-    #difficulty_6_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=False, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_6_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
-
     difficulty_other = forms.NullBooleanField(required=False, widget=forms.CheckboxInput())
     difficulty_7_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control require-one'}))
-
-    #difficulty_7_degree = dropList(queryset=GenLookupListView.objects.filter(rp_id=9,lookup_id=173,l_list_active=1),to_field_name="lookup_list_id",required=False, label='درجةالصعوبة', widget=forms.RadioSelect())
     difficulty_7_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
-
     difficulty_8 = forms.NullBooleanField(label='لايوجد', required=False, widget=forms.CheckboxInput(attrs={'class':'require-one'}))
     in_or_out_birth = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}),choices=(('',_('Choice')), (1,_('Inside KSA')), (2,_('Outside KSA'))))
     in_or_out_prev_stay = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}),choices=(('',_('Choice')),(1,_('Inside KSA')), (2,_('Outside KSA'))))
-    #place_stay_previous = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=27, l_list_active=1))
     place_stay = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=27, l_list_active=1))
 
     class Meta:

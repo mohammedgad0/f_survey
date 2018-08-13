@@ -29,175 +29,173 @@ def dropListOptions(rp_id,lookup_id,l_list_active):
 
 
 def add_family_member(request):
-    form = FamilyMemberFormStep1()
-    context = {'form_step1':form}
-    CHOICES = dropListOptions(9,27,1)
-    form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
-    form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
-    #form.fields['member_status'].initial = 1
-    sample_id = request.session['sample_id']
-    if request.method == 'POST':
-        form = FamilyMemberFormStep1(request.POST)
-        #print(type(request.POST['difficulty_1_degree']))
+    if request.session.get('Is_auth'):
+        # check members limit before allowing user add new member
+        sample_id = request.session['sample_id']
+        sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
+        no_of_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1)).count()
+        if no_of_members == sample_obj.no_of_member:
+            messages.warning(request, _('You have reached out your members limit, Please increase number of members before adding new.'))
+            return HttpResponseRedirect(reverse('survey:home'))
 
-        if form.is_valid():
-
-            obj = form.save(commit=False)
-            member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
-            if not member_no:
-                memberNumber = str(1).zfill(2)
-                obj.member_no = memberNumber
-            else:
-                # count and incrementing by 1 as member number
-                member_num = member_no.count()+1
-                memberNumber = str(member_num).zfill(2)
-                obj.member_no = memberNumber
-
-            obj.sample_id = sample_id
-            family_member_Id = (sample_id * 1000) + int(memberNumber);
-            obj.f_m_id = family_member_Id
-            obj.member_status = 1
-            obj.save()
-            message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
-            if "error" in type:
-                return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
-            if "warning" in type:
-                return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
-
-        return HttpResponseRedirect(reverse('survey:home'))
-    return render(request, 'family-member-form-step1.html', context)
-
-
-def edit_family_member(request, fid):
-    sample_id = request.session.get('sample_id')
-    instance=FcpFamilyMemberTab.objects.get(f_m_id=fid)
-    form = FamilyMemberFormStep1(instance = instance)
-    age = instance.age
-    context = {'form_step1':form}
-    if instance.difficulty_7_txt:
-        form.fields['difficulty_other'].initial = 1
-
-    if instance.place_birth:
-        if instance.place_birth >= 2700001 and instance.place_birth <= 2700013:
-            CHOICES = dropListOptions(9,27,1)
-            form.fields['in_or_out_birth'].initial = 1
-        else:
-            CHOICES = dropListOptions(9,18,1)
-            form.fields['in_or_out_birth'].initial = 2
-    else:
+        form = FamilyMemberFormStep1()
+        context = {'form_step1':form}
         CHOICES = dropListOptions(9,27,1)
+        form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
+        form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
 
-    form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
-    form.fields['place_birth'].initial = instance.place_birth
+        if request.method == 'POST':
+            form = FamilyMemberFormStep1(request.POST)
+            #print(type(request.POST['difficulty_1_degree']))
 
-    if instance.place_stay_previous:
-        if instance.place_stay_previous >= 2700001 and instance.place_stay_previous <= 2700013:
-            CHOICES = dropListOptions(9,27,1)
-            form.fields['in_or_out_prev_stay'].initial = 1
-        else:
-            CHOICES = dropListOptions(9,18,1)
-            form.fields['in_or_out_prev_stay'].initial = 2
-    else:
-        CHOICES = dropListOptions(9,27,1)
+            if form.is_valid():
 
-    form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
-    form.fields['place_stay_previous'].initial = instance.place_stay_previous
-
-    context = {'form_step1':form, 'mem_obj': instance}
-
-    if request.method == 'POST':
-        old_record=FcpFamilyMemberTab.objects.get(f_m_id=fid)
-        form = FamilyMemberFormStep1(request.POST, instance = instance)
-
-        if form.is_valid():
-            # post if he dismiss warning
-            if request.POST.get('post') == "post-after-warning":
-                print('after warning post')
                 obj = form.save(commit=False)
+                member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
+                if not member_no:
+                    memberNumber = str(1).zfill(2)
+                    obj.member_no = memberNumber
+                else:
+                    # count and incrementing by 1 as member number
+                    member_num = member_no.count()+1
+                    memberNumber = str(member_num).zfill(2)
+                    obj.member_no = memberNumber
+
+                obj.sample_id = sample_id
+                family_member_Id = (sample_id * 1000) + int(memberNumber);
+                obj.f_m_id = family_member_Id
+                obj.member_status = 1
                 obj.save()
                 message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
                 if "error" in type:
                     return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+                if "warning" in type:
+                    return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+
+            return HttpResponseRedirect(reverse('survey:home'))
+    else:
+        raise Http404
+    return render(request, 'family-member-form-step1.html', context)
+
+def edit_family_member(request, fid):
+    if request.session.get('Is_auth'):
+        sample_id = request.session.get('sample_id')
+        instance=FcpFamilyMemberTab.objects.get(f_m_id=fid)
+
+        if sample_id == instance.sample_id:
+            form = FamilyMemberFormStep1(instance = instance)
+            age = instance.age
+            context = {'form_step1':form}
+            if instance.difficulty_7_txt:
+                form.fields['difficulty_other'].initial = 1
+
+            if instance.place_birth:
+                if instance.place_birth >= 2700001 and instance.place_birth <= 2700013:
+                    CHOICES = dropListOptions(9,27,1)
+                    form.fields['in_or_out_birth'].initial = 1
                 else:
-                    storage = get_messages(request)
-                    for item in storage:
-                        if item.tags == "warning":
-                            del item
-                    obj.member_status = 1
+                    CHOICES = dropListOptions(9,18,1)
+                    form.fields['in_or_out_birth'].initial = 2
+            else:
+                CHOICES = dropListOptions(9,27,1)
+
+            form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
+            form.fields['place_birth'].initial = instance.place_birth
+
+            if instance.place_stay_previous:
+                if instance.place_stay_previous >= 2700001 and instance.place_stay_previous <= 2700013:
+                    CHOICES = dropListOptions(9,27,1)
+                    form.fields['in_or_out_prev_stay'].initial = 1
+                else:
+                    CHOICES = dropListOptions(9,18,1)
+                    form.fields['in_or_out_prev_stay'].initial = 2
+            else:
+                CHOICES = dropListOptions(9,27,1)
+
+            form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
+            form.fields['place_stay_previous'].initial = instance.place_stay_previous
+
+            context = {'form_step1':form, 'mem_obj': instance}
+
+            if request.method == 'POST':
+                old_record=FcpFamilyMemberTab.objects.get(f_m_id=fid)
+                form = FamilyMemberFormStep1(request.POST, instance = instance)
+
+                if form.is_valid():
+                    # post if he dismiss warning
+                    if request.POST.get('post') == "post-after-warning":
+                        print('after warning post')
+                        obj = form.save(commit=False)
+                        obj.save()
+                        message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+                        if "error" in type:
+                            return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+                        else:
+                            storage = get_messages(request)
+                            for item in storage:
+                                if item.tags == "warning":
+                                    del item
+                            obj.member_status = 1
+                            obj.save()
+                            messages.success(request, _('Saved !'))
+                            return HttpResponseRedirect(reverse('survey:home'))
+                    obj = form.save(commit = False)
+
+                    if old_record.gender != obj.gender:
+                        obj.member_status = 1
+
+                        if obj.gender == '1600001':
+
+                            obj.males_count = None
+                            obj.females_count = None
+
+                    if old_record.age != obj.age:
+                        obj.member_status = 1
+                        if obj.age >= 3 and obj.age < 10:
+                            obj.study_status = None
+                            obj.education_status = None
+                            obj.study_field = None
+                            obj.marital_status = None
+                            obj.males_count = None
+                            obj.females_count = None
+                            obj.labor_status = None
+                            obj.labor_status_txt = None
+                            obj.main_job = None
+                            obj.economic_activity_parent = None
+                            obj.economic_activity = None
+                            obj.work_sector_type = None
+                            obj.work_sector_type_txt = None
+                            obj.member_status = 1
+                        elif obj.age >= 10 and obj.age < 15:
+                            obj.education_status = None
+                            obj.study_field = None
+                            obj.marital_status = None
+                            obj.males_count = None
+                            obj.females_count = None
+                            obj.labor_status = None
+                            obj.labor_status_txt = None
+                            obj.main_job = None
+                            obj.economic_activity_parent = None
+                            obj.economic_activity = None
+                            obj.work_sector_type = None
+                            obj.work_sector_type_txt = None
+                            obj.member_status = 1
+
+                    obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=obj.nationality).list_name
+                    obj.member_no = instance.member_no
+                    obj.f_m_id = instance.f_m_id
+                    obj.sample_id = instance.sample_id
                     obj.save()
-                    messages.success(request, _('Saved !'))
-                    return HttpResponseRedirect(reverse('survey:home'))
-            obj = form.save(commit = False)
-
-            if old_record.gender != obj.gender:
-                obj.member_status = 1
-
-                if obj.gender == '1600001':
-
-                    obj.males_count = None
-                    obj.females_count = None
-
-            if old_record.age != obj.age:
-                obj.member_status = 1
-                if obj.age >= 3 and obj.age < 10:
-                    obj.study_status = None
-                    obj.education_status = None
-                    obj.study_field = None
-                    obj.marital_status = None
-                    obj.males_count = None
-                    obj.females_count = None
-                    obj.labor_status = None
-                    obj.labor_status_txt = None
-                    obj.main_job = None
-                    obj.economic_activity_parent = None
-                    obj.economic_activity = None
-                    obj.work_sector_type = None
-                    obj.work_sector_type_txt = None
-                    obj.member_status = 1
-                elif obj.age >= 10 and obj.age < 15:
-                    obj.education_status = None
-                    obj.study_field = None
-                    obj.marital_status = None
-                    obj.males_count = None
-                    obj.females_count = None
-                    obj.labor_status = None
-                    obj.labor_status_txt = None
-                    obj.main_job = None
-                    obj.economic_activity_parent = None
-                    obj.economic_activity = None
-                    obj.work_sector_type = None
-                    obj.work_sector_type_txt = None
-                    obj.member_status = 1
-
-            #obj.gender = int(request.POST['gender'])
-            #obj.gender = int(request.POST['gender'])
-            #obj.nationality = int(request.POST['nationality'])
-            obj.nationality_txt = GenLookupListView.objects.get(rp_id=1,lookup_id=18,l_list_active=1,lookup_list_id=obj.nationality).list_name
-            obj.member_no = instance.member_no
-            obj.f_m_id = instance.f_m_id
-            obj.sample_id = instance.sample_id
-            # if obj.difficulty_1_degree:
-            #     obj.difficulty_1_degree = int(request.POST['difficulty_1_degree'])
-            # if obj.difficulty_2_degree:
-            #     obj.difficulty_2_degree = int(request.POST['difficulty_2_degree'])
-            # if obj.difficulty_3_degree:
-            #     obj.difficulty_3_degree = int(request.POST['difficulty_3_degree'])
-            # if obj.difficulty_4_degree:
-            #     obj.difficulty_4_degree = int(request.POST['difficulty_4_degree'])
-            # if obj.difficulty_5_degree:
-            #     obj.difficulty_5_degree = int(request.POST['difficulty_5_degree'])
-            # if obj.difficulty_6_degree:
-            #     obj.difficulty_6_degree = int(request.POST['difficulty_6_degree'])
-            # if obj.difficulty_7_degree:
-            #     obj.difficulty_7_degree = int(request.POST['difficulty_7_degree'])
-
-            obj.save()
-            message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
-            if "error" in type:
-                return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
-            if "warning" in type:
-                return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
-        return HttpResponseRedirect(reverse('survey:home'))
+                    message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+                    if "error" in type:
+                        return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+                    if "warning" in type:
+                        return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+                return HttpResponseRedirect(reverse('survey:home'))
+        else:
+            raise Http404
+    else:
+        raise Http404
     return render(request, 'family-member-form-step1.html', context)
 
 
@@ -212,106 +210,113 @@ def familyMembersList(request, fid):
 
 
 def add_member_info(request, fm_id):
-    sample_id = request.session.get('sample_id')
-    instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
-    form = FamilyMemberFormStep2(instance = instance)
+    if request.session.get('Is_auth'):
+        sample_id = request.session.get('sample_id')
+        instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
 
-    if instance.study_field:
-        edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
-        edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=edu_parent).order_by('seq_no')
+        if sample_id == instance.sample_id:
+            form = FamilyMemberFormStep2(instance = instance)
 
-        CHOICES = []
-        CHOICES.append(('', _('Choice')))
-        for x in edu_child_list:
-            CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
-        form.fields['study_field_parent'].initial = edu_parent
-        form.fields['study_field'].initial = instance.study_field
-        if CHOICES:
-            form.fields['study_field'].choices = CHOICES
-        else:
-            form.fields['study_field'].choices = ""
+            if instance.study_field:
+                edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
+                edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=edu_parent).order_by('seq_no')
 
-    if instance.main_job:
-        mainjob_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
-        mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=mainjob_parent).order_by('seq_no')
-        CHOICESMAINJOB = []
-        CHOICESMAINJOB.append(('', _('Choice')))
-        for x in mainjob_child_list:
-            CHOICESMAINJOB.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
-
-        form.fields['main_job_parent'].initial = mainjob_parent
-        form.fields['main_job'].initial = instance.main_job
-        if CHOICESMAINJOB:
-            form.fields['main_job'].choices = CHOICESMAINJOB
-        else:
-            form.fields['main_job'].choices = ""
-
-    if instance.economic_activity:
-        economic_activity_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
-        economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=economic_activity_parent).order_by('seq_no')
-        CHOICESECOACT = []
-        CHOICESECOACT.append(('', _('Choice')))
-        for y in economic_activity_child:
-            CHOICESECOACT.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
-
-        form.fields['economic_activity_parent'].initial = economic_activity_parent
-        form.fields['economic_activity'].initial = instance.economic_activity
-
-        if CHOICESECOACT:
-            form.fields['economic_activity'].choices = CHOICESECOACT
-        else:
-            form.fields['economic_activity'].choices = ""
-
-    show_female_fields = False
-    if instance.gender == 1600002:
-        show_female_fields = True
-    else:
-        show_female_fields = False;
-
-    # show fields per age limits.
-    three_years_age_flag = False
-    ten_years_age_flag = False
-    greater_age_flag = False
-
-    if instance.age >= 3 and instance.age <= 10:
-
-        three_years_age_flag = True
-    elif instance.age >= 10 and instance.age <= 15:
-        three_years_age_flag = True
-        ten_years_age_flag = True
-    else:
-        three_years_age_flag = True
-        ten_years_age_flag = True
-        greater_age_flag = True
-
-    if request.method == 'POST':
-        form = FamilyMemberFormStep2(request.POST,instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
-        if form.is_valid():
-            # post if he dismiss warning
-            if request.POST.get('post') == "post-after-warning":
-                print('after warning post')
-                obj = form.save(commit=False)
-                message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
-                if "error" in type:
-                    return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
+                CHOICES = []
+                CHOICES.append(('', _('Choice')))
+                for x in edu_child_list:
+                    CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+                form.fields['study_field_parent'].initial = edu_parent
+                form.fields['study_field'].initial = instance.study_field
+                if CHOICES:
+                    form.fields['study_field'].choices = CHOICES
                 else:
-                    storage = get_messages(request)
-                    for item in storage:
-                        if item.tags == "warning":
-                            del item
-                    messages.success(request, _('Saved !'))
-                    return HttpResponseRedirect(reverse('survey:home'))
-            obj = form.save(commit = False)
-            obj.member_status = 2
-            obj.save()
-            message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
-            if "error" in type:
-                return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
-            if "warning" in type:
-                return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
-            return HttpResponseRedirect(reverse('survey:home'))
+                    form.fields['study_field'].choices = ""
 
-    context = {'form_step2': form, 'female_fields': show_female_fields,'three_years_age':three_years_age_flag, 'ten_years_age':ten_years_age_flag, 'greater_age':greater_age_flag}
+            if instance.main_job:
+                mainjob_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
+                mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=mainjob_parent).order_by('seq_no')
+                CHOICESMAINJOB = []
+                CHOICESMAINJOB.append(('', _('Choice')))
+                for x in mainjob_child_list:
+                    CHOICESMAINJOB.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+
+                form.fields['main_job_parent'].initial = mainjob_parent
+                form.fields['main_job'].initial = instance.main_job
+                if CHOICESMAINJOB:
+                    form.fields['main_job'].choices = CHOICESMAINJOB
+                else:
+                    form.fields['main_job'].choices = ""
+
+            if instance.economic_activity:
+                economic_activity_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
+                economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=economic_activity_parent).order_by('seq_no')
+                CHOICESECOACT = []
+                CHOICESECOACT.append(('', _('Choice')))
+                for y in economic_activity_child:
+                    CHOICESECOACT.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
+
+                form.fields['economic_activity_parent'].initial = economic_activity_parent
+                form.fields['economic_activity'].initial = instance.economic_activity
+
+                if CHOICESECOACT:
+                    form.fields['economic_activity'].choices = CHOICESECOACT
+                else:
+                    form.fields['economic_activity'].choices = ""
+
+            show_female_fields = False
+            if instance.gender == 1600002:
+                show_female_fields = True
+            else:
+                show_female_fields = False;
+
+            # show fields per age limits.
+            three_years_age_flag = False
+            ten_years_age_flag = False
+            greater_age_flag = False
+
+            if instance.age >= 3 and instance.age <= 10:
+
+                three_years_age_flag = True
+            elif instance.age >= 10 and instance.age <= 15:
+                three_years_age_flag = True
+                ten_years_age_flag = True
+            else:
+                three_years_age_flag = True
+                ten_years_age_flag = True
+                greater_age_flag = True
+
+            if request.method == 'POST':
+                form = FamilyMemberFormStep2(request.POST,instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id))
+                if form.is_valid():
+                    # post if he dismiss warning
+                    if request.POST.get('post') == "post-after-warning":
+                        print('after warning post')
+                        obj = form.save(commit=False)
+                        message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+                        if "error" in type:
+                            return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
+                        else:
+                            storage = get_messages(request)
+                            for item in storage:
+                                if item.tags == "warning":
+                                    del item
+                            messages.success(request, _('Saved !'))
+                            return HttpResponseRedirect(reverse('survey:home'))
+                    obj = form.save(commit = False)
+                    obj.member_status = 2
+                    obj.save()
+                    message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+                    if "error" in type:
+                        return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
+                    if "warning" in type:
+                        return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
+                    return HttpResponseRedirect(reverse('survey:home'))
+
+            context = {'form_step2': form, 'female_fields': show_female_fields,'three_years_age':three_years_age_flag, 'ten_years_age':ten_years_age_flag, 'greater_age':greater_age_flag}
+        else:
+            raise Http404
+    else:
+        raise Http404
     return render(request, 'family-member-form-step2.html', context)
 
 
