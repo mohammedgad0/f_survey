@@ -39,9 +39,7 @@ def add_family_member(request):
         if request.method == 'POST':
             form = FamilyMemberFormStep1(request.POST)
             #print(type(request.POST['difficulty_1_degree']))
-
             if form.is_valid():
-
                 obj = form.save(commit=False)
                 member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
                 if not member_no:
@@ -52,20 +50,22 @@ def add_family_member(request):
                     member_num = member_no.count()+1
                     memberNumber = str(member_num).zfill(2)
                     obj.member_no = memberNumber
-
                 obj.sample_id = sample_id
                 family_member_Id = (sample_id * 1000) + int(memberNumber);
                 obj.f_m_id = family_member_Id
                 obj.member_status = 1
                 obj.insert_by = request.session.get('user_id')
+                if obj.age < 3:
+                    obj.member_status = 2
+
                 obj.save()
                 message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
                 if "error" in type:
                     return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fm_id': obj.f_m_id}))
                 if "warning" in type:
                     return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fm_id': obj.f_m_id}))
-
-            return HttpResponseRedirect(reverse('survey:home'))
+                messages.success(request, _('Saved'))
+                return HttpResponseRedirect(reverse('survey:home'))
     else:
         raise Http404
     return render(request, 'family-member-form-step1.html', context)
@@ -129,6 +129,8 @@ def edit_family_member(request, fm_id):
                                 if item.tags == "warning":
                                     del item
                             obj.member_status = 1
+                            if obj.age < 3:
+                                obj.member_status = 2
                             obj.save()
                             messages.success(request, _('Saved !'))
                             return HttpResponseRedirect(reverse('survey:home'))
@@ -176,13 +178,16 @@ def edit_family_member(request, fm_id):
                     obj.member_no = instance.member_no
                     obj.f_m_id = instance.f_m_id
                     obj.sample_id = instance.sample_id
+                    if obj.age < 3:
+                        obj.member_status = 2
                     obj.save()
                     message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
                     if "error" in type:
                         return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fm_id': obj.f_m_id}))
                     if "warning" in type:
                         return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fm_id': obj.f_m_id}))
-                return HttpResponseRedirect(reverse('survey:home'))
+                    messages.success(request, _('Saved'))
+                    return HttpResponseRedirect(reverse('survey:home'))
         else:
             raise Http404
     else:
@@ -204,14 +209,17 @@ def add_member_info(request, fm_id):
     if request.session.get('Is_auth'):
         sample_id = request.session.get('sample_id')
         instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
-
+        print('sdfds', instance.main_job)
         if sample_id == instance.sample_id:
+            if instance.age < 3:
+                messages.info(request, _('Your informations are complete'))
+                return HttpResponseRedirect(reverse('survey:home'))
             form = FamilyMemberFormStep2(instance = instance)
+
 
             if instance.study_field:
                 edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
                 edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=edu_parent).order_by('seq_no')
-
                 CHOICES = []
                 CHOICES.append(('', _('Choice')))
                 for x in edu_child_list:
@@ -220,37 +228,40 @@ def add_member_info(request, fm_id):
                 form.fields['study_field'].initial = instance.study_field
                 if CHOICES:
                     form.fields['study_field'].choices = CHOICES
-                else:
-                    form.fields['study_field'].choices = ""
+            else:
+                form.fields['study_field'].choices = ""
 
-            if instance.main_job:
-                mainjob_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
-                mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=mainjob_parent).order_by('seq_no')
-                CHOICESMAINJOB = []
-                CHOICESMAINJOB.append(('', _('Choice')))
-                for x in mainjob_child_list:
-                    CHOICESMAINJOB.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+            if instance.age >= 15:
+                if instance.main_job:
+                    mainjob_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
+                    mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=mainjob_parent).order_by('seq_no')
+                    CHOICESMAINJOB = []
+                    CHOICESMAINJOB.append(('', _('Choice')))
+                    for x in mainjob_child_list:
+                        CHOICESMAINJOB.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
 
-                form.fields['main_job_parent'].initial = mainjob_parent
-                form.fields['main_job'].initial = instance.main_job
-                if CHOICESMAINJOB:
-                    form.fields['main_job'].choices = CHOICESMAINJOB
+                    form.fields['main_job_parent'].initial = mainjob_parent
+                    form.fields['main_job'].initial = instance.main_job
+                    if CHOICESMAINJOB:
+                        form.fields['main_job'].choices = CHOICESMAINJOB
                 else:
                     form.fields['main_job'].choices = ""
 
-            if instance.economic_activity:
-                economic_activity_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
-                economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=economic_activity_parent).order_by('seq_no')
-                CHOICESECOACT = []
-                CHOICESECOACT.append(('', _('Choice')))
-                for y in economic_activity_child:
-                    CHOICESECOACT.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
 
-                form.fields['economic_activity_parent'].initial = economic_activity_parent
-                form.fields['economic_activity'].initial = instance.economic_activity
+                if instance.economic_activity:
+                    print('test')
+                    economic_activity_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
+                    economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=economic_activity_parent).order_by('seq_no')
+                    CHOICESECOACT = []
+                    CHOICESECOACT.append(('', _('Choice')))
+                    for y in economic_activity_child:
+                        CHOICESECOACT.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
 
-                if CHOICESECOACT:
-                    form.fields['economic_activity'].choices = CHOICESECOACT
+                    form.fields['economic_activity_parent'].initial = economic_activity_parent
+                    form.fields['economic_activity'].initial = instance.economic_activity
+
+                    if CHOICESECOACT:
+                        form.fields['economic_activity'].choices = CHOICESECOACT
                 else:
                     form.fields['economic_activity'].choices = ""
 
@@ -265,10 +276,9 @@ def add_member_info(request, fm_id):
             ten_years_age_flag = False
             greater_age_flag = False
 
-            if instance.age >= 3 and instance.age <= 10:
-
+            if instance.age >= 3 and instance.age < 10:
                 three_years_age_flag = True
-            elif instance.age >= 10 and instance.age <= 15:
+            elif instance.age >= 10 and instance.age < 15:
                 three_years_age_flag = True
                 ten_years_age_flag = True
             else:
@@ -301,6 +311,7 @@ def add_member_info(request, fm_id):
                         return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id}))
                     if "warning" in type:
                         return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id}))
+                    messages.success(request, _('Saved'))
                     return HttpResponseRedirect(reverse('survey:home'))
 
             context = {'form_step2': form, 'female_fields': show_female_fields,'three_years_age':three_years_age_flag, 'ten_years_age':ten_years_age_flag, 'greater_age':greater_age_flag}
@@ -553,7 +564,7 @@ def check_error(request):
     sample_id = request.session.get('sample_id')
     member_id = '59080002'
     message, error_type = check_errors(request, 1 , sample_id, member_id)
-    #print(error_type)
+
     context = {}
     return render(request, 'check_error.html', context)
 
