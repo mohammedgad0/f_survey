@@ -110,7 +110,7 @@ class FamilyMemberFormStep2(forms.ModelForm):
         #three_years_age_flag = False
         #ten_years_age_flag = False
         #greater_age_flag = False
-        if self.instance.age >= 3 and self.instance.age <= 10:
+        if self.instance.age >= 3 and self.instance.age < 10:
             #three_years_age_flag = True
             del self.fields['education_status']
             del self.fields['study_field_parent']
@@ -127,7 +127,7 @@ class FamilyMemberFormStep2(forms.ModelForm):
             del self.fields['work_sector_type']
             del self.fields['work_sector_type_txt']
 
-        elif self.instance.age >= 10 and self.instance.age <= 15:
+        elif self.instance.age >= 10 and self.instance.age < 15:
             #three_years_age_flag = True
             #ten_years_age_flag = True
             del self.fields['marital_status']
