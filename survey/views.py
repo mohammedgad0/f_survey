@@ -9,14 +9,6 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.urls import reverse
 from django.http import JsonResponse
 from django.db.models import Q
-# Create your views here.
-
-
-def int_or_str(value):
-    try:
-        return int(value)
-    except:
-        return value
 
 def dropListOptions(rp_id,lookup_id,l_list_active):
     options_list = GenLookupListView.objects.filter(rp_id=rp_id, lookup_id=lookup_id, l_list_active=1).order_by('seq_no')
@@ -65,6 +57,7 @@ def add_family_member(request):
                 family_member_Id = (sample_id * 1000) + int(memberNumber);
                 obj.f_m_id = family_member_Id
                 obj.member_status = 1
+                obj.insert_by = request.session.get('user_id')
                 obj.save()
                 message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
                 if "error" in type:
@@ -199,14 +192,14 @@ def edit_family_member(request, fid):
     return render(request, 'family-member-form-step1.html', context)
 
 
-def familyMembersList(request, fid):
-    members_list = FcpFamilyMemberTab.objects.filter(sample_id=fid).order_by('member_no')
-    paginator = Paginator(members_list, 25)
-    page = request.GET.get('page')
-    if page and members_list != "":
-        members_list = paginator.get_page(pag)
-    context = {'members_list': members_list}
-    return render(request, 'family-members-list.html', context)
+# def familyMembersList(request, fid):
+#     members_list = FcpFamilyMemberTab.objects.filter(sample_id=fid).order_by('member_no')
+#     paginator = Paginator(members_list, 25)
+#     page = request.GET.get('page')
+#     if page and members_list != "":
+#         members_list = paginator.get_page(pag)
+#     context = {'members_list': members_list}
+#     return render(request, 'family-members-list.html', context)
 
 
 def add_member_info(request, fm_id):
@@ -321,14 +314,17 @@ def add_member_info(request, fm_id):
 
 
 def ajax_render_list_options(request):
-    lookup_list_id = request.GET.get('lookup_list_id')
-    lookup_id = request.GET.get('lookup_id')
-    if lookup_list_id:
-        options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=lookup_id,l_list_active=1, ref_work_type_pk=lookup_list_id).order_by('seq_no')
-    else:
-        options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=lookup_id,l_list_active=1).order_by('seq_no')
+    if request.session.get('Is_auth'):
+        lookup_list_id = request.GET.get('lookup_list_id')
+        lookup_id = request.GET.get('lookup_id')
+        if lookup_list_id:
+            options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=lookup_id,l_list_active=1, ref_work_type_pk=lookup_list_id).order_by('seq_no')
+        else:
+            options_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=lookup_id,l_list_active=1).order_by('seq_no')
 
-    context = {'options': options_list}
+        context = {'options': options_list}
+    else:
+        raise Http404
     return render(request, 'options-list.html', context)
 
 
