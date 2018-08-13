@@ -343,7 +343,7 @@ def home(request):
         sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
         family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
         members = FcpFamilyMemberTab.objects.filter(sample_id=sample_id).order_by('member_no')
-        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1))
+        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1)).order_by('member_no')
         members_enter_count = members.count()
         members_complete_count = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & Q(member_status=2) & ~Q(member_delete_status=1)).count()
         member_status = False
@@ -364,12 +364,17 @@ def home(request):
 
 
 def login(request, token):
+    from django.contrib.auth.models import User
     user_info = AuthUserTab.objects.filter(token_key= token)
     if request.method == 'POST':
         member_id = request.POST.get('member_id')
         member_pass = request.POST.get('member_pass')
         print(member_id, member_pass)
-        user_info = AuthUserTab.objects.get(token_key=token, id_number = member_id)
+        try:
+            user_info = AuthUserTab.objects.get(token_key=token, id_number = member_id)
+        except AuthUserTab.DoesNotExist:
+            messages.error(request, _('invalid id or password'))
+            return HttpResponseRedirect(reverse('survey:login', kwargs={'token': token}))
         if int(member_id) == int(user_info.id_number) and member_pass == user_info.password:
             request.session['Is_auth'] = True
             request.session['user_id'] = user_info.id_number
