@@ -236,7 +236,7 @@
 
         {% for query_obj in members %}
         <tr>
-          <td>{{ query_obj.member_no }}</td>
+          <td>{{ forloop.counter }}</td>
           <td>{{ query_obj.member_name }}</td>
           <td>
 
@@ -300,7 +300,7 @@
 
         {% for query_obj in death_list %}
         <tr>
-          <td>{{ query_obj.member_no }}</td>
+          <td>{{ forloop.counter }}</td>
           <td>{{ query_obj.member_name }}</td>
           <td>
             {% if query_obj.member_status == 2 %}

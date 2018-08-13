@@ -38,6 +38,10 @@ html, body {
     font-size: 20px !important;
 
 }
+@media only screen and (max-width: 990px) {
+    /* For mobile phones: */
+    .socialicons{display: none;}
+}
 footer {
     line-height: 50px;
     color: #fff;
