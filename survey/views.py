@@ -389,7 +389,6 @@ def add_house(request):
             if request.method == 'POST':
                 form = AddHouse(request.POST, instance=instance)
                 if form.is_valid():
-                    print("form valid")
                     # check if he ignore warninig
                     if request.POST.get('post') == "post-after-warning":
                         print('after warning post')
@@ -414,8 +413,8 @@ def add_house(request):
                     if "warning" in type:
                         return HttpResponseRedirect(reverse('survey:add-house'))
                     # return HttpResponseRedirect(reverse('survey:add-house'))
-
-                    return HttpResponseRedirect(reverse('survey:add-house'))
+                    messages.success(request, _('House added'))
+                    return HttpResponseRedirect(reverse('survey:home'))
         else:
             messages.warning(request, _('Cannot add house before complete members'))
             return HttpResponseRedirect(reverse('survey:home'))
@@ -450,7 +449,7 @@ def death_form(request):
                 obj.sample_id = sample_id
                 obj.member_no = member_no
                 obj.member_status = 1
-                print(obj.f_m_id)
+                obj.insert_by = request.session.get('user_id')
                 obj.save()
                 message, type = check_errors(request, 4, sample_id, str(obj.f_m_id))
                 if "error" in type:
@@ -475,40 +474,43 @@ def death_form_edit(request, member_id):
             messages.info(request, _('Your Form is Complete'))
             return HttpResponseRedirect(reverse('survey:home'))
         instance = FcpFamilyDeathTab.objects.get(f_m_id = member_id)
-        form = DeathForm(instance=instance)
-        if request.method == 'POST':
-            form = DeathForm(request.POST, instance=instance)
-            if form.is_valid():
-                # check if he ignore warninig
-                if request.POST.get('post') == "post-after-warning":
-                    print('after warning post')
+        if instance.sample_id == sample_id:
+            form = DeathForm(instance=instance)
+            if request.method == 'POST':
+                form = DeathForm(request.POST, instance=instance)
+                if form.is_valid():
+                    # check if he ignore warninig
+                    if request.POST.get('post') == "post-after-warning":
+                        print('after warning post')
+                        obj = form.save(commit=False)
+                        obj.save()
+                        message, type = check_errors(request, 3, sample_id, None)
+                        if "error" in type:
+                            return HttpResponseRedirect(reverse('survey:death-form-edit', kwargs={'member_id': obj.f_m_id}))
+                        else:
+                            storage = get_messages(request)
+                            for item in storage:
+                                if item.tags == "warning":
+                                    del item
+                            obj.member_status = 2
+                            obj.save()
+                            messages.success(request, _('Saved !'))
+                            return HttpResponseRedirect(reverse('survey:home'))
                     obj = form.save(commit=False)
-                    obj.save()
-                    message, type = check_errors(request, 3, sample_id, None)
+                    obj.member_status = 1
+                    print(obj.f_m_id)
+                    form.save()
+                    message, type = check_errors(request, 4, sample_id, str(obj.f_m_id))
                     if "error" in type:
                         return HttpResponseRedirect(reverse('survey:death-form-edit', kwargs={'member_id': obj.f_m_id}))
-                    else:
-                        storage = get_messages(request)
-                        for item in storage:
-                            if item.tags == "warning":
-                                del item
-                        obj.member_status = 2
-                        obj.save()
-                        messages.success(request, _('Saved !'))
-                        return HttpResponseRedirect(reverse('survey:home'))
-                obj = form.save(commit=False)
-                obj.member_status = 1
-                print(obj.f_m_id)
-                form.save()
-                message, type = check_errors(request, 4, sample_id, str(obj.f_m_id))
-                if "error" in type:
-                    return HttpResponseRedirect(reverse('survey:death-form-edit', kwargs={'member_id': obj.f_m_id}))
-                if "warning" in type:
-                    return HttpResponseRedirect(reverse('survey:death-form-edit', kwargs={'member_id': obj.f_m_id}))
-                obj.member_status = 2
-                obj.save()
-                messages.success(request, _('Saved !'))
-                return HttpResponseRedirect(reverse('survey:home'))
+                    if "warning" in type:
+                        return HttpResponseRedirect(reverse('survey:death-form-edit', kwargs={'member_id': obj.f_m_id}))
+                    obj.member_status = 2
+                    obj.save()
+                    messages.success(request, _('Saved !'))
+                    return HttpResponseRedirect(reverse('survey:home'))
+        else:
+            raise Http404
         context = {'form': form, 'member_obj': instance}
     else:
         raise Http404
@@ -599,7 +601,6 @@ def change_number(request):
         }
 
     return JsonResponse(data)
-
 
 def submit_form(request):
     if request.session.get('Is_auth'):
