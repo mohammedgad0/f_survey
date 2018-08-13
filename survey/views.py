@@ -61,19 +61,19 @@ def add_family_member(request):
                 obj.save()
                 message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
                 if "error" in type:
-                    return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+                    return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fm_id': obj.f_m_id}))
                 if "warning" in type:
-                    return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+                    return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fm_id': obj.f_m_id}))
 
             return HttpResponseRedirect(reverse('survey:home'))
     else:
         raise Http404
     return render(request, 'family-member-form-step1.html', context)
 
-def edit_family_member(request, fid):
+def edit_family_member(request, fm_id):
     if request.session.get('Is_auth'):
         sample_id = request.session.get('sample_id')
-        instance=FcpFamilyMemberTab.objects.get(f_m_id=fid)
+        instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
 
         if sample_id == instance.sample_id:
             form = FamilyMemberFormStep1(instance = instance)
@@ -111,7 +111,7 @@ def edit_family_member(request, fid):
             context = {'form_step1':form, 'mem_obj': instance}
 
             if request.method == 'POST':
-                old_record=FcpFamilyMemberTab.objects.get(f_m_id=fid)
+                old_record=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
                 form = FamilyMemberFormStep1(request.POST, instance = instance)
 
                 if form.is_valid():
@@ -122,7 +122,7 @@ def edit_family_member(request, fid):
                         obj.save()
                         message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
                         if "error" in type:
-                            return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+                            return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fm_id': obj.f_m_id}))
                         else:
                             storage = get_messages(request)
                             for item in storage:
@@ -136,11 +136,9 @@ def edit_family_member(request, fid):
 
                     if old_record.gender != obj.gender:
                         obj.member_status = 1
-
-                        if obj.gender == '1600001':
-
-                            obj.males_count = None
-                            obj.females_count = None
+                        #if obj.gender == '1600001':
+                        obj.males_count = None
+                        obj.females_count = None
 
                     if old_record.age != obj.age:
                         obj.member_status = 1
@@ -181,9 +179,9 @@ def edit_family_member(request, fid):
                     obj.save()
                     message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
                     if "error" in type:
-                        return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+                        return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fm_id': obj.f_m_id}))
                     if "warning" in type:
-                        return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fid': obj.f_m_id}))
+                        return HttpResponseRedirect(reverse('survey:edit-family-member', kwargs={'fm_id': obj.f_m_id}))
                 return HttpResponseRedirect(reverse('survey:home'))
         else:
             raise Http404
@@ -192,8 +190,8 @@ def edit_family_member(request, fid):
     return render(request, 'family-member-form-step1.html', context)
 
 
-# def familyMembersList(request, fid):
-#     members_list = FcpFamilyMemberTab.objects.filter(sample_id=fid).order_by('member_no')
+# def familyMembersList(request, fm_id):
+#     members_list = FcpFamilyMemberTab.objects.filter(sample_id=fm_id).order_by('member_no')
 #     paginator = Paginator(members_list, 25)
 #     page = request.GET.get('page')
 #     if page and members_list != "":
@@ -285,9 +283,9 @@ def add_member_info(request, fm_id):
                     if request.POST.get('post') == "post-after-warning":
                         print('after warning post')
                         obj = form.save(commit=False)
-                        message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+                        message, type = check_errors(request, 2, sample_id, str(obj.f_m_id))
                         if "error" in type:
-                            return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
+                            return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id}))
                         else:
                             storage = get_messages(request)
                             for item in storage:
@@ -298,11 +296,11 @@ def add_member_info(request, fm_id):
                     obj = form.save(commit = False)
                     obj.member_status = 2
                     obj.save()
-                    message, type = check_errors(request, 1, sample_id, str(obj.f_m_id))
+                    message, type = check_errors(request, 2, sample_id, str(obj.f_m_id))
                     if "error" in type:
-                        return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
+                        return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id}))
                     if "warning" in type:
-                        return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fid': obj.f_m_id}))
+                        return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id}))
                     return HttpResponseRedirect(reverse('survey:home'))
 
             context = {'form_step2': form, 'female_fields': show_female_fields,'three_years_age':three_years_age_flag, 'ten_years_age':ten_years_age_flag, 'greater_age':greater_age_flag}
@@ -439,7 +437,7 @@ def death_form(request):
         else:
             # count and incrementing by 1 as family member number
             member_num = member_no.count() + 1
-            print(member_num)
+            #print(member_num)
             member_no = member_num
         form = DeathForm()
         if request.method == 'POST':
@@ -553,9 +551,9 @@ def check_errors(request, part_id, sample_id, member_id):
 
 def check_error(request):
     sample_id = request.session.get('sample_id')
-    member_id = '59071008'
+    member_id = '59080002'
     message, error_type = check_errors(request, 1 , sample_id, member_id)
-    print(error_type)
+    #print(error_type)
     context = {}
     return render(request, 'check_error.html', context)
 

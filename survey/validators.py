@@ -6,7 +6,7 @@ from django.contrib.auth.views import login
 from survey.models import *
 
 def validate_family_relation(value):
-    member_no = FcpFamilyMemberTab.objects.filter(sample_id=2)
+    member_no = FcpFamilyMemberTab.objects.filter(sample_id=request.session['sample_id'])
     if not member_no and value.lookup_list_id != 1700001:
         #family_relation = GenLookupListView.objects.get(rp_id=1,lookup_id=17,l_list_active=1,lookup_list_id=1700001)
         raise ValidationError(
