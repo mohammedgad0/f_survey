@@ -305,7 +305,9 @@ right: 0 !important;
                         </div>
        </fieldset>
                     <div class="button-container-form">
-                        <button id="btn-submit" type="submit" class="button"><span>{{ _('Save') }}</span></button>
+                        <button id="btn-submit" type="submit" class="button"><span>{{ _('Save') }} <i class="fa fa-check-circle"></i> </span></button>
+                         <a href="{% url "survey:home" %}"> <button type="button" class="button" style="background-color: #17a2b8;"><span>{{ _('Back') }} <i class="fa fa-arrow-circle-left"></i></span></button></a>
+
                     </div>
                     </form>
 
