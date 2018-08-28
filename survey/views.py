@@ -209,61 +209,62 @@ def add_member_info(request, fm_id):
     if request.session.get('Is_auth'):
         sample_id = request.session.get('sample_id')
         instance=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
-        print('sdfds', instance.main_job)
+        #print('sdfds', instance.main_job)
         if sample_id == instance.sample_id:
             if instance.age < 3:
                 messages.info(request, _('Your informations are complete'))
                 return HttpResponseRedirect(reverse('survey:home'))
             form = FamilyMemberFormStep2(instance = instance)
 
-
-            if instance.study_field:
-                edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
-                edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=edu_parent).order_by('seq_no')
-                CHOICES = []
-                CHOICES.append(('', _('Choice')))
-                for x in edu_child_list:
-                    CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
-                form.fields['study_field_parent'].initial = edu_parent
-                form.fields['study_field'].initial = instance.study_field
-                if CHOICES:
-                    form.fields['study_field'].choices = CHOICES
-            else:
-                form.fields['study_field'].choices = ""
+            if 'study_field' in form.fields:
+                if instance.study_field:
+                    edu_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=10,l_list_active=1, lookup_list_id=instance.study_field).ref_work_type_pk
+                    edu_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=10,l_list_active=1, ref_work_type_pk=edu_parent).order_by('seq_no')
+                    CHOICES = []
+                    CHOICES.append(('', _('Choice')))
+                    for x in edu_child_list:
+                        CHOICES.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+                    form.fields['study_field_parent'].initial = edu_parent
+                    form.fields['study_field'].initial = instance.study_field
+                    if CHOICES:
+                        form.fields['study_field'].choices = CHOICES
+                else:
+                    form.fields['study_field'].choices = ""
 
             if instance.age >= 15:
-                if instance.main_job:
-                    mainjob_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
-                    mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=mainjob_parent).order_by('seq_no')
-                    CHOICESMAINJOB = []
-                    CHOICESMAINJOB.append(('', _('Choice')))
-                    for x in mainjob_child_list:
-                        CHOICESMAINJOB.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
+                if 'main_job' in form.fields:
+                    if instance.main_job:
+                        mainjob_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=23,l_list_active=1, lookup_list_id=instance.main_job).ref_work_type_pk
+                        mainjob_child_list = GenLookupListView.objects.filter(rp_id=9,lookup_id=23,l_list_active=1, ref_work_type_pk=mainjob_parent).order_by('seq_no')
+                        CHOICESMAINJOB = []
+                        CHOICESMAINJOB.append(('', _('Choice')))
+                        for x in mainjob_child_list:
+                            CHOICESMAINJOB.append((x.lookup_list_id, x.code + ' - ' + x.list_name))
 
-                    form.fields['main_job_parent'].initial = mainjob_parent
-                    form.fields['main_job'].initial = instance.main_job
-                    if CHOICESMAINJOB:
-                        form.fields['main_job'].choices = CHOICESMAINJOB
-                else:
-                    form.fields['main_job'].choices = ""
+                        form.fields['main_job_parent'].initial = mainjob_parent
+                        form.fields['main_job'].initial = instance.main_job
+                        if CHOICESMAINJOB:
+                            form.fields['main_job'].choices = CHOICESMAINJOB
+                    else:
+                        form.fields['main_job'].choices = ""
 
+                if 'economic_activity' in form.fields:
+                    if instance.economic_activity:
 
-                if instance.economic_activity:
-                    print('test')
-                    economic_activity_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
-                    economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=economic_activity_parent).order_by('seq_no')
-                    CHOICESECOACT = []
-                    CHOICESECOACT.append(('', _('Choice')))
-                    for y in economic_activity_child:
-                        CHOICESECOACT.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
+                        economic_activity_parent = GenLookupListView.objects.get(rp_id=9,lookup_id=21,l_list_active=1, lookup_list_id=instance.economic_activity).ref_work_type_pk
+                        economic_activity_child = GenLookupListView.objects.filter(rp_id=9,lookup_id=21,l_list_active=1, ref_work_type_pk=economic_activity_parent).order_by('seq_no')
+                        CHOICESECOACT = []
+                        CHOICESECOACT.append(('', _('Choice')))
+                        for y in economic_activity_child:
+                            CHOICESECOACT.append((y.lookup_list_id, y.code + ' - ' + y.list_name))
 
-                    form.fields['economic_activity_parent'].initial = economic_activity_parent
-                    form.fields['economic_activity'].initial = instance.economic_activity
+                        form.fields['economic_activity_parent'].initial = economic_activity_parent
+                        form.fields['economic_activity'].initial = instance.economic_activity
 
-                    if CHOICESECOACT:
-                        form.fields['economic_activity'].choices = CHOICESECOACT
-                else:
-                    form.fields['economic_activity'].choices = ""
+                        if CHOICESECOACT:
+                            form.fields['economic_activity'].choices = CHOICESECOACT
+                    else:
+                        form.fields['economic_activity'].choices = ""
 
             show_female_fields = False
             if instance.gender == 1600002:
@@ -291,7 +292,7 @@ def add_member_info(request, fm_id):
                 if form.is_valid():
                     # post if he dismiss warning
                     if request.POST.get('post') == "post-after-warning":
-                        print('after warning post')
+                        #print('after warning post')
                         obj = form.save(commit=False)
                         message, type = check_errors(request, 2, sample_id, str(obj.f_m_id))
                         if "error" in type:
