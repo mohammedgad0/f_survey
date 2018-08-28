@@ -212,7 +212,7 @@ def add_member_info(request, fm_id):
         #print('sdfds', instance.main_job)
         if sample_id == instance.sample_id:
             if instance.age < 3:
-                messages.info(request, _('Your informations are complete'))
+                messages.info(request, _('Your Form is Complete'))
                 return HttpResponseRedirect(reverse('survey:home'))
             form = FamilyMemberFormStep2(instance = instance)
 

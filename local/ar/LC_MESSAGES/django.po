@@ -594,8 +594,6 @@ msgid "Saved !"
 msgstr "تم الحفظ"
 
 #: .\survey\views.py:215
-#, fuzzy
-#| msgid "Your Form is Complete"
 msgid "Your informations are complete"
 msgstr "بيانات الأسرة مكتملة ومعتمدة"
 
