@@ -14,7 +14,7 @@ right: 0 !important;
 .form-group input:disabled{color: #000 !important;}
 
   label.error { float: none; color: red; margin: 0 .5em 0 0; vertical-align: top; font-size: 10px; display:block }
-  
+
   </style>
 {% endblock stylesheets %}
 
@@ -653,26 +653,69 @@ $('#id_in_or_out_prev_stay').on('change', function(){
 //var age = {{ mem_obj.age }}
 
 var age = $('input[name=age]').val();
+
 //var member_id = {{ mem_obj.f_m_id }};
 if( age > 0 ) {
-$('input[name=age]').keyup(age_check);
+  //setTimeout(function(){
+    $('input[name=age]').on('blur',age_check);
+    $('input[name=birth_year]').on('blur',age_check);
+  //}, 2000);
+
 
   function age_check(){
+    var new_age = $('input[name=age]').val();
+    var oldage = {{ mem_obj.age }}
+    var message;
+    if (new_age < 3 && new_age != oldage){
+      message = 'هذا التغيير في العمر قد يحذف البيانات المتعلقة بالتعليم والعمل.'
+    }
+    else if(new_age >= 3 && new_age < 10 && new_age != oldage){
+      message = ' التغيير في العمر سيتطلب تغييرات في: <ul><li>الحالة التعليم (اسم أعلى شهادة)</li><li>مجال الدراسة (التخصص)</li></ul>'
+    }
+    else{
+      message = ""
+    }
+    if(message){
 
-        $("input[name=age]").popover({
-            trigger: 'manual',
-            html:'true',
-            content: "<div class='alert alert-warning'>"
-              +"<i class='fa fas fa-exclamation-triangle'></i> تنبيه! التغير فى العمر قد يترتب عليه تغير بعض القيم المدخلة سابقاً"
-              +"</div>",
-            placement : 'top'
-        });
-        $("input[name=age]").popover('show');
-        $('input[name=age]').parent().addClass( "has-error has-warning has-feedback" );
+      $("input[name=age]").popover({
+          trigger: 'manual',
+          html:'true',
+          content: "<div class='alert alert-warning'>"
+            +"<i class='fa fas fa-exclamation-triangle'></i> تنبية! <div class='message'>"+ message +"</div>"
+            +"<button class='btn btn-success accept action-btn' id='accept' name='yes'>نعم</button>&nbsp;"
+            +"<button class='btn btn-danger cancel action-btn' id='cancel' name='no'>لا</button>"
+            +"</div>",
+          placement : 'top'
+      });
+      var old_age = {{ mem_obj.age }}
+      var old_year = {{ mem_obj.birth_year }}
+      $("input[name=age]").popover('show');
+      $('.message').html(message);
+      $('input[name=age]').parent().addClass( "has-error has-warning has-feedback" );
+      message = undefined;
 
+      $('.action-btn').on('click', function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        if (id == 'accept'){
+          $('input[name=age]').parent().removeClass( "has-error has-warning has-feedback" );
+          $('input[name=age]').parent().addClass( "has-warning alert-warning has-feedback" );
+          $('input[name=age]').popover('hide');
+        }
+        else if(id == 'cancel'){
+          $('input[name=age]').val(old_age);
+          $('input[name=birth_year]').val(old_year);
+          $('input[name=age]').parent().removeClass( "has-error has-warning has-feedback" );
+          $('input[name=age]').parent().removeClass( "has-warning alert-warning has-feedback" );
+          $('input[name=age]').popover('hide');
+        }
+
+      });
+    }
   }
   $('input[name=age]').on('focusout', function(){
-    $(this).popover('hide');
+    //$(this).popover('hide');
+    message = undefined;
   });
 }
 

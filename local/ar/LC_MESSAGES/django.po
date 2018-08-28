@@ -254,7 +254,7 @@ msgstr "الجنس"
 
 #: .\survey\templates\family-member-form-step1.html:134
 msgid "Age"
-msgstr "العمر وتاريخ الميلاد"
+msgstr "العمر"
 
 #: .\survey\templates\family-member-form-step1.html:142
 msgid "Birth Year"
