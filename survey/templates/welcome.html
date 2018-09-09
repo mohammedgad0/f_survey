@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Family Survey Form{% endblock %}
+{% block stylesheets %}
+  {{ block.super }}
+  <style>
+  .new-family{
+    background: #1eb3b9;
+  }
+  .current-family{
+    background: #2981c1;
+  }
+  .house-deaths{
+    background: #6eb346;
+
+  }
+  .deaths{
+    background: #a94442;
+  }
+  .box{
+    text-align: center;
+    /* height: 100px;*/
+    color: white;
+    /* font-weight: bold;  */
+  }
+  .parent{
+    padding:4px;
+  }
+  .box > .icon > .image {
+    position: relative;
+    z-index: 2;
+    margin: auto;
+    width: 88px;
+    height: 88px;
+    border: 8px solid white;
+    line-height: 88px;
+    border-radius: 50%;
+    background: #63B76C;
+    vertical-align: middle;
+}
+.box > .icon > .info {
+    margin-top: -24px;
+    /* background: rgba(0, 0, 0, 0.04); */
+    border: 1px solid #e0e0e0;
+    padding: 15px 2px 10px 2px;
+}
+.box > .icon > .image > i {
+    font-size: 36px !important;
+    color: #fff !important;
+}
+.more a{
+  color: white;
+  font-size: 20px;
+}
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+      <div class="container-form">
+        {% if form_step1.errors %}
+          {% for field in form_step1 %}
+              {% for error in field.errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endfor %}
+          {% for error in form_step1.non_field_errors %}
+              <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+              </div>
+          {% endfor %}
+      {% endif %}
+      <!-- User query form added by Wisal, 7/17/08 -->
+        <!--<div class="row">
+          <div class="col-lg-12 text-center">
+            <h2>{% trans 'Add Family Member' %}</h2>
+          </div>
+        </div>-->
+      <h1 class="text-center">{{ _('Welcome') }}</h1>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+          <p class="text-center"> هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام "هنا يوجد محتوى نصي، هنا يوجد محتوى نصي" فتجعلها تبدو (أي الأحرف) وكأنها نص مقروء. العديد من برامح النشر المكتبي وبرامح تحرير صفحات الويب تستخدم لوريم إيبسوم بشكل إفتراضي كنموذج عن النص، وإذا قمت بإدخال "lorem ipsum" في أي محرك بحث ستظهر العديد من المواقع الحديثة العهد في نتائج البحث. على مدى السنين ظهرت نسخ جديدة ومختلفة من نص لوريم إيبسوم، أحياناً عن طريق الصدفة، وأحياناً عن عمد كإدخال بعض العبارات الفكاهية إليها. </p>
+        </div>
+      </div>
+      <div class="row parent">
+        <!-- Boxes de Acoes -->
+    	<div class="col-xs-12 col-sm-6 col-lg-4 ">
+			<div class="box ">
+				<div class="icon">
+					<div class="image"><i class="fa fa-user-plus"></i></div>
+					<div class="info new-family">
+						<h3 class="title">{{ _('Add Family Members')}}</h3>
+						<p>
+							هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام "هنا يوجد محتوى نصي
+						</p>
+						<div class="more">
+							<a href="{% url 'survey:start-step' %}" title="{{ _('Start family wizard') }}">
+								{{ _('Start') }} <i class="fa fa-angle-double-left"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="space"></div>
+			</div>
+		</div>
+
+        <div class="col-xs-12 col-sm-6 col-lg-4 ">
+			<div class="box ">
+				<div class="icon">
+					<div class="image"><i class="fa fa-users"></i></div>
+					<div class="info current-family">
+						<h3 class="title">{{ _('View existing members') }}</h3>
+    					<p>
+							هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام "هنا يوجد محتوى نصي
+						</p>
+						<div class="more">
+							<a href="{% url 'survey:home' %}" title="{{ _('Review Family data') }}">
+								{{ _('Review') }} <i class="fa fa-angle-double-left"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="space"></div>
+			</div>
+		</div>
+
+        <div class="col-xs-12 col-sm-6 col-lg-4 ">
+			<div class="box">
+				<div class="icon">
+					<div class="image"><i class="fa fa-home"></i></div>
+					<div class="info house-deaths">
+						<h3 class="title">{{ _('Add Housing Info') }}</h3>
+    					<p>
+							هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام "هنا يوجد محتوى نصي
+						</p>
+						<div class="more">
+							<a href="{% url 'survey:add-house' %}" title="{{ _('Housing information') }}">
+								{{ _('Update') }} <i class="fa fa-angle-double-left"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="space"></div>
+			</div>
+		</div>
+    <div class="col-xs-12 col-sm-6 col-lg-4 ">
+  <div class="box">
+    <div class="icon">
+      <div class="image"><i class="fa fa-heartbeat"></i></div>
+      <div class="info deaths">
+        <h3 class="title">{{ _('Add Death details') }}</h3>
+          <p>
+          هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام "هنا يوجد محتوى نصي
+        </p>
+        <div class="more">
+          <a href="{% url 'survey:death-form' %}" title="{{ _('Family Deaths information') }}">
+            {{ _('Update') }} <i class="fa fa-angle-double-left"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="space"></div>
+  </div>
+</div>
+
+	</div>
+      <!--<div class="row parent">
+
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 new-family box">
+          Add New Family
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 current-family box">
+          Current Family members
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 house-deaths box">
+          Add Housing or Death details
+        </div>
+      </div>-->
+    </div>
+
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script>
+
+  </script>
+{% endblock %}

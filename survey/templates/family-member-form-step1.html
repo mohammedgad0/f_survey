@@ -60,7 +60,7 @@ right: 0 !important;
      <input class="js-warning" type="text" hidden value="warning">
 <div class="button-container-form">
 <button id="btn-warning" type="submit" name="post" value="post-after-warning" class="button"><span>{{ _('Save And Continue') }}</span></button>
- <a href="{% url "survey:edit-family-member" mem_obj.f_m_id %}"> <button type="button" class="button" style="background-color: #17a2b8;"><span>{{ _('Back') }}</span></button></a>
+ <a href="{% url "survey:edit-family-member" 59080008 %}"> <button type="button" class="button" style="background-color: #17a2b8;"><span>{{ _('Back') }}</span></button></a>
 </div>
 
 
@@ -72,7 +72,7 @@ right: 0 !important;
 {% endif %}
               <fieldset class="scheduler-border">
                  <legend class="scheduler-border"><i class="fas fa fa-user-plus"></i> {{ _('Add Family Member') }}</legend>
-
+                 <h1 class='text-center'>{% if action != 'edit' %}{{ _('Member')}}#  {{ request.session.member_order_count }} {% endif %}</h1>
                    {% csrf_token %}
 <div class="row">
                       <div class="col-md-4">
@@ -417,9 +417,12 @@ right: 0 !important;
                   </fieldset>
 
                     <div class="button-container-form">
-                        <button id="btn-submit" type="submit" class="button"><span>{{ _('Save') }} <i class="fa fa-check-circle"></i> </span></button>
-                                                 <a href="{% url "survey:home" %}"> <button type="button" class="button" style="background-color: #17a2b8;"><span>{{ _('Back') }} <i class="fa fa-arrow-circle-left"></i></span></button></a>
-
+                        <button id="btn-submit" type="submit" class="button"><span>{{ _('Next') }} <i class="fa fa-check-circle"></i> </span></button>
+                        {% if action == 'edit'%}
+                          <a href="{% url "survey:home" %}"> <button type="button" class="button" style="background-color: #17a2b8;"><span>{{ _('Back') }} <i class="fa fa-arrow-circle-left"></i></span></button></a>
+                        {% else %}
+                          <a href="{% url "survey:start-step" %}"> <button type="button" class="button" style="background-color: #17a2b8;"><span>{{ _('Back') }} <i class="fa fa-arrow-circle-left"></i></span></button></a>
+                        {% endif %}
                     </div>
 
                 </form>
@@ -664,8 +667,8 @@ if( age > 0 ) {
 
   function age_check(){
     var new_age = $('input[name=age]').val();
-    var oldage = {{ mem_obj.age }}
-    var message;
+    var oldage = {% if mem_obj.age %}{{ mem_obj.age }}{% else %}{{ '0' }} {% endif %}
+    var message = "";
     if (new_age < 3 && new_age != oldage){
       message = 'هذا التغيير في العمر قد يحذف البيانات المتعلقة بالتعليم والعمل.'
     }
@@ -693,8 +696,8 @@ if( age > 0 ) {
             +"</div>",
           placement : 'top'
       });
-      var old_age = {{ mem_obj.age }}
-      var old_year = {{ mem_obj.birth_year }}
+      //var old_age = {{ mem_obj.age }}
+      var old_year = {% if mem_obj.birth_year %}{{ mem_obj.birth_year }}{% endif %}
       $("input[name=age]").popover('show');
       $('.message').html(message);
       $('input[name=age]').parent().addClass( "has-error has-warning has-feedback" );

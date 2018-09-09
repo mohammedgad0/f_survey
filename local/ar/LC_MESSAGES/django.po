@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-28 09:16+0300\n"
+"POT-Creation-Date: 2018-09-09 13:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,8 +29,8 @@ msgstr ""
 
 #: .\survey\forms.py:19 .\survey\forms.py:63 .\survey\forms.py:64
 #: .\survey\forms.py:183 .\survey\forms.py:254 .\survey\forms.py:288
-#: .\survey\views.py:16 .\survey\views.py:224 .\survey\views.py:239
-#: .\survey\views.py:256
+#: .\survey\views.py:16 .\survey\views.py:238 .\survey\views.py:254
+#: .\survey\views.py:271
 msgid "Choice"
 msgstr "اختر..."
 
@@ -185,16 +185,18 @@ msgstr "برجاء الدخول بواسطة الرابط وكلمة السر ا
 #: .\survey\templates\add_house.html:65 .\survey\templates\death_form.html:51
 #: .\survey\templates\family-member-form-step1.html:62
 #: .\survey\templates\family-member-form-step2.html:54
+#: .\survey\templates\start-step.html:66
 msgid "Save And Continue"
 msgstr "حفظ واستمرار"
 
 #: .\survey\templates\add_house.html:66 .\survey\templates\add_house.html:309
 #: .\survey\templates\death_form.html:52 .\survey\templates\death_form.html:128
 #: .\survey\templates\family-member-form-step1.html:63
-#: .\survey\templates\family-member-form-step1.html:421
+#: .\survey\templates\family-member-form-step1.html:422
+#: .\survey\templates\family-member-form-step1.html:424
 #: .\survey\templates\family-member-form-step2.html:55
 #: .\survey\templates\family-member-form-step2.html:235
-#: .\survey\templates\submit_form.html:54
+#: .\survey\templates\start-step.html:67 .\survey\templates\submit_form.html:54
 #: .\survey\templates\submit_form.html:95
 msgid "Back"
 msgstr "رجوع"
@@ -212,7 +214,6 @@ msgid "Communications"
 msgstr "وسائل الاتصالات والنقل والترفيه للأسرة"
 
 #: .\survey\templates\add_house.html:308 .\survey\templates\death_form.html:127
-#: .\survey\templates\family-member-form-step1.html:420
 #: .\survey\templates\family-member-form-step2.html:234
 msgid "Save"
 msgstr "حفظ"
@@ -225,8 +226,13 @@ msgstr "الوفيات داخل الأسرة"
 #: .\survey\templates\family-member-form-step1.html:74
 #: .\survey\templates\family-member-form-step2.html:33
 #: .\survey\templates\family-member-form-step2.html:66
+#: .\survey\templates\start-step.html:41 .\survey\templates\welcome.html:78
 msgid "Add Family Member"
 msgstr "إضافة بيانات للفرد"
+
+#: .\survey\templates\family-member-form-step1.html:75
+msgid "Member"
+msgstr "الفرد"
 
 #: .\survey\templates\family-member-form-step1.html:81
 msgid "First Name"
@@ -320,6 +326,13 @@ msgstr "مكان الإقامة السابق"
 #: .\survey\templates\family-member-form-step1.html:411
 msgid "Current place of stay"
 msgstr "مكان الإقامة المعتاد"
+
+#: .\survey\templates\family-member-form-step1.html:420
+#: .\survey\templates\family-members-list.html:82
+#: .\survey\templates\family-members-list.html:84
+#: .\survey\templates\start-step.html:87
+msgid "Next"
+msgstr "التالى"
 
 #: .\survey\templates\family-member-form-step2.html:13
 msgid "View all members"
@@ -443,11 +456,6 @@ msgstr "حذف"
 msgid "Previous"
 msgstr "السابق"
 
-#: .\survey\templates\family-members-list.html:82
-#: .\survey\templates\family-members-list.html:84
-msgid "Next"
-msgstr "التالى"
-
 #: .\survey\templates\family-members-list.html:91
 msgid "No records available"
 msgstr "لا توجد بيانات"
@@ -485,7 +493,7 @@ msgid "Member onformation"
 msgstr "بيانات الأفراد"
 
 #: .\survey\templates\home.html:223
-msgid "Edit members numer"
+msgid "Edit members number"
 msgstr "تغير عدد أفراد الأسرة"
 
 #: .\survey\templates\home.html:280
@@ -512,11 +520,12 @@ msgstr "نعم"
 msgid "No"
 msgstr "لا"
 
-#: .\survey\templates\home.html:375
+#: .\survey\templates\home.html:375 .\survey\templates\start-step.html:47
+#: .\survey\templates\start-step.html:79
 msgid "family members number"
 msgstr "عدد أفراد الأسرة"
 
-#: .\survey\templates\home.html:380
+#: .\survey\templates\home.html:380 .\survey\templates\start-step.html:82
 msgid "edit"
 msgstr "تعديل"
 
@@ -544,6 +553,14 @@ msgstr "كلمه السر"
 msgid "Login"
 msgstr "تسجيل الدخول"
 
+#: .\survey\templates\start-step.html:44 .\survey\templates\welcome.html:100
+msgid "Start"
+msgstr "أبدأ هنا"
+
+#: .\survey\templates\start-step.html:88
+msgid "Logout"
+msgstr "الخروج"
+
 #: .\survey\templates\submit_form.html:22
 msgid "Data is correct"
 msgstr "إقرار بصحة البيانات"
@@ -559,6 +576,52 @@ msgstr "البريد الإلكتروني"
 #: .\survey\templates\submit_form.html:53
 msgid "Submit"
 msgstr "إعتماد"
+
+#: .\survey\templates\welcome.html:81
+msgid "Welcome"
+msgstr "أهلا بك"
+
+#: .\survey\templates\welcome.html:94
+msgid "Add Family Members"
+msgstr "إضافة بيانات للفرد"
+
+#: .\survey\templates\welcome.html:99
+msgid "Start family wizard"
+msgstr "أضف أفراد العائلة"
+
+#: .\survey\templates\welcome.html:114
+msgid "View existing members"
+msgstr "عرض جميع أفراد الأسرة"
+
+#: .\survey\templates\welcome.html:119
+msgid "Review Family data"
+msgstr ""
+
+#: .\survey\templates\welcome.html:120
+msgid "Review"
+msgstr "مراجعة"
+
+#: .\survey\templates\welcome.html:134
+msgid "Add Housing Info"
+msgstr "إضافة بيانات المسكن"
+
+#: .\survey\templates\welcome.html:139
+msgid "Housing information"
+msgstr "بيانات المسكن"
+
+#: .\survey\templates\welcome.html:140 .\survey\templates\welcome.html:159
+msgid "Update"
+msgstr "تحديث"
+
+#: .\survey\templates\welcome.html:153
+msgid "Add Death details"
+msgstr "أضف تفاصيل الوفيات"
+
+#: .\survey\templates\welcome.html:158
+#, fuzzy
+#| msgid "Death information"
+msgid "Family Deaths information"
+msgstr "الوفيات داخل الأسرة"
 
 #: .\survey\validators.py:13
 msgid "First family member must be Family head"
@@ -582,54 +645,62 @@ msgstr ""
 "لقد تم ادخال جميع افراد الأسرة, لإدخال فرد جديد برجاء زيادة عدد أفراد الأسرة "
 "اولاً."
 
-#: .\survey\views.py:67 .\survey\views.py:189 .\survey\views.py:314
+#: .\survey\views.py:70 .\survey\views.py:201 .\survey\views.py:329
 #, fuzzy
 #| msgid "Save"
 msgid "Saved"
 msgstr "حفظ"
 
-#: .\survey\views.py:135 .\survey\views.py:304 .\survey\views.py:420
-#: .\survey\views.py:476 .\survey\views.py:512 .\survey\views.py:525
+#: .\survey\views.py:147 .\survey\views.py:319 .\survey\views.py:469
+#: .\survey\views.py:532 .\survey\views.py:571 .\survey\views.py:584
 msgid "Saved !"
 msgstr "تم الحفظ"
 
-#: .\survey\views.py:215
-msgid "Your informations are complete"
-msgstr "بيانات الأسرة مكتملة ومعتمدة"
-
-#: .\survey\views.py:376 .\survey\views.py:387
-msgid "invalid id or password"
-msgstr "خطأ فى رقم الهوية او كلمة المرور"
-
-#: .\survey\views.py:398 .\survey\views.py:448 .\survey\views.py:489
+#: .\survey\views.py:229 .\survey\views.py:447 .\survey\views.py:504
+#: .\survey\views.py:548
 msgid "Your Form is Complete"
 msgstr "بيانات الأسرة مكتملة ومعتمدة"
 
-#: .\survey\views.py:431
+#: .\survey\views.py:342
+msgid "All members added, Please add housing details."
+msgstr "تمت إضافة أفراد العائلة بنجاح ، يرجى إضافة تفاصيل السكن."
+
+#: .\survey\views.py:407 .\survey\views.py:420
+msgid "invalid id or password"
+msgstr "خطأ فى رقم الهوية او كلمة المرور"
+
+#: .\survey\views.py:480
 #, fuzzy
 #| msgid "House detail"
 msgid "House added"
 msgstr "مكونات السكن"
 
-#: .\survey\views.py:434
+#: .\survey\views.py:488
 msgid "Cannot add house before complete members"
 msgstr "لا يمكن إضافة بيانات المسكن الا بعد اكتمال بيانات أفراد الأسرة"
 
-#: .\survey\views.py:555
+#: .\survey\views.py:536
+msgid "No death status available for this family"
+msgstr "لا توجد حالة وفاة متاحة لهذه العائلة."
+
+#: .\survey\views.py:614
 msgid "Error database"
 msgstr " خطأ من قاعدة البيانات"
 
-#: .\survey\views.py:584 .\survey\views.py:589
+#: .\survey\views.py:643 .\survey\views.py:648
 msgid "Member is deleted"
 msgstr "تم الحذف"
 
-#: .\survey\views.py:604
+#: .\survey\views.py:663
 msgid "value less than members already exists"
 msgstr " العدد المدخل أقل من عدد الأفراد المسجلين من قبل"
 
-#: .\survey\views.py:612
+#: .\survey\views.py:671
 msgid "change done"
 msgstr "تم التغير بنجاح"
+
+#~ msgid "Your informations are complete"
+#~ msgstr "بيانات الأسرة مكتملة ومعتمدة"
 
 #~ msgid "House Added successfully."
 #~ msgstr "تمت إضافة بيانات المسكن بنجاح"
