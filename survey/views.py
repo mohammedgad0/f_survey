@@ -427,16 +427,21 @@ def logout_view(request, token):
     return HttpResponseRedirect(reverse('survey:login', kwargs={'token': token}))
 
 def welcome_page(request):
-    sample_id = request.session.get('sample_id')
-    sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
-    context = {'members_count': sample_obj.no_of_member, 'sample_id': sample_id}
-    return render(request, 'welcome.html', context)
-
+    if request.session.get('Is_auth'):
+        sample_id = request.session.get('sample_id')
+        sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
+        context = {'members_count': sample_obj.no_of_member, 'sample_id': sample_id}
+        return render(request, 'welcome.html', context)
+    else:
+        raise Http404
 def start_step(request):
-    sample_id = request.session.get('sample_id')
-    sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
-    context = {'members_count': sample_obj.no_of_member, 'sample_id': sample_id}
-    return render(request, 'start-step.html', context)
+    if request.session.get('Is_auth'):
+        sample_id = request.session.get('sample_id')
+        sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
+        context = {'members_count': sample_obj.no_of_member, 'sample_id': sample_id}
+        return render(request, 'start-step.html', context)
+    else:
+        raise Http404    
 
 def add_house(request):
     if request.session.get('Is_auth'):

@@ -1,10 +1,35 @@
 {% load i18n %}
-
+<style>
+.navbar-nav>li>a{
+  line-height: 8px;
+}
+.nav li a{
+  color:#fff;
+}
+.nav li a:hover{
+  color:#000;
+}
+</style>
     <div class="top-bar">
 
-        <div class="col-md-6 date">
+        <div class="col-md-4 date">
             {% now "D d F Y " %}
         </div>
+        <div class="col-md-4">
+          <nav class="navbar">
+          <div class="container-fluid">
+
+            <ul class="nav navbar-nav">
+              {% if request.session.token_key %}
+              <li class="active"><a href="{% url 'survey:welcome' %}">{{ _('Home')}}</a></li>
+              <li class=""> <a href='{% url "survey:logout" request.session.token_key %}'> {{ _('Logout') }}</a></li>
+              {% endif %}
+            </ul>
+
+          </div>
+          </nav>
+        </div>
+
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 socialicons">
         	<ul>
 	        	<li><a href="https://www.instagram.com/stats_saudi/"> <i class="fa fa-instagram"></i> </a></li>
