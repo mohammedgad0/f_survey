@@ -412,7 +412,11 @@ def login(request, token):
             request.session['sample_id'] = user_info.sample_id
             request.session['family_id'] = user_info.sample_id
             request.session['token_key'] = token
-            request.session['member_order_count']  = 1
+            total_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=user_info.sample_id) & ~Q(member_delete_status=1)).count()
+            if total_members:
+                request.session['member_order_count']  = total_members + 1
+            else:
+                request.session['member_order_count']  = 1
             # UserLog.objects.create(user_id=user_info.id_number, input_id = member_id, success=True)
             return HttpResponseRedirect(reverse('survey:welcome'))
         else:
@@ -441,7 +445,7 @@ def start_step(request):
         context = {'members_count': sample_obj.no_of_member, 'sample_id': sample_id}
         return render(request, 'start-step.html', context)
     else:
-        raise Http404    
+        raise Http404
 
 def add_house(request):
     if request.session.get('Is_auth'):
@@ -645,6 +649,7 @@ def delete_member(request):
         member = FcpFamilyMemberTab.objects.get(f_m_id= member_id)
         member.member_delete_status = 1
         member.save()
+        request.session['member_order_count']  -= 1
         messages.success(request, _("Member is deleted"))
     elif data_type == "Death":
         member = FcpFamilyDeathTab.objects.get(f_m_id= member_id)
