@@ -66,11 +66,14 @@
                         {% csrf_token %}
                         <div class="row r-1 ">
                         <!-- start column -->
-                         <div class="col-md-4">
+                      <div class="col-md-4">
                         <div class="form-group">
                           {{ form.member_name }}
                           <label for="input" class="control-label">{{ form.member_name.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">سجل في هذا الحقل اسماء جميع الأشخاص الذين توفوا خلال الاثني عشر شهرا السابقة وكانوا يعيشون ضمن أفراد هذه الأسرة قبل وفاتهم ويسجل الاسم الثلاثي للفرد المتوفي.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                         <!-- end column -->
                       </div>
@@ -78,18 +81,23 @@
                          <div class="col-md-4">
                         <div class="form-group">
                           {{ form.gender }}
-                          <label for="input" class="control-label">{{ form.gender.label_tag }}</label>
+                          <label for="input" class="control-label">{{ _('Gender') }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">سجل في هذا الحقل جنس جميع الأشخاص الذين توفوا خلال الاثني عشر شهرا السابقة، وكانوا يعيشون ضمن أفراد هذه الأسرة قبل وفاتهم ويدون رمز الإجابة المناسبة حسب الجنس، فإذا كان المتوفى ذكرا دون الرمز (1) وإذا كان أنثى دون الرمز (2).</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                         <!-- end column -->
                       </div>
                          <div class="col-md-4">
                         <div class="form-group">
                           {{ form.nationality }}
-                          <label for="input" class="control-label">{{ form.nationality.label_tag }}</label>
+                          <label for="input" class="control-label">{{ _('Nationality Name') }}</label>
                           <i class="bar"></i>
                             <small id="emailHelp" class="form-text text-muted">{{ form.nationality.help_text }}</small>
-
+                            <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                            title='<span class="message">سجل في هذا الحقل جنسية جميع الأشخاص الذين توفوا خلال الاثني عشر شهرا السابقة، وكانوا يعيشون ضمن أفراد هذه الأسرة قبل وفاتهم ويدون رمز الإجابة المناسبة حسب جنسية الفرد المتوفى فإذا كان المتوفى سعوديا يدون الرمز (1) وإذا كان غير سعوديا يدون الرمز (2).</span>'
+                            data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                         </div>
                       </div>
                         </div>
@@ -103,14 +111,20 @@
 
                           <label for="input" class="control-label">{{ form.death_age.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">سجل في هذا الحقل العمر عند الوفاة بالسنوات الكاملة أقل من سنة (0) لجميع الأشخاص الذين توفوا خلال الاثني عشر شهرا السابقة، وكانوا يعيشون ضمن أفراد هذه الأسرة قبل وفاتهم ويدون في هذا الحقل عمر المتوفى عند حدوث الوفاة بالسنوات الكاملة مع إهمال الشهور أيا كان عددها، وللأفراد المتوفين ولم يكمل عمرهم السنة يكتب (0).</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                       </div>
                         <!-- end column -->
                     <div class="col-md-4">
                         <div class="form-group">
                           {{ form.reason_death }}
-                          <label for="input" class="control-label">{{ form.reason_death.label_tag }}</label>
+                          <label for="input" class="control-label">{{ _('Reason of Death') }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">اختر سبب الوفاة من القائمة المنسدلة المكونة من 6 بنود كالتالي:  أسباب مرضية،  شيخوخة، أسباب تتعلق بالحمل والولادة والنفاس، حوادث سير، حوادث أخرى، أسباب اخرى ويجب توضيحها</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                       </div>
 

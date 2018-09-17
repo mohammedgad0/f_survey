@@ -18,6 +18,7 @@ color: gray !important;
 top: -1rem !important;
 right: 0 !important;
 }
+
 .form-group input:disabled{color: #000 !important;}
 
     </style>
@@ -84,6 +85,9 @@ right: 0 !important;
                           {{ form.housing_type }}
                           <label for="input" class="control-label">{{ form.housing_type.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">اختر رمز الإجابة المناسبة من القائمة المسندلة لتوضيح نوع المسكن الذي تقيم فيه الأسرة.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                         <!-- end column -->
                             <!-- start hidden field -->
@@ -91,6 +95,7 @@ right: 0 !important;
                           {{ form.housing_type_txt }}
                           <label for="input" class="control-label">{{ form.housing_type_txt.label_tag }}</label>
                           <i class="bar"></i>
+
                         </div>
                       </div>
                             <!-- End hidden field -->
@@ -100,6 +105,9 @@ right: 0 !important;
                           {{ form.building_material }}
                           <label for="input" class="control-label">{{ form.building_material.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">اختر رمز الإجابة المناسبة من القائمة المسندلة وذلك لتوضيح مادة بناء المسكن الذي تقيم فيه الأسرة.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                         <!-- end column -->
                         <div class="form-group" style="display: none;">
@@ -113,6 +121,10 @@ right: 0 !important;
                           {{ form.housing_space }}
                           <label for="input" class="control-label">{{ form.housing_space.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">سجل إجمالي مساحة مسطحات البناء للمسكن (بالمتر المربع) في المربع المخصص لذلك أسفل الحقل وذلك لتوضيح مساحة مسطحات البناء المسكن الذي تقيم فيه الأسرة.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
+
                             <small id="emailHelp" class="form-text text-muted">{{ form.housing_space.help_text }}</small>
 
                         </div>
@@ -130,11 +142,17 @@ right: 0 !important;
                           {{ form.housing_stay_type }}
                           <label for="input" class="control-label">{{ form.housing_stay_type.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">اختر الإجابة المناسبة من القائمة المسندلة وذلك لتوضيح نوع المسكن حسب الاقامة وهي إحدى الحالات التالية: إقامة دائمة، إقامة موسمية، إقامة مؤقتة.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                       </div>
                         <!-- end column -->
                 <fieldset class="scheduler-border house-details">
-                 <legend class="scheduler-border">{{ _('House detail') }}</legend>
+                 <legend class="scheduler-border">{{ _('House detail') }} <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                 title='<span class="message">سجل مكونات المسكن على النحو التالي: عدد غرف النوم، علما أنه إذا كان هناك بعض الغرف تستخدم للنوم ولأغراض أخرى فتعد غرف نوم فقط، عدد الغرف الأخرى بالمسكن وتشمل الغرف المخصصة للأكل والجلوس والمكتبة والصالة، عدد المطابخ ، عدد الحمامات.</span>'
+                 data-trigger="click"><i class="fa far fa-question-circle"></i></a>
+               </legend>
                     <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -177,7 +195,10 @@ right: 0 !important;
                             <div class="form-group">
                           {{ form.holding_type }}
                           <label for="input" class="control-label">{{ form.holding_type.label_tag }}</label>
-                                <i class="bar"></i>
+                          <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">اختر رمز الإجابة المناسبة من القائمة المسندلة وذلك لتوضيح نوع حيازة الأسرة للمسكن الذي تقيم فيه الاسرة.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                         <!-- end column -->
                          <!-- start hidden field -->
                            <div class="form-group" style="display: none;">
@@ -194,6 +215,9 @@ right: 0 !important;
                           {{ form.electric_sources }}
                           <label for="input" class="control-label">{{ form.electric_sources.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">اختر رمز الإجابة المناسبة من القائمة المسندلة وذلك لتوضيح مصدر التيار الكهربائي للمسكن الذي تقيم فيه الأسرة.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                         <!-- end column -->
                         <!-- start hidden field -->
@@ -210,6 +234,9 @@ right: 0 !important;
                           {{ form.water_sources }}
                           <label for="input" class="control-label">{{ form.water_sources.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">اختر رمز الإجابة المناسبة من القائمة المسندلة وذلك لتوضيح مصدر المياه للمسكن الذي تقيم فيه الأسرة  واذا كان مصدر المياه اكثر من إختيار كأن يكون مثلا (بئر و شبكة عامة) يكتب المصدر الأكثر استخداما.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                         <!-- end column -->
                        <!-- start hidden field -->
@@ -226,6 +253,9 @@ right: 0 !important;
                           {{ form.sewage }}
                           <label for="input" class="control-label">{{ form.sewage.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">اختر رمز الإجابة المناسبة من القائمة المسندلة وذلك لتوضيح نوع الصرف الصحي المستخدم للمسكن الذي تقيم فيه الأسرة.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                         <!-- end column -->
                          <!-- start hidden field -->
@@ -240,7 +270,11 @@ right: 0 !important;
 
                         <div class="row">
                   <fieldset class="scheduler-border">
-                 <legend class="scheduler-border">{{ _('Communications') }}</legend>
+                 <legend class="scheduler-border">{{ _('Communications') }}
+                   <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                   title='<span class="message">يتم تسجيل بيانات الترفيه والاتصالات كالتالي: عدد خطوط الهاتف النقال، عدد خطوط الهاتف الثابت، الاتصال بشبكة الإنترنت، عدد السيارات، عدد أجهزة التلفزيون.</span>'
+                   data-trigger="click"><i class="fa far fa-question-circle"></i></a>
+                 </legend>
                          <div class="col-md-4">
                         <div class="form-group">
                           {{ form.mobile_count }}
@@ -293,6 +327,9 @@ right: 0 !important;
                           {{ form.income_avg }}
                           <label for="input" class="control-label">{{ form.income_avg.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">اختر رمز الإجابة المناسبة من القائمة المسندلة وذلك لتوضيح متوسط الدخل الشهري لكافة أفراد الأسرة.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                             </div>
                             <div class="col-md-6">
@@ -300,6 +337,9 @@ right: 0 !important;
                           {{ form.housing_act_economic }}
                           <label for="input" class="control-label">{{ form.housing_act_economic.label_tag }}</label>
                           <i class="bar"></i>
+                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          title='<span class="message">اختر رمز الإجابة المناسبة من القائمة المسندلة وذلك لتوضيح فيما إذا كانت الأسرة تمارس نشاط اقتصادي منزلي، ومن الأمثلة على الأنشطة الاقتصادية التي تمارس داخل المنزل:  إعداد الولائم وأنواع الأطعمة المختلفة وبيعها، إعداد أنواع مختلفة من الحلويات والفطائر وبيعها، تنفيذ الأعمال اليدوية الحرفية وبيعها، إلى غير ذلك من الأنشطة التي تنفذ داخل المنزل.</span>'
+                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                           </div>
                             </div>
                         </div>
@@ -366,6 +406,11 @@ right: 0 !important;
                      }
   })
 $(document).ready(function() {
+
+  $('[data-toggle="tooltip"]').tooltip();
+  $('.tooltip-link').on('click', function(){
+    return false;
+  });
 var warning = $('.js-warning').val();
 if (warning != null){
     console.log('warning javascript')

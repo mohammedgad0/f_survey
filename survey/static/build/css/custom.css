@@ -522,3 +522,21 @@ legend.scheduler-border {
 }
 
 .messages{padding-right: 0; margin-top: 25px}
+
+.tooltip-link{
+  margin-top: -18px;
+  float: left;
+  margin-left: -15px;
+}
+td.td-label {
+    font-weight: bold;
+    font-size: 18px;
+    word-wrap: unset;
+    white-space: nowrap;
+}
+.table-info>tbody>tr>td, .table-info>tbody>tr>th, .table-info>tfoot>tr>td, .table-info>tfoot>tr>th, .table-info>thead>tr>td, .table-info>thead>tr>th{
+  border-top: none;
+}
+.nav-links{
+  height: 40px;
+}

@@ -19,3 +19,8 @@ function checkLength(el_id, max_length){
       document.getElementById(el_id).value = str;
   }
 }
+
+$('[data-toggle="tooltip"]').tooltip();
+$('.tooltip-link').on('click', function(){
+  return false;
+});

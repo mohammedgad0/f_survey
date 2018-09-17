@@ -32,7 +32,7 @@ def add_family_member(request):
 
         form = FamilyMemberFormStep1()
         #request.session['member_order_count'] = 1
-        context = {'form_step1':form, 'fm_id': sample_id}
+        context = {'form_step1':form, 'fm_id': sample_id, 'action' : 'add'}
         CHOICES = dropListOptions(9,27,1)
         form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
         form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
