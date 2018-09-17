@@ -528,6 +528,16 @@ legend.scheduler-border {
   float: left;
   margin-left: -15px;
 }
+.tooltip.top .tooltip-arrow{
+  border-top-color: #45429a;
+}
+.tooltip-inner{
+  background-color: #45429a;
+  direction: rtl;
+  font-family: 'neo', serif !important;
+  line-height: 26px;
+  font-size: 16px;
+}
 td.td-label {
     font-weight: bold;
     font-size: 18px;
