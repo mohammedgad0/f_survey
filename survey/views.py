@@ -128,6 +128,7 @@ def edit_family_member(request, fm_id):
 
                 if form.is_valid():
                     # post if he dismiss warning
+
                     if request.POST.get('post') == "post-after-warning":
                         print('after warning post')
                         obj = form.save(commit=False)
@@ -150,9 +151,9 @@ def edit_family_member(request, fm_id):
 
                     if old_record.gender != obj.gender:
                         obj.member_status = 1
-                        #if obj.gender == '1600001':
-                        obj.males_count = None
-                        obj.females_count = None
+                        if obj.gender == '1600001' or obj.marital_status == '10600001' or obj.marital_status == '10600002' :
+                            obj.males_count = None
+                            obj.females_count = None
 
                     if old_record.age != obj.age:
                         obj.member_status = 1
@@ -190,6 +191,12 @@ def edit_family_member(request, fm_id):
                     obj.member_no = instance.member_no
                     obj.f_m_id = instance.f_m_id
                     obj.sample_id = instance.sample_id
+
+                    if obj.nationality != '1800001':
+                        obj.place_birth = None
+                        obj.place_stay_previous = None
+                        obj.place_stay = None
+
                     if obj.age < 3:
                         obj.member_status = 2
                     obj.save()
@@ -310,7 +317,7 @@ def add_member_info(request, fm_id, action):
                         obj = form.save(commit=False)
                         message, type = check_errors(request, 2, sample_id, str(obj.f_m_id))
                         if "error" in type:
-                            return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id}))
+                            return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id, 'action': 'edit'}))
                         else:
                             storage = get_messages(request)
                             for item in storage:
@@ -323,9 +330,9 @@ def add_member_info(request, fm_id, action):
                     obj.save()
                     message, type = check_errors(request, 2, sample_id, str(obj.f_m_id))
                     if "error" in type:
-                        return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id}))
+                        return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id, 'action': 'edit'}))
                     if "warning" in type:
-                        return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id}))
+                        return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id, 'action': 'edit'}))
                     messages.success(request, _('Saved'))
 
                     # check members limit before allowing user add new member
@@ -614,6 +621,7 @@ def check_errors(request, part_id, sample_id, member_id):
             where = where.replace('P_F_M_ID', member_id)
         if where:
             query = "SELECT * FROM " + error.table_name + " WHERE " + where
+            print(query)
             query_list.append(query)
         row = []
         try:
