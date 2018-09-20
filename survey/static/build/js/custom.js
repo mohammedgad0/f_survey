@@ -21,6 +21,6 @@ function checkLength(el_id, max_length){
 }
 
 $('[data-toggle="tooltip"]').tooltip();
-$('.tooltip-link').on('click', function(){
+$('.tooltip-link, .tooltip-legend').on('click', function(){
   return false;
 });

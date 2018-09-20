@@ -84,7 +84,17 @@ right: 0 !important;
                     {{ _('Member')}}#  {{ request.session.member_order_count }}
                   {% endif %}</h1>
                    {% csrf_token %}
-<div class="row">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">
+                        <span class="fa-stack">
+                          <strong class="fa-stack-1x">2</strong>
+                        </span>
+                        <i class="fas fa fa-user"></i> {{ _('Members triple Name') }}
+                        <a href="" class="tooltip-legend" data-toggle="tooltip" data-html="true" data-placement="auto"
+                        title='<span class="message">سجل أسماء جميع أفراد الأسرة ثلاثيا، وترتيبهم حسب  درجة القرابة برئيس الأسرة  وبالنسبة للعمالة المنزلية يتم تسجيلهم في الأخير</span>'
+                        data-trigger="click"><i class="fa far fa-question-circle"></i></a>
+                      </legend>
+                        <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
                           {{ form_step1.member_name_first }}
@@ -109,18 +119,24 @@ right: 0 !important;
                           {{ form_step1.member_name_third }}
                           <label for="input" class="control-label">{{ _('Third Name') }} </label>
                           <i class="bar"></i>
-                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
-                          title='<span class="message">سجل أسماء جميع أفراد الأسرة ثلاثيا، وترتيبهم حسب  درجة القرابة برئيس الأسرة  وبالنسبة للعمالة المنزلية يتم تسجيلهم في الأخير</span>'
-                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
+
                         </div>
                       </div>
-</div>
+          </div>
+          </fieldset>
                       <!--  col-md-12   -->
                   <div class="row">
                       <div class="col-md-4">
+
+
                         <div class="form-group">
+
                           {{ form_step1.id_number_member }}
-                          <label for="input" class="control-label">{{ _('No. (National Identity / Residence / Visitor Limit) per person') }}</label>
+                          <label for="input" class="control-label">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">3</strong>
+                            </span>
+                            {{ _('No. (National Identity / Residence / Visitor Limit) per person') }}</label>
                           <i class="bar"></i>
                           <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">سجل رقم الهوية الوطنية للسعوديين من اليسار، أما رقم الإقامة لغير السعوديين (هوية مقيم) والتي تصدر من الجوازات السعودية من اليسار وكذلك رقم دخول الحدود للذين لم تصدر لهم إقامة من اليسار.</span>'
@@ -131,7 +147,11 @@ right: 0 !important;
                       <div class="col-md-4">
                         <div class="form-group">
                           {{ form_step1.family_relation }}
-                          <label for="input" class="control-label">{{ _('Relation') }}</label>
+                          <label for="input" class="control-label">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">4</strong>
+                            </span>
+                            {{ _('Relation') }}</label>
                           <i class="bar"></i>
                           <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">اختر العلاقة أو صلة القرابة برئيس الأسرة من خلال القائمة  وهي إحدى الحالات المدونة أعلى الحقل مثل (زوجة، ابن، بنت، زوجة ابن... الخ)، وتذكر دائما أن العلاقة أو صلة القرابة تنسب إلى رئيس الأسرة، وفي حالة الأسرة التي تشتمل على مجموعة من الأفراد لا تربطهم علاقة يتم اختيار البند (لا توجد علاقة).</span>'
@@ -142,7 +162,11 @@ right: 0 !important;
                       <div class="col-md-4">
                         <div class="form-group">
                           {{ form_step1.gender }}
-                          <label for="input" class="control-label">{{ _('Gender') }}</label>
+                          <label for="input" class="control-label">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">5</strong>
+                            </span>
+                            {{ _('Gender') }}</label>
                           <i class="bar"></i>
                           <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">اختر نوع الجنس لكل فرد من أفراد الأسرة ذكرا أو أنثى.</span>'
@@ -154,15 +178,25 @@ right: 0 !important;
               </div>
                       <!--  col-md-12   -->
               <div class="row">
+                <fieldset class="scheduler-border age-fields" style="float:right;">
+                   <legend class="scheduler-border">
+                     <span class="fa-stack">
+                       <strong class="fa-stack-1x">6</strong>
+                     </span>
+                     {{ _('Age and Birth Year')}}
+                     <a href="" class="tooltip-legend" data-toggle="tooltip" data-html="true" data-placement="auto"
+                     title='<span class="message">أكتب وبالأرقام عمر الفرد بالسنوات الكاملة، وهو الفترة الزمنية بين تاريخ ميلاده، مع إهمال الشهور والأيام مهما كان عددها وإذا كان عمر الفرد اقل من سنة يكتب له (0).</span>'
+                     data-trigger="click"><i class="fa far fa-question-circle"></i></a>
+                   </legend>
                       <div class="col-md-4">
                         <div class="form-group">
 
                           {{ form_step1.age }}
-                          <label for="input" class="control-label">{{ _('Age') }}</label>
+                          <label for="input" class="control-label">
+
+                            {{ _('Age') }}</label>
                           <i class="bar"></i>
-                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
-                          title='<span class="message">أكتب وبالأرقام عمر الفرد بالسنوات الكاملة، وهو الفترة الزمنية بين تاريخ ميلاده، مع إهمال الشهور والأيام مهما كان عددها وإذا كان عمر الفرد اقل من سنة يكتب له (0).</span>'
-                          data-trigger="click"><i class="fa far fa-question-circle"></i></a>
+
                         </div>
                       </div>
 
@@ -173,23 +207,33 @@ right: 0 !important;
                           <i class="bar"></i>
                         </div>
                       </div>
-
+                    </fieldset>
                       <div class="col-md-4">
                         <div class="form-group">
                           {{ form_step1.nationality }}
-                          <label for="input" class="control-label attachment">{{ _('Nationality') }}</label>
+                          <label for="input" class="control-label attachment">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">7</strong>
+                            </span>
+                            {{ _('Nationality') }}</label>
                           <i class="bar"></i>
-                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          <a href="" class="tooltip-legend" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">سجل جنسية الفرد  من خلال القائمة  أما بالنسبة للأفراد الذين يحملون أكثر من جنسية
 تسجل الجنسية التي دخل على أساسها الفرد للمملكة.</span>'
                           data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                         </div>
                       </div>
-</div>
+                    </div>
                       <div class="col-lg-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <fieldset class="scheduler-border">
-                        <legend  class="scheduler-border"><i class="fa fa-wheelchair" style="font-size:24px;"></i> {{ _('Difficulty type') }}
-                          <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                        <legend  class="scheduler-border">
+                          <span class="fa-stack">
+                            <strong class="fa-stack-1x">8</strong>
+                          </span>
+                          <i class="fa fa-wheelchair" style="font-size:24px;"></i>
+
+                          {{ _('Difficulty type') }}
+                          <a href="" class="tooltip-legend" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">تعرف الصعوبة في وظائف الجسم  بأنها إصابة الفرد بعجز أو بعاهة تحد من نشاطه وحركته في المجتمع باختلاف درجة شدتها  ( خفيفة – شديدة – بالغة  "لا يستطيع") . وهنا يتم اختيار نوع الصعوبة إن وجدت من خلال  القائمة في هذا الحقل مع تحديد درجة الصعوبة.</span>'
                           data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                         </legend>
@@ -404,6 +448,9 @@ right: 0 !important;
 
                         <fieldset class="scheduler-border">
                           <legend class="scheduler-border">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">9</strong>
+                            </span>
                             {{ _('Place of Birth') }}
                           </legend>
                           <div class="col-md-4">
@@ -428,6 +475,9 @@ right: 0 !important;
 
                         <fieldset class="scheduler-border">
                           <legend class="scheduler-border">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">10</strong>
+                            </span>
                             {{ _('Details of current stay') }}
                           </legend>
                             <div class="col-md-4">
@@ -453,7 +503,11 @@ right: 0 !important;
                           <div class="form-group">
 
                             {{ form_step1.place_stay }}
-                            <label for="input" class="control-label attachment">{{ _('Current place of stay') }}</label>
+                            <label for="input" class="control-label attachment">
+                              <span class="fa-stack">
+                                <strong class="fa-stack-1x">11</strong>
+                              </span>
+                              {{ _('Current place of stay') }}</label>
                             <i class="bar"></i>
                             <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
                             title='<span class="message">اختر اسم المنطقة الإدارية لمكان الإقامة المعتاد للفرد (السعودي فقط)علما أن مكان الإقامة المعتاد للفرد هو المكان الذي يقيم فيه بصفة معتادة وليست مؤقتة ويعرف مكان الإقامة المعتاد بأنه آخر مكان أقام به الفرد أو ينوي الإقامة فيه لمدة لا تقل عن ستة أشهر </span>'
@@ -490,10 +544,6 @@ right: 0 !important;
 // warning action
 $(document).ready(function() {
 
-    $('[data-toggle="tooltip"]').tooltip();
-    $('.tooltip-link').on('click', function(){
-      return false;
-    });
     var warning = $('.js-warning').val();
     if (warning != null) {
         console.log('warning javascript')

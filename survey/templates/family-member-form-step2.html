@@ -86,7 +86,11 @@
                       <div class="col-md-6">
                         <div class="form-group">
                           {{ form_step2.study_status }}
-                          <label for="first" class="control-label">{{ _('Study Status') }}</label>
+                          <label for="first" class="control-label">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">12</strong>
+                            </span>
+                            {{ _('Study Status') }}</label>
                           <i class="bar"></i>
                           <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">اختر حالة التحاق الفرد بالتعليم والمرحلة الملتحق بها. </span>'
@@ -101,7 +105,11 @@
                         <div class="form-group">
 
                           {{ form_step2.education_status }}
-                          <label for="last" class="control-label">{{ _('Education Status') }}</label>
+                          <label for="last" class="control-label">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">13</strong>
+                            </span>
+                            {{ _('Education Status') }}</label>
                           <i class="bar"></i>
                           <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">اختر الحالة التعليمية للفرد أو اسم أعلى شهادة أو أعلى مؤهل حصل عليه. </span>'
@@ -112,7 +120,11 @@
                       <!--  col-md-12   -->
                       <fieldset class="scheduler-border" id="study-field-fieldset">
                         <legend class="scheduler-border">
-                          {{ _('Study Field') }} <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          <span class="fa-stack">
+                            <strong class="fa-stack-1x">14</strong>
+                          </span>
+                          {{ _('Study Field') }}
+                          <a href="" class="tooltip-legend" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message"> اختر في هذا الحقل مجال الدراسة أو نوع التحصيل العلمي الذي حصل عليه الفرد  (لمن كانت حالته التعليمية ثانوية فاعلى )مثل الطب، الهندسة، الزراعة، الاقتصاد، العلوم الإدارة ويجب توضيح المجال بالتحديد مثل طب بشري أو طب أسنان... وهكذا. </span>'
                           data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                         </legend>
@@ -143,7 +155,11 @@
                         <div class="form-group">
 
                           {{ form_step2.marital_status }}
-                          <label for="input" class="control-label">{{ _('Marital Status') }}</label>
+                          <label for="input" class="control-label">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">15</strong>
+                            </span>
+                            {{ _('Marital Status') }}</label>
                           <i class="bar"></i>
                           <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">اختر إحدى الحالات في القائمة التي تمثل حالة الفرد الزواجية. </span>'
@@ -152,8 +168,12 @@
                       </div>
                       <!--  col-md-12   -->
                       <fieldset class="scheduler-border counts-fieldset">
-                        <legend class="scheduler-border">{{ _('Births over the past 12 months') }}
-                        <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                        <legend class="scheduler-border">
+                          <span class="fa-stack">
+                            <strong class="fa-stack-1x">16</strong>
+                          </span>
+                          {{ _('Births over the past 12 months') }}
+                        <a href="" class="tooltip-legend" data-toggle="tooltip" data-html="true" data-placement="auto"
                         title='<span class="message">(خاص بالإناث من أعمار 15 سنة فأكثر، المتزوجات والمطلقات والأرامل)اختر في هذا الحقل وفي المربع الأيمن المواليد الذكور الذين ولدوا أحياء، وفي المربع الأيسر المواليد الإناث اللائي ولدن أحياء، وذلك لكل أنثى من أفراد الأسرة متزوجة أو سبق لها الزواج (مطلقة كانت أو أرملة) وأنجبت مولودا خلال الاثني عشر شهرا السابقة علما أنه ليس شرطا أن يكون هؤلاء المواليد يعيشون ضمن هذه الأسرة أو على قيد الحياة حاليا أما النساء المتزوجات أو المطلقات أو الأرامل اللائي لم ينجبن خلال هذه الفترة فيتم وضع (صفر).</span>'
                         data-trigger="click"><i class="fa far fa-question-circle"></i></a></legend>
 
@@ -179,7 +199,11 @@
                       <div class="col-md-6">
                         <div class="form-group">
                           {{ form_step2.labor_status }}
-                          <label for="input" class="control-label">{{ _('Labour Status') }}</label>
+                          <label for="input" class="control-label">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">17</strong>
+                            </span>
+                            {{ _('Labour Status') }}</label>
                           <i class="bar"></i>
                           <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">اختر إحدى الحالات في القائمة حسب الحالة العملية للفرد.</span>'
@@ -197,7 +221,10 @@
                       </div>
                       <fieldset class="scheduler-border">
                         <legend class="scheduler-border">
-                          {{ _('Main Job') }} <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          <span class="fa-stack">
+                            <strong class="fa-stack-1x">18</strong>
+                          </span>
+                          {{ _('Main Job') }} <a href="" class="tooltip-legend" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">اختر في هذا الحقل لمن كانت حالته العملية في حقل (17) أحدى الحالات التالية: مشتغل بأجر أو بدون أجر، صاحب عمل يوظف،  يعمل لحسابه (لا يوظف)،  يبحث عن عمل وسبق له العمل ويقصد بالمهنة الرئيسة نوع العمل الرئيس الذي يقوم به الفرد بصرف النظر عن نوع العمل الذي تقوم به الجهة التي يعمل بها.</span>'
                           data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                         </legend>
@@ -219,7 +246,10 @@
                       </fieldset>
                       <fieldset class="scheduler-border">
                         <legend class="scheduler-border">
-                          {{ _('Economic Activity') }} <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
+                          <span class="fa-stack">
+                            <strong class="fa-stack-1x">19</strong>
+                          </span>
+                          {{ _('Economic Activity') }} <a href="" class="tooltip-legend" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">سجل  نوع العمل الرئيس الذي تزاوله أو تمارسه المنشأة أو الجهة التي يعمل بها الفرد بغض النظر عن المهنة التي يزاولها هذا الفرد في هذه المنشأة أو الجهة وإذا كان للجهة التي يعمل بها الفرد أكثر من نشاط اقتصادي يكتب النشاط الغالب لهذه الجهة.</span>'
                           data-trigger="click"><i class="fa far fa-question-circle"></i></a>
                         </legend>
@@ -245,7 +275,11 @@
                         <div class="form-group">
 
                           {{ form_step2.work_sector_type }}
-                          <label for="input" class="control-label attachment">{{ _('Work Sector Type') }}</label>
+                          <label for="input" class="control-label attachment">
+                            <span class="fa-stack">
+                              <strong class="fa-stack-1x">20</strong>
+                            </span>
+                            {{ _('Work Sector Type') }}</label>
                           <i class="bar"></i>
                           <a href="" class="tooltip-link" data-toggle="tooltip" data-html="true" data-placement="auto"
                           title='<span class="message">اختر  قطاع الجهة التي يمارس فيها الفرد المشتغل مهنته من خلال القائمة المنسدلة.</span>'
