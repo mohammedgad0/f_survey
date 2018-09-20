@@ -151,7 +151,7 @@ def edit_family_member(request, fm_id):
 
                     if old_record.gender != obj.gender:
                         obj.member_status = 1
-                        if obj.gender == '1600001' or obj.marital_status == '10600001' or obj.marital_status == '10600002' :
+                        if obj.gender == '1600001' or obj.marital_status == '10600001' :
                             obj.males_count = None
                             obj.females_count = None
 

@@ -39,7 +39,7 @@ class FamilyMemberFormStep1(forms.ModelForm):
     member_name_second = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
     member_name_third = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
     id_number_member = forms.CharField(max_length=10, required=True,widget=forms.TextInput({'class': 'form-control', 'type': 'number', 'min': 0, 'step': 1, 'pattern': "\d*", 'onKeyPress': "return check(event,value)", 'onInput': "checkLength(this.id, 10)"}))
-    age = forms.CharField(max_length=2, required=True,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'onKeyPress': "return check(event,value)", 'onInput': "checkLength(this.id, 3)" }))
+    age = forms.CharField(max_length=3, required=True,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'onKeyPress': "return check(event,value)", 'onInput': "checkLength(this.id, 3)" }))
     birth_year = forms.CharField(max_length=4, required=False,widget=forms.TextInput({'class': 'form-control', 'type': 'number','min': 0, 'onKeyPress': "return check(event,value)", 'onInput': "checkLength(this.id, 4)" }))
     family_relation = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9,lookup_id=17,l_list_active=1, type='radio' ))
     gender = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=16, l_list_active=1))
