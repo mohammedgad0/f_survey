@@ -381,3 +381,13 @@ class GenWorkTypeTab(models.Model):
     class Meta:
         managed = False
         db_table = 'gen_work_type_tab'
+
+class NicNaionalityTab(models.Model):
+    nic_code = models.FloatField(primary_key=True)
+    nic_nationality_name = models.CharField(max_length=300, blank=True, null=True)
+    nat_code = models.CharField(max_length=100, blank=True, null=True)
+    nat_lookup_list_id = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nic_naionality_tab'
