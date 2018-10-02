@@ -20,8 +20,12 @@ right: 0 !important;
   float: left;
   margin-left: -15px;
 }
-
-
+.calendars-popup{
+z-index:222222 !important;
+}
+span.loader img {
+    width: 60px;
+}
   </style>
 {% endblock stylesheets %}
 
@@ -82,7 +86,16 @@ right: 0 !important;
                  <h1 class='text-center'>
                   {% if action != 'edit' %}
                     {{ _('Member')}}#  {{ request.session.member_order_count }}
-                  {% endif %}</h1>
+                  {% endif %}
+                </h1>
+                {% if request.session.nationality  == 15900001 %}
+                <div class="button-container-form">
+                  <button id="btn-submit" type="button" class="button" data-toggle="modal" data-target="#dataModal">
+                    <span>{{ _('Load from National Information Center')}} <i class="fa fas fa-download" aria-hidden="true"></i></span>
+                  </button>
+                </div>
+
+                {% endif %}
                    {% csrf_token %}
                    <fieldset class="scheduler-border">
                       <legend class="scheduler-border">
@@ -531,7 +544,156 @@ right: 0 !important;
 
                 <!--</fieldset>-->
               </div>
+              <!-- Modal -->
+              <div class="modal fade" id="dataModal" role="dialog">
+                <div class="modal-dialog">
 
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="mmodal-header">
+                      <div class="alert">
+                      </div>
+
+                      <h4 style="text-align:center;">{{ _('Download data from the National Information Center')}}</h4>
+                    </div>
+                    <div class="mmodal-body">
+                      <div class="col-md-12">
+                          <div class="form-group">
+
+                            <select class="form-control" id="data-type" required>
+                              <option value="individual">{{ _('Individual') }}</option>
+                              <option value="all">{{ _('All Members') }}</option>
+                            </select>
+                            <label for="select" class="control-label">{{ _('Select') }}</label>
+                            <i class="bar"></i>
+                          </div>
+                          <div id="individual">
+                            <form method="POST">
+                              <div class="form-group">
+                                {% csrf_token %}
+                                <input type="number" name="FatherID" class="form-control" required>
+                                <label for="head_id_number" class="control-label">{{ _('ID Number') }}</label>
+                                <i class="bar"></i>
+                              </div>
+							  <fieldset  class="scheduler-border">
+							  <legend class="scheduler-border" >{{ _('DOB')}}</legend>
+								<div class="col-md-4">
+								 <div class="form-group">
+									<select name="dob-type" class="form-control date" required>
+										<option value="gregorian">{{ _('Gregorian')}}</option>
+										<option value="islamic">{{ _('Hijri')}}</option>
+									</select>
+									<label for="DOB" class="control-label">{{ _('Date Type') }}</label>
+								 </div>
+								</div>
+								<div class="col-md-4">
+								  <div class="form-group">
+									<input type="text" name="DOB" class="form-control" id="date-single"/>
+									<label for="DOB" class="control-label">{{ _('DOB') }}</label>
+									<i class="bar"></i>
+								  </div>
+								 </div>
+							  </fieldset>
+                              <input type="hidden" name="OperatorID" value="{{ request.session.user_id }}" />
+                              <div class="button-container-form">
+                                <button type="button" class="load-individual-data button"><span>{{ _('Load') }} <i class="fa fas fa-download" aria-hidden="true"></i></span></button>
+                              </div>
+                            </form>
+                            <span class="loader"></span>
+                            <div id="result" class=" result table-responsive">
+
+                              <table class="table table-striped table-hover">
+                                <thead>
+                                  <tr>
+                                    <th>{{ _('Name') }}</th>
+                                    <th>{{ _('Age') }}</th>
+                                    <th>{{ _('Nationality') }}</th>
+                                    <th>{{ _('Relationship') }}</th>
+                                    <th>{{ _('Gender') }}</th>
+                                    <th>{{ _('Marital Status') }}</th>
+                                    <th>{{ _('Actions') }}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <div id="all-members">
+                            <form>
+                              {% csrf_token %}
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <input type="number" name="all-FatherID"  class="form-control required" required />
+                                  <label for="head_id_number" class="control-label">{{ _('ID Number') }}</label>
+                                  <i class="bar"></i>
+                                </div>
+                              </div>
+							   <div class="col-md-6">
+                                <div class="form-group">
+                                  <input type="number" name="all-MotherID" class="form-control required"  required />
+                                  <label for="mother_id_number" class="control-label">{{ _('Mother ID Number') }}</label>
+                                  <i class="bar"></i>
+                                </div>
+                              </div>
+
+							   <fieldset  class="scheduler-border">
+							  <legend class="scheduler-border" >{{ _('DOB')}}</legend>
+								<div class="col-md-4">
+								 <div class="form-group">
+									<select name="dob-type-all" class="form-control date" required >
+										<option value="gregorian">{{ _('Gregorian')}}</option>
+										<option value="islamic">{{ _('Hijri')}}</option>
+									</select>
+									<label for="DOB" class="control-label">{{ _('Date Type') }}</label>
+								 </div>
+								</div>
+								<div class="col-md-4">
+								  <div class="form-group">
+									<input type="text" name="all-DOB" class="form-control" id="date-single"  required />
+									<label for="dob" class="control-label">{{ _('DOB') }}</label>
+									<i class="bar"></i>
+								  </div>
+								 </div>
+							  </fieldset>
+
+
+                              <input type="hidden" name="all-OperatorID" value="{{ request.session.user_id }}" />
+                              <div class="button-container-form">
+                                <button type="button" class="load-all-data button"><span>{{ _('Load') }} <i class="fa fas fa-download" aria-hidden="true"></i></span></button>
+                              </div>
+                            </form>
+							            <div class="col-md-12">
+                            <span class="loader"></span>
+                            <div id="result" class="result table-responsive">
+                              <table class="table table-striped table-hover">
+                                <thead>
+                                  <tr>
+                                    <th>{{ _('Name') }}</th>
+                                    <th>{{ _('Age') }}</th>
+                                    <th>{{ _('Nationality') }}</th>
+                                    <th>{{ _('Relationship') }}</th>
+                                    <th>{{ _('Gender') }}</th>
+                                    <th>{{ _('Marital Status') }}</th>
+                                    <th>{{ _('Actions') }}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                              </table>
+                            </div>
+							             </div>
+                          </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default close-popup" data-dismiss="modal">{{ _('Close') }}</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
 
 {% endblock content %}
 
@@ -539,10 +701,348 @@ right: 0 !important;
   {{ block.super }}
 <script src="/static/build/js/plugins/moment-with-locales.min.js"></script>
 <script src="/static/build/js/plugins/moment-hijri.js"></script>
+
 <script>
 
 // warning action
 $(document).ready(function() {
+$('.all-members form input').each(function(){
+	$(this).attr('required');
+});
+	moment.locale('en-US');
+  m = moment();
+
+	 $('#date-all, #date-single').calendarsPicker({
+	  calendar: $.calendars.instance('gregorian'),
+	  //monthsToShow: [2, 3],
+	  showOtherMonths: false,
+	  onSelect: function (date) {
+		//alert('You picked ' + date[0].formatDate());
+	  }
+	});
+
+	$('select[name="dob-type"], select[name="dob-type-all"]').on('change',function() {
+		calendar = $.calendars.instance($(this).val());
+		var convert = function(value) {
+			return (!value || typeof value != 'object' ? value :
+				calendar.fromJD(value.toJD()));
+		};
+		$('.is-calendarsPicker').each(function() {
+			var current = $(this).calendarsPicker('option');
+			$(this).calendarsPicker('option', {calendar: calendar,
+					onSelect: null, onChangeMonthYear: null,
+					defaultDate: convert(current.defaultDate),
+					minDate: convert(current.minDate),
+					maxDate: convert(current.maxDate)}).
+				calendarsPicker('option',
+					{onSelect: current.onSelect,
+					onChangeMonthYear: current.onChangeMonthYear});
+		});
+	});
+
+  $('.result').hide();
+  $("#all-members").hide();
+  $("#data-type").on('change', function(){
+    var value = $(this).val();
+    if (value == 'individual'){
+      $("#individual").show();
+      $("#all-members").hide ();
+
+    }
+    else{
+      $("#individual").hide();
+      $("#all-members").show();
+    }
+  });
+
+  $('.load-individual-data').on('click', function(event){
+      event.preventDefault();
+      var fid = $("input[name='FatherID']").val();
+
+      // validations
+      if(fid == ""){
+        $('.alert').html('<div class="alert alert-danger">رقم الهوية مطلوب.</div>');
+        $("input[name='FatherID']").attr('style','border:2px solid red');
+        return false;
+      }else{
+        $('.alert').html('');
+        $("input[name='FatherID']").attr('style','border:None;');
+      }
+
+      var do_b = $("input[name='DOB']").val();
+      if(do_b == ""){
+        $('.alert').html('<div class="alert alert-danger">تاريخ الميلاد مطلوب.</div>');
+        $("input[name='DOB']").attr('style','border:2px solid red');
+        return false;
+      }
+      else{
+          $('.alert').html('');
+        $("input[name='DOB']").attr('style','border:None;');
+      }
+      var opid = $("input[name='OperatorID']").val();
+	  var date_type = $('select[name="dob-type"]').val();
+	  var dob = "";
+		if(date_type == 'gregorian'){
+			greo_date = moment(do_b).endOf('iday').subtract(1, 'days').format('iYYYYiMMiDD');
+			dob = greo_date;
+		}
+		else{
+			splited_date = do_b.split("/");
+			dob = splited_date[0]+splited_date[1]+splited_date[2]
+
+		}
+      var gender = [];
+      gender['1600001'] = 'ذكر';
+      gender['1600002'] = 'أنثى';
+
+      $.ajax({                       // initialize an AJAX request
+          url: '/ajax/load/member/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+          data: {
+            'fid': fid,
+            'dob': dob,
+            'opid' : opid,    // add the country id to the GET parameters
+          },
+          beforeSend:function(){
+            $('.loader').html('<img src="/static/build/images/loader/load.gif" />');
+          },
+          success: function (data) {
+            console.log(data);
+            var val = data;
+            console.log(val);
+            var user_input_age = '';
+            var dob_year = '';
+            var year = '';
+            var myear = '';
+            var hyear = '';
+
+			      user_input_age = val.Age;
+            dob_year = moment().subtract(user_input_age, 'years').calendar();
+            year = dob_year.split("/");
+            myear = year[2];
+            hyear = moment(myear, 'YYYY').endOf('iMonth').format('iYYYY');
+            $('.loader').html('');
+            $('.result').show();
+            $('.result > table > tbody').html(
+            '<tr '
+              +'data-nationality='+ val.Nationality +' '
+              +'data-fname='+ val.FirstName +' '
+              +'data-age='+ val.Age +' '
+              +'data-year='+ hyear +' '
+              +'data-relationshiptype='+ val.RelationshipType +' '
+              +'data-gender='+ val.Sex +' '
+              +'data-maritalstatus='+ val.MaritalStatus +'>'
+              +'<td>'+ val.FirstName +'</td>'
+              +'<td>'+ val.Age +'</td>'
+              +'<td>'+ val.nationality_txt +'</td>'
+              +'<td>'+ val.RelationshipTypeTxt +'</td>'
+              +'<td>'+ gender[val.Sex] +'</td>'
+              +'<td>'+ val.MartialStatustext +'</td>'
+              +'<td> <input type="checkbox" class="family-record"  /></td>'
+            +'</tr>');
+            //});
+
+            $('.family-record').on('change', function(){
+
+              var nationality_code = $(this).closest('tr').data('nationality');
+              var nationality_txt = $(this).closest('tr').data('nationality_txt');
+              var fname = $(this).closest('tr').data('fname');
+              var age = $(this).closest('tr').data('age');
+              var year = $(this).closest('tr').data('year');
+              var relationshiptype = $(this).closest('tr').data('relationshiptype');
+              var gender = $(this).closest('tr').data('gender');
+              var maritalstatus = $(this).closest('tr').data('maritalstatus');
+              $.ajax({
+                  url: '/ajax/save/',
+                  data: {
+                    'nationality_code': nationality_code,
+                    'nationality_txt':nationality_txt,
+                    'fname': fname,
+                    'age' : age,
+                    'year': year,
+                    'relationshiptype':relationshiptype,
+                    'gender': gender,
+                    'maritalstatus': maritalstatus,
+                  },
+                  success: function (data) {
+                    if(data.success){
+                      $('.alert').html('<div class="alert alert-success">'+ data.success +' <a href="/">'+ data.link_text +'</div>');
+
+                    }
+                    else if(data.error){
+                      $('.alert').html('<div class="alert alert-danger">'+ data.error +'</div>');
+                    }
+
+                  }
+                });
+            });
+            //$('#main-job-child').show();
+          //  $(".birth-place select").html(data);  // replace the contents of the city input with the data that came from the server
+
+        },
+        error:function(){
+          $('.loader').html('');
+          $('.alert').html('<div class="alert alert-danger">خطأ: يرجى المحاولة مرة أخرى في وقت لاحق.!</div>');
+        }
+        });
+    });
+  $('.load-all-data').on('click', function(event){
+      event.preventDefault();
+      var fid = $("input[name='all-FatherID']").val();
+
+      if(fid == ""){
+        $('.alert').html('<div class="alert alert-danger">رقم الهوية مطلوب.</div>');
+        $("input[name='all-FatherID']").attr('style','border:2px solid red');
+        return false;
+      }else{
+        $('.alert').html('');
+        $("input[name='all-FatherID']").attr('style','border:None;');
+      }
+
+      var mid = $("input[name='all-MotherID']").val();
+      if(mid == ""){
+        $('.alert').html('<div class="alert alert-danger">مطلوب رقم هوية الأم.</div>');
+        $("input[name='all-MotherID']").attr('style','border:2px solid red');
+        return false;
+      }
+      else{
+          $('.alert').html('');
+        $("input[name='all-MotherID']").attr('style','border:None;');
+      }
+      var do_b = $("input[name='all-DOB']").val();
+      if(do_b == ""){
+        $('.alert').html('<div class="alert alert-danger">تاريخ الميلاد مطلوب.</div>');
+        $("input[name='all-DOB']").attr('style','border:2px solid red');
+        return false;
+      }
+      else{
+          $('.alert').html('');
+        $("input[name='all-DOB']").attr('style','border:None;');
+      }
+
+      if(do_b == ""){
+        $('.alert').html('<div class="alert alert-danger">تاريخ الميلاد مطلوب.</div>');
+        $("input[name='DOB']").attr('style','border:2px solid red');
+        return false;
+      }
+      else{
+          $('.alert').html('');
+        $("input[name='DOB']").attr('style','border:None;');
+      }
+      var opid = $("input[name='all-OperatorID']").val();
+	  var date_type_all = $('select[name="dob-type-all"]').val();
+	  var dob = "";
+		if(date_type_all == 'gregorian'){
+			greo_date = moment(do_b).endOf('iday').subtract(1, 'days').format('iYYYYiMMiDD');
+			dob = greo_date;
+		}
+		else{
+			splited_date = do_b.split("/");
+			dob = splited_date[0]+splited_date[1]+splited_date[2]
+
+		}
+      var gender = [];
+      gender['1600001'] = 'ذكر';
+      gender['1600002'] = 'أنثى';
+
+      $.ajax({                       // initialize an AJAX request
+          url: '/ajax/load/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+          data: {
+            'fid': fid,
+            'dob': dob,
+            'opid' : opid,
+            'mid':mid,     // add the country id to the GET parameters
+          },
+          beforeSend: function (){
+            $('.loader').html('<img src="/static/build/images/loader/load.gif" />');
+          },
+          success: function (data) {
+            var obj = data;
+            var user_input_age = '';
+            var dob_year = '';
+            var year = '';
+            var myear = '';
+            var hyear = '';
+            var html_table = '';
+            $('.loader').html('');
+            $(obj.Persons).each(function(i, val){
+
+              user_input_age = val.Age;
+              console.log(user_input_age)
+              //if (user_input_age.length <= 3){
+              //  console.log(user_input_age.length)
+                 dob_year = moment().subtract(user_input_age, 'years').calendar();
+                 year = dob_year.split("/");
+                 myear = year[2];
+                 hyear = moment(myear, 'YYYY').endOf('iMonth').format('iYYYY');
+              //}
+              $('.result').show();
+              html_table += '<tr '
+                +'data-nationality='+ val.Nationality +' '
+                +'data-fname='+ val.FirstName +' '
+                +'data-age='+ val.Age +' '
+                +'data-year='+ hyear +' '
+                +'data-relationshiptype='+ val.RelationshipType +' '
+                +'data-gender='+ val.Sex +' '
+                +'data-maritalstatus='+ val.MaritalStatus +'>'
+                +'<td>'+ val.FirstName +'</td>'
+                +'<td>'+ val.Age +'</td>'
+                +'<td>'+ val.nationality_txt +'</td>'
+                +'<td>'+ val.RelationshipTypeTxt +'</td>'
+                +'<td>'+ gender[val.Sex] +'</td>'
+                +'<td>'+ val.MartialStatustext +'</td>'
+                +'<td> <input type="checkbox" class="family-record" value="'+i+'" /></td>'
+              +'</tr>'
+            });
+            $('.result > table > tbody').html(html_table);
+            $('.family-record').on('change', function(){
+
+              var nationality_code = $(this).closest('tr').data('nationality');
+              var nationality_txt = $(this).closest('tr').data('nationality_txt');
+              var fname = $(this).closest('tr').data('fname');
+              var age = $(this).closest('tr').data('age');
+              var year = $(this).closest('tr').data('year');
+              var relationshiptype = $(this).closest('tr').data('relationshiptype');
+              var gender = $(this).closest('tr').data('gender');
+              var maritalstatus = $(this).closest('tr').data('maritalstatus');
+              $.ajax({
+                  url: '/ajax/save/',
+                  data: {
+                    'nationality_code': nationality_code,
+                    'nationality_txt':nationality_txt,
+                    'fname': fname,
+                    'age' : age,
+                    'year': year,
+                    'relationshiptype':relationshiptype,
+                    'gender': gender,
+                    'maritalstatus': maritalstatus,
+                  },
+                  success: function (data) {
+                    if(data.success){
+                      $('.alert').html('<div class="alert alert-success">'+ data.success +' <a href="/">'+ data.link_text +'</div>');
+
+                    }
+                    else if(data.error){
+                      $('.alert').html('<div class="alert alert-danger">'+ data.error +'</div>');
+                    }
+
+                  }
+                });
+            });
+            //$('#main-job-child').show();
+          //  $(".birth-place select").html(data);  // replace the contents of the city input with the data that came from the server
+
+        },
+          error: function (){
+            $('.loader').html('');
+            $('.alert').html('<div class="alert alert-danger">خطأ: يرجى المحاولة مرة أخرى في وقت لاحق.!</div>');
+          }
+        });
+    });
+
+    $('.close-popup').on('click', function(){
+        $("#result > table > thead > tr").remove();
+      $("#result > table > tbody > tr").remove();
+    });
 
     var warning = $('.js-warning').val();
     if (warning != null) {
@@ -663,9 +1163,7 @@ $(window).load(function(){
         $('#id_difficulty_8').attr('required', true);
       }
     });
-// Auto age year calculate usin moment.js plugin included in base.html
-  moment.locale('en-US');
-  m = moment();
+// Auto age year calculate usin moment.js plugin included
   $('#id_age').on('change', function(){
 
     var user_input_age = $(this).val();
@@ -678,7 +1176,7 @@ $(window).load(function(){
       //console.log(dob_year);
       var hyear = moment(myear, 'YYYY').endOf('iMonth').format('iYYYY');
       $('#id_birth_year').val("");
-      $('#id_birth_year').val(hyear);
+      $('#id_birth_year').val(hyear+1);
     }
 
   });
