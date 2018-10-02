@@ -1,6 +1,8 @@
 from django.contrib.messages import get_messages
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
+import requests
+import json
 from survey.forms import *
 from survey.models import *
 from django.utils.translation import ugettext_lazy as _
@@ -358,7 +360,143 @@ def add_member_info(request, fm_id, action):
     else:
         raise Http404
 
+def ajax_load_member_data(request):
 
+    if request.session.get('Is_auth'):
+
+        fid = request.GET.get('fid')
+        dob = request.GET.get('dob')
+        opid = request.GET.get('opid')
+        response = requests.get('http://192.168.0.21:81/NIC_PROD/Service1.svc/GetHeadFamilyData?FatherID='+fid+'&DOB='+dob+'&OperatorID='+opid+'')
+        data = response.json()
+        for key, value in data.items():
+            ddata = json.loads(value)
+            nationality_code = NicNaionalityTab.objects.get(nic_code = ddata["Nationality"])
+            ddata["Nationality"] = nationality_code.nat_lookup_list_id
+            ddata['nationality_txt'] = nationality_code.nic_nationality_name
+            if ddata['MaritalStatus'] == 2500001:
+                ddata['MaritalStatus'] = 10600001
+                ddata['MartialStatustext'] = 'لم يتزوج'
+
+            elif ddata['MaritalStatus'] == 2500002:
+                ddata['MaritalStatus'] = 10600002
+                ddata['MartialStatustext'] = 'متزوج'
+
+            elif ddata['MaritalStatus'] == 2500003:
+                ddata['MaritalStatus'] = 10600003
+                ddata['MartialStatustext'] = 'مطلق'
+
+            elif ddata['MaritalStatus'] == 2500004:
+                ddata['MaritalStatus'] = 10600004
+                ddata['MartialStatustext'] = 'مطلق'
+
+            elif ddata['MaritalStatus'] < 1:
+                ddata['MaritalStatus'] = ''
+                ddata['MartialStatustext'] = '---'
+        data = ddata
+        
+    else:
+        raise Http404
+    return JsonResponse(data)
+
+def ajax_load_members_data(request):
+
+    if request.session.get('Is_auth'):
+
+        fid = request.GET.get('fid')
+        dob = request.GET.get('dob')
+        opid = request.GET.get('opid')
+        mid = request.GET.get('mid')
+        response = requests.get('http://192.168.0.21:81/NIC_PROD/Service1.svc/GetCitizenDepData?FatherID='+fid+'&DOB='+dob+'&MotherID='+mid+'&OperatorID='+opid+'')
+        data = response.json()
+
+        for key, value in data.items():
+            ddata = json.loads(value)
+            for i, val in enumerate(ddata['Persons']):
+                nationality_code = NicNaionalityTab.objects.get(nic_code = val["Nationality"])
+                val["Nationality"] = nationality_code.nat_lookup_list_id
+
+                if val['MaritalStatus'] == 2500001:
+                    val['MaritalStatus'] = 10600001
+                    val['MartialStatustext'] = 'لم يتزوج'
+
+                elif val['MaritalStatus'] == 2500002:
+                    val['MaritalStatus'] = 10600002
+                    val['MartialStatustext'] = 'متزوج'
+
+                elif val['MaritalStatus'] == 2500003:
+                    val['MaritalStatus'] = 10600003
+                    val['MartialStatustext'] = 'مطلق'
+
+                elif val['MaritalStatus'] == 2500004:
+                    val['MaritalStatus'] = 10600004
+                    val['MartialStatustext'] = 'مطلق'
+
+                elif val['MaritalStatus'] < 1:
+                    val['MaritalStatus'] = ''
+                    val['MartialStatustext'] = '---'
+
+                ddata["Persons"][i] = val
+                ddata["Persons"][i]['nationality_txt'] = nationality_code.nic_nationality_name
+            data = ddata
+        #print(data)
+    else:
+        raise Http404
+    return JsonResponse(data)
+
+def ajax_save_members_data(request):
+
+    sample_id = request.session['sample_id']
+    sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
+    no_of_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1)).count()
+    if no_of_members == sample_obj.no_of_member:
+        messages.warning(request, _('You have reached out your members limit, Please increase number of members before adding new.'))
+        return HttpResponseRedirect(reverse('survey:home'))
+
+    member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
+    if not member_no:
+        memberNumber = str(1).zfill(2)
+        member_sno = memberNumber
+    else:
+        # count and incrementing by 1 as member number
+        member_num = member_no.count()+1
+        memberNumber = str(member_num).zfill(2)
+        member_sno = memberNumber
+
+    family_member_Id = (sample_id * 1000) + int(memberNumber);
+    nationality_code = request.GET.get('nationality_code')
+    nationality_txt = request.GET.get('nationality_txt')
+    fname = request.GET.get('fname')
+    age = request.GET.get('age')
+    year = request.GET.get('year')
+    relationshiptype =  request.GET.get('relationshiptype')
+    gender = request.GET.get('gender')
+    maritalstatus = request.GET.get('maritalstatus')
+
+    family_member = FcpFamilyMemberTab.objects.create(
+        f_m_id = family_member_Id,
+        member_no = member_sno,
+        sample_id=sample_id,
+        member_name_first=fname,
+        age=age,
+        birth_year=year,
+        family_relation = relationshiptype,
+        gender= gender,
+        nationality=nationality_code,
+        nationality_txt=nationality_txt
+    )
+
+    if family_member:
+        data = {
+            'success': _("Member is added "),
+            'f_m_id': family_member_Id,
+            'link_text': _('Review newly added members')
+        }
+    else:
+        data = {
+            'error': _("Member is could not be added, Something went wrong! ")
+        }
+    return JsonResponse(data)
 
 def ajax_render_list_options(request):
     if request.session.get('Is_auth'):
@@ -418,7 +556,12 @@ def login(request, token):
             request.session['user_id'] = user_info.id_number
             request.session['sample_id'] = user_info.sample_id
             request.session['family_id'] = user_info.sample_id
+            # get nationality
+            family_sample = FcpFamilyTab.objects.get(sample_id = user_info.sample_id)
+            request.session['nationality'] = family_sample.nationality
+            # token in session
             request.session['token_key'] = token
+
             total_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=user_info.sample_id) & ~Q(member_delete_status=1)).count()
             if total_members:
                 request.session['member_order_count']  = total_members + 1
@@ -588,7 +731,7 @@ def death_form_edit(request, member_id):
                             return HttpResponseRedirect(reverse('survey:home'))
                     obj = form.save(commit=False)
                     obj.member_status = 1
-                    print(obj.f_m_id)
+
                     form.save()
                     message, type = check_errors(request, 4, sample_id, str(obj.f_m_id))
                     if "error" in type:
