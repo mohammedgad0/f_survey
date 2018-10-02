@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-20 15:15+0300\n"
+"POT-Creation-Date: 2018-09-30 16:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,8 +29,8 @@ msgstr ""
 
 #: .\survey\forms.py:19 .\survey\forms.py:63 .\survey\forms.py:64
 #: .\survey\forms.py:183 .\survey\forms.py:254 .\survey\forms.py:288
-#: .\survey\views.py:16 .\survey\views.py:245 .\survey\views.py:261
-#: .\survey\views.py:278
+#: .\survey\views.py:18 .\survey\views.py:247 .\survey\views.py:263
+#: .\survey\views.py:280
 msgid "Choice"
 msgstr "اختر..."
 
@@ -154,7 +154,9 @@ msgstr "عدد المطابخ"
 msgid "bath count"
 msgstr "عدد الحمامات"
 
-#: .\survey\forms.py:279 .\survey\templates\family-members-list.html:21
+#: .\survey\forms.py:279 .\survey\templates\family-member-form-step1.html:604
+#: .\survey\templates\family-member-form-step1.html:665
+#: .\survey\templates\family-members-list.html:21
 #: .\survey\templates\home.html:160 .\survey\templates\home.html:230
 #: .\survey\templates\home.html:294 .\survey\templates\submit_form.html:30
 msgid "Name"
@@ -181,7 +183,7 @@ msgid "Try your link and password on your mobile"
 msgstr "برجاء الدخول بواسطة الرابط وكلمة السر المرسلة على هاتفكم"
 
 #: .\survey\templates\add_house.html:66 .\survey\templates\death_form.html:51
-#: .\survey\templates\family-member-form-step1.html:69
+#: .\survey\templates\family-member-form-step1.html:71
 #: .\survey\templates\family-member-form-step2.html:61
 #: .\survey\templates\start-step.html:87
 msgid "Save And Continue"
@@ -189,9 +191,9 @@ msgstr "حفظ واستمرار"
 
 #: .\survey\templates\add_house.html:67 .\survey\templates\add_house.html:397
 #: .\survey\templates\death_form.html:52 .\survey\templates\death_form.html:162
-#: .\survey\templates\family-member-form-step1.html:70
-#: .\survey\templates\family-member-form-step1.html:524
-#: .\survey\templates\family-member-form-step1.html:526
+#: .\survey\templates\family-member-form-step1.html:72
+#: .\survey\templates\family-member-form-step1.html:535
+#: .\survey\templates\family-member-form-step1.html:537
 #: .\survey\templates\family-member-form-step2.html:62
 #: .\survey\templates\family-member-form-step2.html:305
 #: .\survey\templates\start-step.html:88 .\survey\templates\submit_form.html:54
@@ -221,7 +223,9 @@ msgid "Death information"
 msgstr "الوفيات داخل الأسرة"
 
 #: .\survey\templates\death_form.html:92
-#: .\survey\templates\family-member-form-step1.html:169
+#: .\survey\templates\family-member-form-step1.html:180
+#: .\survey\templates\family-member-form-step1.html:608
+#: .\survey\templates\family-member-form-step1.html:669
 msgid "Gender"
 msgstr "الجنس"
 
@@ -233,121 +237,206 @@ msgstr "الجنسية"
 msgid "Reason of Death"
 msgstr "أسباب الوفاة"
 
-#: .\survey\templates\family-member-form-step1.html:48
-#: .\survey\templates\family-member-form-step1.html:81
+#: .\survey\templates\family-member-form-step1.html:50
+#: .\survey\templates\family-member-form-step1.html:83
 #: .\survey\templates\family-member-form-step2.html:40
 #: .\survey\templates\family-member-form-step2.html:73
 #: .\survey\templates\start-step.html:41 .\survey\templates\welcome.html:78
 msgid "Add Family Member"
 msgstr "إضافة بيانات للفرد"
 
-#: .\survey\templates\family-member-form-step1.html:84
+#: .\survey\templates\family-member-form-step1.html:86
 msgid "Member"
 msgstr "الفرد"
 
 #: .\survey\templates\family-member-form-step1.html:92
+msgid "Load from National Information Center"
+msgstr "تحميل البيانات من مركز المعلومات الوطني"
+
+#: .\survey\templates\family-member-form-step1.html:103
 msgid "Members triple Name"
 msgstr "اسم الفرد الثلاثي"
 
-#: .\survey\templates\family-member-form-step1.html:101
+#: .\survey\templates\family-member-form-step1.html:112
 msgid "First Name"
 msgstr "الاسم الاول"
 
-#: .\survey\templates\family-member-form-step1.html:110
+#: .\survey\templates\family-member-form-step1.html:121
 msgid "Second Name"
 msgstr "الاسم الثاني"
 
-#: .\survey\templates\family-member-form-step1.html:120
+#: .\survey\templates\family-member-form-step1.html:131
 msgid "Third Name"
 msgstr "الاسم الثالث"
 
-#: .\survey\templates\family-member-form-step1.html:139
+#: .\survey\templates\family-member-form-step1.html:150
 msgid "No. (National Identity / Residence / Visitor Limit) per person"
 msgstr "رقم (الهوية الوطنية / الإقامة / الحدود للزائرين) للفرد"
 
-#: .\survey\templates\family-member-form-step1.html:154
+#: .\survey\templates\family-member-form-step1.html:165
 msgid "Relation"
 msgstr "العلاقة برئيس الأسرة"
 
-#: .\survey\templates\family-member-form-step1.html:186
+#: .\survey\templates\family-member-form-step1.html:197
 msgid "Age and Birth Year"
 msgstr "العمروتاريخ الميلاد"
 
-#: .\survey\templates\family-member-form-step1.html:197
+#: .\survey\templates\family-member-form-step1.html:208
+#: .\survey\templates\family-member-form-step1.html:605
+#: .\survey\templates\family-member-form-step1.html:666
 msgid "Age"
 msgstr "العمر"
 
-#: .\survey\templates\family-member-form-step1.html:206
+#: .\survey\templates\family-member-form-step1.html:217
 msgid "Birth Year"
 msgstr "سنة الميلاد"
 
-#: .\survey\templates\family-member-form-step1.html:218
+#: .\survey\templates\family-member-form-step1.html:229
+#: .\survey\templates\family-member-form-step1.html:606
+#: .\survey\templates\family-member-form-step1.html:667
 msgid "Nationality"
 msgstr "الجنسية بالتفصيل"
 
-#: .\survey\templates\family-member-form-step1.html:235
+#: .\survey\templates\family-member-form-step1.html:246
 msgid "Difficulty type"
 msgstr "نوع الصعوبة فى وظائف الجسم"
 
-#: .\survey\templates\family-member-form-step1.html:245
+#: .\survey\templates\family-member-form-step1.html:256
 msgid "Eyesight difficulty"
 msgstr "النظر"
 
-#: .\survey\templates\family-member-form-step1.html:272
+#: .\survey\templates\family-member-form-step1.html:283
 msgid "Hearing power difficulty"
 msgstr "السمع"
 
-#: .\survey\templates\family-member-form-step1.html:300
+#: .\survey\templates\family-member-form-step1.html:311
 msgid "Movement difficulty"
 msgstr "الحركة"
 
-#: .\survey\templates\family-member-form-step1.html:326
+#: .\survey\templates\family-member-form-step1.html:337
 msgid "Memory difficulty"
 msgstr "التزكر"
 
-#: .\survey\templates\family-member-form-step1.html:352
+#: .\survey\templates\family-member-form-step1.html:363
 msgid "Personal care"
 msgstr "العنايةالشخصية"
 
-#: .\survey\templates\family-member-form-step1.html:379
+#: .\survey\templates\family-member-form-step1.html:390
 msgid "Communincation"
 msgstr "التخاطب والتواصل"
 
-#: .\survey\templates\family-member-form-step1.html:405
+#: .\survey\templates\family-member-form-step1.html:416
 msgid "Other"
 msgstr "اخرى (توضح)"
 
-#: .\survey\templates\family-member-form-step1.html:415
+#: .\survey\templates\family-member-form-step1.html:426
 msgid "Type of difficulty"
 msgstr "نوع الصعوبة"
 
-#: .\survey\templates\family-member-form-step1.html:441
+#: .\survey\templates\family-member-form-step1.html:452
 msgid "Not Found"
 msgstr "لايوجد"
 
-#: .\survey\templates\family-member-form-step1.html:454
-#: .\survey\templates\family-member-form-step1.html:467
+#: .\survey\templates\family-member-form-step1.html:465
+#: .\survey\templates\family-member-form-step1.html:478
 msgid "Place of Birth"
 msgstr "مكان الميلاد "
 
-#: .\survey\templates\family-member-form-step1.html:481
+#: .\survey\templates\family-member-form-step1.html:492
 msgid "Details of current stay"
 msgstr "تفاصيل الإقامة "
 
-#: .\survey\templates\family-member-form-step1.html:493
+#: .\survey\templates\family-member-form-step1.html:504
 msgid "Previous place of stay"
 msgstr "مكان الإقامة السابق"
 
-#: .\survey\templates\family-member-form-step1.html:510
+#: .\survey\templates\family-member-form-step1.html:521
 msgid "Current place of stay"
 msgstr "مكان الإقامة المعتاد"
 
-#: .\survey\templates\family-member-form-step1.html:522
+#: .\survey\templates\family-member-form-step1.html:533
 #: .\survey\templates\family-members-list.html:82
 #: .\survey\templates\family-members-list.html:84
 #: .\survey\templates\start-step.html:108
 msgid "Next"
 msgstr "التالى"
+
+#: .\survey\templates\family-member-form-step1.html:555
+msgid "Download data from the National Information Center"
+msgstr "تحميل البيانات من مركز المعلومات الوطني"
+
+#: .\survey\templates\family-member-form-step1.html:562
+msgid "Individual"
+msgstr "للفرد"
+
+#: .\survey\templates\family-member-form-step1.html:563
+msgid "All Members"
+msgstr "لجميع أفراد الأسرة"
+
+#: .\survey\templates\family-member-form-step1.html:565
+msgid "Select"
+msgstr "أختر"
+
+#: .\survey\templates\family-member-form-step1.html:573
+#: .\survey\templates\family-member-form-step1.html:624
+msgid "ID Number"
+msgstr "رقم الهوية"
+
+#: .\survey\templates\family-member-form-step1.html:577
+#: .\survey\templates\family-member-form-step1.html:590
+#: .\survey\templates\family-member-form-step1.html:629
+#: .\survey\templates\family-member-form-step1.html:642
+msgid "DOB"
+msgstr "تاريخ الميلاد"
+
+#: .\survey\templates\family-member-form-step1.html:581
+#: .\survey\templates\family-member-form-step1.html:633
+msgid "Gregorian"
+msgstr "التقويم الميلادي"
+
+#: .\survey\templates\family-member-form-step1.html:582
+#: .\survey\templates\family-member-form-step1.html:634
+msgid "Hijri"
+msgstr "التقويم الهجري"
+
+#: .\survey\templates\family-member-form-step1.html:584
+#: .\survey\templates\family-member-form-step1.html:636
+msgid "Date Type"
+msgstr "نوع التاريخ"
+
+#: .\survey\templates\family-member-form-step1.html:597
+#: .\survey\templates\family-member-form-step1.html:657
+msgid "Load"
+msgstr "تحميل"
+
+#: .\survey\templates\family-member-form-step1.html:607
+#: .\survey\templates\family-member-form-step1.html:668
+#, fuzzy
+#| msgid "Relation"
+msgid "Relationship"
+msgstr "العلاقة برئيس الأسرة"
+
+#: .\survey\templates\family-member-form-step1.html:609
+#: .\survey\templates\family-member-form-step1.html:670
+#: .\survey\templates\family-member-form-step2.html:162
+msgid "Marital Status"
+msgstr "الحالة الزوجية (الاجتماعية)"
+
+#: .\survey\templates\family-member-form-step1.html:610
+#: .\survey\templates\family-member-form-step1.html:671
+#: .\survey\templates\family-members-list.html:24
+#: .\survey\templates\home.html:232 .\survey\templates\home.html:296
+msgid "Actions"
+msgstr "إجراءات"
+
+#: .\survey\templates\family-member-form-step1.html:651
+msgid "Mother ID Number"
+msgstr "رقم هوية الأم الفرد"
+
+#: .\survey\templates\family-member-form-step1.html:684
+#: .\survey\templates\home.html:382
+msgid "Close"
+msgstr "اغلاق"
 
 #: .\survey\templates\family-member-form-step2.html:20
 msgid "View all members"
@@ -371,10 +460,6 @@ msgstr "الحالة التعليم (اسم أعلى شهادة)"
 #: .\survey\templates\family-member-form-step2.html:145
 msgid "Study Field"
 msgstr "مجال الدراسة (التخصص)"
-
-#: .\survey\templates\family-member-form-step2.html:162
-msgid "Marital Status"
-msgstr "الحالة الزوجية (الاجتماعية)"
 
 #: .\survey\templates\family-member-form-step2.html:175
 msgid "Births over the past 12 months"
@@ -432,11 +517,6 @@ msgstr "الحالة"
 #: .\survey\templates\family-members-list.html:23
 msgid "Date"
 msgstr "التاريخ"
-
-#: .\survey\templates\family-members-list.html:24
-#: .\survey\templates\home.html:232 .\survey\templates\home.html:296
-msgid "Actions"
-msgstr "إجراءات"
 
 #: .\survey\templates\family-members-list.html:36
 #: .\survey\templates\home.html:245 .\survey\templates\home.html:310
@@ -556,10 +636,6 @@ msgstr "عدد أفراد الأسرة"
 msgid "edit"
 msgstr "تعديل"
 
-#: .\survey\templates\home.html:382
-msgid "Close"
-msgstr "اغلاق"
-
 #: .\survey\templates\home.html:412
 msgid "Confirm Delete #"
 msgstr "تأكيد حذف #"
@@ -618,7 +694,7 @@ msgstr "عرض جميع أفراد الأسرة"
 
 #: .\survey\templates\welcome.html:119
 msgid "Review Family data"
-msgstr ""
+msgstr "مراجعة بيانات العائلة"
 
 #: .\survey\templates\welcome.html:120
 msgid "Review"
@@ -660,7 +736,7 @@ msgid ""
 "member"
 msgstr "يوجد رئيس الأسرة ، يرجى تحديد العلاقة الصحيحة مع هذا الفرد"
 
-#: .\survey\views.py:30
+#: .\survey\views.py:32 .\survey\views.py:453
 msgid ""
 "You have reached out your members limit, Please increase number of members "
 "before adding new."
@@ -668,57 +744,73 @@ msgstr ""
 "لقد تم ادخال جميع افراد الأسرة, لإدخال فرد جديد برجاء زيادة عدد أفراد الأسرة "
 "اولاً."
 
-#: .\survey\views.py:70 .\survey\views.py:208 .\survey\views.py:336
+#: .\survey\views.py:72 .\survey\views.py:210 .\survey\views.py:338
 #, fuzzy
 #| msgid "Save"
 msgid "Saved"
 msgstr "حفظ"
 
-#: .\survey\views.py:148 .\survey\views.py:326 .\survey\views.py:485
-#: .\survey\views.py:548 .\survey\views.py:587 .\survey\views.py:600
+#: .\survey\views.py:150 .\survey\views.py:328 .\survey\views.py:628
+#: .\survey\views.py:691 .\survey\views.py:730 .\survey\views.py:743
 msgid "Saved !"
 msgstr "تم الحفظ"
 
-#: .\survey\views.py:236 .\survey\views.py:463 .\survey\views.py:520
-#: .\survey\views.py:564
+#: .\survey\views.py:238 .\survey\views.py:606 .\survey\views.py:663
+#: .\survey\views.py:707
 msgid "Your Form is Complete"
 msgstr "بيانات الأسرة مكتملة ومعتمدة"
 
-#: .\survey\views.py:349
+#: .\survey\views.py:351
 msgid "All members added, Please add housing details."
 msgstr "تمت إضافة أفراد العائلة بنجاح ، يرجى إضافة تفاصيل السكن."
 
-#: .\survey\views.py:414 .\survey\views.py:431
+#: .\survey\views.py:491
+#, fuzzy
+#| msgid "Member is deleted"
+msgid "Member is added "
+msgstr "تم الحذف"
+
+#: .\survey\views.py:493
+#, fuzzy
+#| msgid "View all members"
+msgid "Review newly added members"
+msgstr "عرض جميع أفراد الأسرة"
+
+#: .\survey\views.py:497
+msgid "Member is could not be added, Something went wrong! "
+msgstr "لا يمكن إضافة فرد"
+
+#: .\survey\views.py:552 .\survey\views.py:574
 msgid "invalid id or password"
 msgstr "خطأ فى رقم الهوية او كلمة المرور"
 
-#: .\survey\views.py:496
+#: .\survey\views.py:639
 #, fuzzy
 #| msgid "House detail"
 msgid "House added"
 msgstr "مكونات السكن"
 
-#: .\survey\views.py:504
+#: .\survey\views.py:647
 msgid "Cannot add house before complete members"
 msgstr "لا يمكن إضافة بيانات المسكن الا بعد اكتمال بيانات أفراد الأسرة"
 
-#: .\survey\views.py:552
+#: .\survey\views.py:695
 msgid "No death status available for this family"
 msgstr "لا توجد حالة وفاة متاحة لهذه العائلة."
 
-#: .\survey\views.py:631
+#: .\survey\views.py:774
 msgid "Error database"
 msgstr " خطأ من قاعدة البيانات"
 
-#: .\survey\views.py:661 .\survey\views.py:666
+#: .\survey\views.py:804 .\survey\views.py:809
 msgid "Member is deleted"
 msgstr "تم الحذف"
 
-#: .\survey\views.py:681
+#: .\survey\views.py:824
 msgid "value less than members already exists"
 msgstr " العدد المدخل أقل من عدد الأفراد المسجلين من قبل"
 
-#: .\survey\views.py:689
+#: .\survey\views.py:832
 msgid "change done"
 msgstr "تم التغير بنجاح"
 
