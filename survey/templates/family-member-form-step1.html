@@ -26,6 +26,12 @@ z-index:222222 !important;
 span.loader img {
     width: 60px;
 }
+.popover-content{
+  width:280px;
+}
+.popover{
+	max-width:none;
+}
   </style>
 {% endblock stylesheets %}
 
@@ -1177,7 +1183,7 @@ $(window).load(function(){
       //console.log(dob_year);
       var hyear = moment(myear, 'YYYY').endOf('iMonth').format('iYYYY');
       $('#id_birth_year').val("");
-      $('#id_birth_year').val(hyear+1);
+      $('#id_birth_year').val(hyear);
     }
 
   });
