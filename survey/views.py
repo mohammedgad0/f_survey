@@ -57,8 +57,9 @@ def add_family_member(request):
                 family_member_Id = (sample_id * 1000) + int(memberNumber);
                 obj.f_m_id = family_member_Id
                 request.session['fm_id'] = family_member_Id
-
+				
                 obj.member_status = 1
+				
                 obj.insert_by = request.session.get('user_id')
                 if obj.age < 3:
                     obj.member_status = 2
