@@ -149,7 +149,15 @@
                       </div>
 
                             <div class="col-md-4">
-                            <div class="form-group" style="display:  none;">
+
+                            <div class="form-group death_reason_text"
+                            style="display:
+                            {% if member_obj.reason_death_txt is None or member_obj.reason_death_txt == "" %}
+                              {{ 'None' }}
+                            {% else %}
+                              {{ 'block' }}
+                            {% endif %}
+                            ">
                             {{ form.reason_death_txt }}
                             <label for="input" class="control-label">{{ form.reason_death_txt.label_tag }}</label>
                             <i class="bar"></i>
@@ -190,7 +198,8 @@ $(document).ready(function() {
         $("#js-form input, #js-form select").each(function () {
             $(this).prop('disabled', false);
         });
-    })
+    });
+
 });
   $('select').on('change', function() {
       var select_id = $(this).attr('id');
