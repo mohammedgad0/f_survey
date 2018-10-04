@@ -27,7 +27,7 @@ def add_family_member(request):
         # check members limit before allowing user add new member
         sample_id = request.session['sample_id']
         sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
-        no_of_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1)).count()
+        no_of_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0)).count()
         if no_of_members == sample_obj.no_of_member:
             messages.warning(request, _('You have reached out your members limit, Please increase number of members before adding new.'))
             return HttpResponseRedirect(reverse('survey:home'))
@@ -57,9 +57,8 @@ def add_family_member(request):
                 family_member_Id = (sample_id * 1000) + int(memberNumber);
                 obj.f_m_id = family_member_Id
                 request.session['fm_id'] = family_member_Id
-				
                 obj.member_status = 1
-				
+                obj.member_delete_status = 1
                 obj.insert_by = request.session.get('user_id')
                 if obj.age < 3:
                     obj.member_status = 2
@@ -73,7 +72,7 @@ def add_family_member(request):
                 messages.success(request, _('Saved'))
 
                 # recount family members
-                total_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1)).count()
+                total_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0)).count()
                 if total_members:
                     request.session['member_order_count'] += 1
 
@@ -341,7 +340,7 @@ def add_member_info(request, fm_id, action):
                     # check members limit before allowing user add new member
                     sample_id = request.session['sample_id']
                     sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
-                    no_of_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1)).count()
+                    no_of_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0)).count()
 
                     if action == 'edit':
                         return HttpResponseRedirect(reverse('survey:home'))
@@ -395,7 +394,7 @@ def ajax_load_member_data(request):
                 ddata['MaritalStatus'] = ''
                 ddata['MartialStatustext'] = '---'
         data = ddata
-        
+
     else:
         raise Http404
     return JsonResponse(data)
@@ -449,7 +448,7 @@ def ajax_save_members_data(request):
 
     sample_id = request.session['sample_id']
     sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
-    no_of_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1)).count()
+    no_of_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0)).count()
     if no_of_members == sample_obj.no_of_member:
         messages.warning(request, _('You have reached out your members limit, Please increase number of members before adding new.'))
         return HttpResponseRedirect(reverse('survey:home'))
@@ -520,16 +519,16 @@ def home(request):
         sample_obj= GenSampleTab.objects.get(sample_id= sample_id)
         family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
         members = FcpFamilyMemberTab.objects.filter(sample_id=sample_id).order_by('member_no')
-        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1)).order_by('member_no')
+        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0)).order_by('member_no')
         members_enter_count = members.count()
-        members_complete_count = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & Q(member_status=2) & ~Q(member_delete_status=1)).count()
+        members_complete_count = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & Q(member_status=2) & ~Q(member_delete_status=0)).count()
         member_status = False
         if members_complete_count == sample_obj.no_of_member:
             member_status = True
         else:
             member_status = False
 
-        death_list = FcpFamilyDeathTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1))
+        death_list = FcpFamilyDeathTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0))
         family_status = True
         if sample_obj.family_status != 2:
             family_status = False
@@ -563,7 +562,7 @@ def login(request, token):
             # token in session
             request.session['token_key'] = token
 
-            total_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=user_info.sample_id) & ~Q(member_delete_status=1)).count()
+            total_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=user_info.sample_id) & ~Q(member_delete_status=0)).count()
             if total_members:
                 request.session['member_order_count']  = total_members + 1
             else:
@@ -606,7 +605,7 @@ def add_house(request):
         if sample_obj.family_status == 2:
             messages.info(request, _('Your Form is Complete'))
             return HttpResponseRedirect(reverse('survey:home'))
-        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id)& Q(member_status= 2) & ~Q(member_delete_status=1)).count()
+        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id)& Q(member_status= 2) & ~Q(member_delete_status=0)).count()
         # All members status is complete
         if members == sample_obj.no_of_member:
             form = AddHouse(instance=instance)
@@ -680,6 +679,7 @@ def death_form(request):
                     obj.sample_id = sample_id
                     obj.member_no = member_no
                     obj.member_status = 1
+                    obj.member_delete_status = 1
                     obj.insert_by = request.session.get('user_id')
                     obj.save()
                     message, type = check_errors(request, 4, sample_id, str(obj.f_m_id))
@@ -799,13 +799,13 @@ def delete_member(request):
     data_type = request.GET.get('data_type', None)
     if data_type == "member":
         member = FcpFamilyMemberTab.objects.get(f_m_id= member_id)
-        member.member_delete_status = 1
+        member.member_delete_status = 0
         member.save()
         request.session['member_order_count']  -= 1
         messages.success(request, _("Member is deleted"))
     elif data_type == "Death":
         member = FcpFamilyDeathTab.objects.get(f_m_id= member_id)
-        member.member_delete_status = 1
+        member.member_delete_status = 0
         member.save()
         messages.success(request, _("Member is deleted"))
     data = {
@@ -820,7 +820,7 @@ def change_number(request):
     sample_id = request.GET.get('sample_id', None)
     new_value = request.GET.get('new_value', None)
     sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
-    members_number = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=1)).count()
+    members_number = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0)).count()
     if int(members_number) > int(new_value):
         string = _('value less than members already exists')
         data = {
@@ -843,8 +843,8 @@ def submit_form(request):
         sample_id = request.session.get('sample_id')
         sample_obj = GenSampleTab.objects.get(sample_id= sample_id)
         family_obj = FcpFamilyTab.objects.get(sample_id=sample_id)
-        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & Q(member_status=2) & ~Q(member_delete_status=1))
-        death = FcpFamilyDeathTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_status=2) & ~Q(member_delete_status=1))
+        members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & Q(member_status=2) & ~Q(member_delete_status=0))
+        death = FcpFamilyDeathTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_status=2) & ~Q(member_delete_status=0))
         members_enter_count = members.count()
 
         member_status = False
