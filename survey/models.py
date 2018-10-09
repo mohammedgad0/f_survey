@@ -1,6 +1,7 @@
 from django.utils import timezone
 
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
 
@@ -57,8 +58,8 @@ class FcpFamilyMemberTab(models.Model):
     difficulty_7_txt = models.CharField(max_length=250, blank=True, null=True)
     difficulty_7_degree = models.CharField(max_length=200,blank=True, null=True)
     difficulty_8 = models.NullBooleanField(blank=True, null=True)
-    place_birth = models.CharField(max_length=200,blank=True, null=True)
-    place_stay_previous = models.CharField(max_length=200,blank=True, null=True)
+    place_birth = models.CharField(_('Place of Birth'),max_length=200,blank=True, null=True)
+    place_stay_previous = models.CharField(_('Previous place of stay'),max_length=200,blank=True, null=True)
     place_stay = models.CharField(max_length=200,blank=True, null=True)
     study_status = models.CharField(max_length=250, blank=True, null=True)
     education_status = models.CharField(max_length=250, blank=True, null=True)

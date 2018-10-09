@@ -33,13 +33,13 @@ right: 0 !important;
           {% for field in form %}
               {% for error in field.errors %}
                   <div class="alert alert-danger">
-                      <strong>{{ error|escape }}</strong>
+                      <strong>{{ error|escape }} ({% trans field.label %})</strong>
                   </div>
               {% endfor %}
           {% endfor %}
           {% for error in form.non_field_errors %}
               <div class="alert alert-danger">
-                  <strong>{{ error|escape }}</strong>
+                  <strong>{{ error|escape }} ({% trans field.label %})</strong>
               </div>
           {% endfor %}
       {% endif %}

@@ -41,6 +41,8 @@ def add_family_member(request):
 
         if request.method == 'POST':
             form = FamilyMemberFormStep1(request.POST)
+            context = {'form_step1':form, 'fm_id': sample_id, 'action' : 'add'}
+
             #print(type(request.POST['difficulty_1_degree']))
             if form.is_valid():
                 obj = form.save(commit=False)
@@ -75,8 +77,8 @@ def add_family_member(request):
                 total_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0)).count()
                 if total_members:
                     request.session['member_order_count'] += 1
-
                 return HttpResponseRedirect(reverse('survey:add-member-info', kwargs={'fm_id': obj.f_m_id, 'action' : 'add'}))
+
     else:
         raise Http404
     if request.session.get('member_order_count') is None:
@@ -91,7 +93,7 @@ def edit_family_member(request, fm_id):
 
         if sample_id == instance.sample_id:
             form = FamilyMemberFormStep1(instance = instance)
-            age = instance.age
+            #age = instance.age
             #context = {'form_step1':form, 'serial_num' : instance.member_no }
             if instance.difficulty_7_txt:
                 form.fields['difficulty_other'].initial = 1
@@ -121,12 +123,13 @@ def edit_family_member(request, fm_id):
 
             form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
             form.fields['place_stay_previous'].initial = instance.place_stay_previous
-
+            #print(instance.age)
             context = {'form_step1':form, 'mem_obj': instance, 'action': 'edit'}
 
             if request.method == 'POST':
                 old_record=FcpFamilyMemberTab.objects.get(f_m_id=fm_id)
                 form = FamilyMemberFormStep1(request.POST, instance = instance)
+                context = {'form_step1':form, 'mem_obj': instance, 'action': 'edit'}
 
                 if form.is_valid():
                     # post if he dismiss warning

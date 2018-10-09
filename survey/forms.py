@@ -35,15 +35,15 @@ class FamilyMemberFormStep1(forms.ModelForm):
         self.fields['difficulty_7_degree'].empty_label = None
         self.fields['family_relation'].empty_label = None
 
-    member_name_first = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
-    member_name_second = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
-    member_name_third = forms.CharField(max_length=254, required=True,widget=forms.TextInput({'class': 'form-control'}))
-    id_number_member = forms.CharField(max_length=10, required=True,widget=forms.TextInput({'class': 'form-control', 'type': 'number', 'min': 0, 'step': 1, 'pattern': "\d*", 'onKeyPress': "return check(event,value)", 'onInput': "checkLength(this.id, 10)"}))
-    age = forms.CharField(max_length=3, required=True,widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'onKeyPress': "return check(event,value)", 'onInput': "checkLength(this.id, 3)" }))
-    birth_year = forms.CharField(max_length=4, required=False,widget=forms.TextInput({'class': 'form-control', 'type': 'number','min': 0, 'onKeyPress': "return check(event,value)", 'onInput': "checkLength(this.id, 4)" }))
+    member_name_first = forms.CharField(max_length=254, required=True,label = _('First Name'),widget=forms.TextInput({'class': 'form-control'}))
+    member_name_second = forms.CharField(max_length=254, required=True,label = _('Second Name'),widget=forms.TextInput({'class': 'form-control'}))
+    member_name_third = forms.CharField(max_length=254, required=True,label = _('Third Name'),widget=forms.TextInput({'class': 'form-control'}))
+    id_number_member = forms.CharField(max_length=10, required=True,label = _('No. (National Identity / Residence / Visitor Limit) per person'),widget=forms.TextInput({'class': 'form-control', 'type': 'number', 'min': 0, 'step': 1, 'pattern': "\d*", 'onKeyPress': "return check(event,value)", 'onInput': "checkLength(this.id, 10)"}))
+    age = forms.CharField(max_length=3, required=True,label = _('Age'),widget=forms.TextInput({'class': 'form-control',  'type': 'number','min': 0, 'onKeyPress': "return check(event,value)", 'onInput': "checkLength(this.id, 3)" }))
+    birth_year = forms.CharField(max_length=4, required=False,label = _('Year'),widget=forms.TextInput({'class': 'form-control', 'type': 'number','min': 0, 'onKeyPress': "return check(event,value)", 'onInput': "checkLength(this.id, 4)" }))
     family_relation = forms.ChoiceField(widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9,lookup_id=17,l_list_active=1, type='radio' ))
     gender = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=16, l_list_active=1))
-    nationality = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=18, l_list_active=1, type='select'))
+    nationality = forms.ChoiceField(required=True,label=_('Nationality'), widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=18, l_list_active=1, type='select'))
     difficulty_1 = forms.NullBooleanField(label='النظر', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
     difficulty_1_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': ' form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
     difficulty_2 = forms.NullBooleanField(label='السمع', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
@@ -57,12 +57,12 @@ class FamilyMemberFormStep1(forms.ModelForm):
     difficulty_6 = forms.NullBooleanField(label='التخاطب والتواصل', required=False,  widget=forms.CheckboxInput(attrs={'class':'require-one'}))
     difficulty_6_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
     difficulty_other = forms.NullBooleanField(required=False, widget=forms.CheckboxInput())
-    difficulty_7_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control require-one'}))
+    difficulty_7_txt = forms.CharField(max_length=254, label=_('Type of difficulty'), required=False,widget=forms.TextInput({'class': 'form-control require-one'}))
     difficulty_7_degree = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=173, l_list_active=1, type='radio'), label='درجةالصعوبة')
     difficulty_8 = forms.NullBooleanField(label='لايوجد', required=False, widget=forms.CheckboxInput(attrs={'class':'require-one'}))
     in_or_out_birth = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}),choices=(('',_('Choice')), (1,_('Inside KSA')), (2,_('Outside KSA'))))
     in_or_out_prev_stay = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}),choices=(('',_('Choice')),(1,_('Inside KSA')), (2,_('Outside KSA'))))
-    place_stay = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=27, l_list_active=1))
+    place_stay = forms.ChoiceField(required=False,label=_('Current place of stay'), widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=27, l_list_active=1))
 
     class Meta:
         model = FcpFamilyMemberTab
@@ -142,21 +142,21 @@ class FamilyMemberFormStep2(forms.ModelForm):
             del self.fields['work_sector_type']
             del self.fields['work_sector_type_txt']
 
-    study_status = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=174, l_list_active=1))
-    education_status = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=105, l_list_active=1))
+    study_status = forms.ChoiceField(required=True,label=_('Study Status'), widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=174, l_list_active=1))
+    education_status = forms.ChoiceField(required=True,label=_('Education Status'), widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=105, l_list_active=1))
     study_field_parent = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=11, l_list_active=1))
-    study_field = forms.ChoiceField(required=False, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=10, l_list_active=1))
-    marital_status = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=106, l_list_active=1))
-    males_count = forms.IntegerField(required=False,widget=forms.TextInput({'class': 'form-control' }))
-    females_count = forms.IntegerField(required=False,widget=forms.TextInput({'class': 'form-control' }))
-    labor_status = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=24, l_list_active=1))
-    labor_status_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
+    study_field = forms.ChoiceField(required=False,label=_('Study Field'), widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=10, l_list_active=1))
+    marital_status = forms.ChoiceField(required=True, label=_('Marital Status'), widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=106, l_list_active=1))
+    males_count = forms.IntegerField(required=False, label=_('Males Count'),widget=forms.TextInput({'class': 'form-control' }))
+    females_count = forms.IntegerField(required=False, label=_('Females Count'),widget=forms.TextInput({'class': 'form-control' }))
+    labor_status = forms.ChoiceField(required=True, label=_('Labour Status'), widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=24, l_list_active=1))
+    labor_status_txt = forms.CharField(max_length=254, label= _('Labour Status (Other)'), required=False,widget=forms.TextInput({'class': 'form-control'}))
     main_job_parent = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control','data-child-lookup-id': '23'}), choices=dropDownList(rp_id=9, lookup_id=22, l_list_active=1))
-    main_job = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=23, l_list_active=1))
+    main_job = forms.ChoiceField(required=True, label=_('Main Job'),widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=23, l_list_active=1))
     economic_activity_parent = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control', 'data-child-lookup-id': '21'}), choices=dropDownList(rp_id=9, lookup_id=20, l_list_active=1))
-    economic_activity = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=21, l_list_active=1))
-    work_sector_type = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=26, l_list_active=1))
-    work_sector_type_txt = forms.CharField(max_length=254, required=False,widget=forms.TextInput({'class': 'form-control'}))
+    economic_activity = forms.ChoiceField(required=True, label=_('Economic Activity'),widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=21, l_list_active=1))
+    work_sector_type = forms.ChoiceField(required=True, label=_('Work Sector Type'),widget=forms.Select(attrs={'class': 'chosen-select form-control'}), choices=dropDownList(rp_id=9, lookup_id=26, l_list_active=1))
+    work_sector_type_txt = forms.CharField(max_length=254, label= _('Work Sector Type (Other)'),  required=False,widget=forms.TextInput({'class': 'form-control'}))
 
     class Meta:
         model = FcpFamilyMemberTab
