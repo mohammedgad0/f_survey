@@ -118,7 +118,7 @@ class FcpFamilyDeathTab(models.Model):
     f_m_id = models.FloatField(primary_key=True)
     sample_id = models.FloatField(blank=True, null=True)
     member_no = models.FloatField(blank=True, null=True)
-    member_name = models.CharField(max_length=250, blank=True, null=True)
+    member_name = models.CharField(max_length=250, blank=False, null=False)
     gender = models.FloatField(blank=True, null=True)
     nationality = models.FloatField(blank=True, null=True)
     death_age = models.FloatField(blank=True, null=True)
