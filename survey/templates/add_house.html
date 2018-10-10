@@ -441,10 +441,9 @@ right: 0 !important;
             break;
             }
                  var value_code = $(this).val();
-                 console.log(code)
-                 console.log(value_code)
+
                      if (code == value_code) {
-                        // $('#'+ select_id + '_txt').attr('required', true)
+                          $('#'+ select_id + '_txt').attr('required', true)
                           $('#'+ select_id + '_txt').parent().slideToggle('slow','linear');
                      }
                      else{
@@ -502,7 +501,7 @@ $("#btn-warning").click(function() {
         console.log(code)
         console.log(value_code)
         if (code == value_code) {
-            // $('#'+ select_id + '_txt').attr('required', true)
+             $('#'+ select_id + '_txt').attr('required', true)
             $('#' + select_id + '_txt').parent().show();
         }
     });

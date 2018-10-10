@@ -452,9 +452,12 @@ def ajax_save_members_data(request):
     sample_id = request.session['sample_id']
     sample_obj = GenSampleTab.objects.get(sample_id=sample_id)
     no_of_members = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0)).count()
+
     if no_of_members == sample_obj.no_of_member:
-        messages.warning(request, _('You have reached out your members limit, Please increase number of members before adding new.'))
-        return HttpResponseRedirect(reverse('survey:home'))
+        data = {
+            'error': _("You have reached out your members limit, Please increase number of members before adding new.")
+        }
+        return JsonResponse(data)
 
     member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
     if not member_no:
