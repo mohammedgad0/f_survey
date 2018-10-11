@@ -139,7 +139,7 @@ right: 0 !important;
       $('.loader').append("<img src='/static/build/images/loader/load.gif'  style='width:4%;'/>");
     },
     success: function (data) {
-      console.log(data['messages'])
+      //console.log(data['messages'])
       if (data['type'] == 1 ){
 
           $('.messages').html("<div class=\"alert alert-success\">\n" + data['messages'] + "</div>")
