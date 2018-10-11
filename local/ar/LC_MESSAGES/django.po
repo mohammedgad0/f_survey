@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-09 15:33+0300\n"
+"POT-Creation-Date: 2018-10-11 10:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,9 +28,9 @@ msgid "Arabic"
 msgstr ""
 
 #: .\survey\forms.py:19 .\survey\forms.py:63 .\survey\forms.py:64
-#: .\survey\forms.py:183 .\survey\forms.py:254 .\survey\forms.py:288
-#: .\survey\views.py:18 .\survey\views.py:250 .\survey\views.py:266
-#: .\survey\views.py:283
+#: .\survey\forms.py:183 .\survey\forms.py:254 .\survey\forms.py:289
+#: .\survey\views.py:18 .\survey\views.py:257 .\survey\views.py:273
+#: .\survey\views.py:290
 msgid "Choice"
 msgstr "اختر..."
 
@@ -632,15 +632,23 @@ msgstr "تعديل"
 msgid "Close"
 msgstr "اغلاق"
 
-#: .\survey\templates\home.html:412
+#: .\survey\templates\home.html:413
 msgid "Confirm Delete #"
 msgstr "تأكيد حذف #"
 
-#: .\survey\templates\home.html:413
+#: .\survey\templates\home.html:416
+msgid "Are you sure you want to delete family head "
+msgstr "هل أنت متأكد من حذف رئيس الأسرة "
+
+#: .\survey\templates\home.html:416
+msgid "This will also delete all members for this family head"
+msgstr "سيؤدي هذا أيضًا إلى حذف جميع الأفراد لرئيس الأسرة"
+
+#: .\survey\templates\home.html:419
 msgid "Are you sure want to delete"
 msgstr "هل أنت متأكد من حذف "
 
-#: .\survey\templates\home.html:447
+#: .\survey\templates\home.html:454
 msgid "change family members number #"
 msgstr "تغير عدد أفراد الأسرة"
 
@@ -732,7 +740,7 @@ msgid ""
 "member"
 msgstr "يوجد رئيس الأسرة ، يرجى تحديد العلاقة الصحيحة مع هذا الفرد"
 
-#: .\survey\views.py:32 .\survey\views.py:456
+#: .\survey\views.py:32 .\survey\views.py:465
 msgid ""
 "You have reached out your members limit, Please increase number of members "
 "before adding new."
@@ -740,73 +748,69 @@ msgstr ""
 "لقد تم ادخال جميع افراد الأسرة, لإدخال فرد جديد برجاء زيادة عدد أفراد الأسرة "
 "اولاً."
 
-#: .\survey\views.py:74 .\survey\views.py:213 .\survey\views.py:341
+#: .\survey\views.py:81 .\survey\views.py:220 .\survey\views.py:348
 #, fuzzy
 #| msgid "Save"
 msgid "Saved"
 msgstr "حفظ"
 
-#: .\survey\views.py:153 .\survey\views.py:331 .\survey\views.py:631
-#: .\survey\views.py:695 .\survey\views.py:734 .\survey\views.py:747
+#: .\survey\views.py:160 .\survey\views.py:338 .\survey\views.py:646
+#: .\survey\views.py:710 .\survey\views.py:749 .\survey\views.py:762
 msgid "Saved !"
 msgstr "تم الحفظ"
 
-#: .\survey\views.py:241 .\survey\views.py:609 .\survey\views.py:666
-#: .\survey\views.py:711
+#: .\survey\views.py:248 .\survey\views.py:624 .\survey\views.py:681
+#: .\survey\views.py:726
 msgid "Your Form is Complete"
 msgstr "بيانات الأسرة مكتملة ومعتمدة"
 
-#: .\survey\views.py:354
+#: .\survey\views.py:361
 msgid "All members added, Please add housing details."
 msgstr "تمت إضافة أفراد العائلة بنجاح ، يرجى إضافة تفاصيل السكن."
 
-#: .\survey\views.py:494
-#, fuzzy
-#| msgid "Member is deleted"
+#: .\survey\views.py:509
 msgid "Member is added "
 msgstr "تم الحذف"
 
-#: .\survey\views.py:496
-#, fuzzy
-#| msgid "View all members"
+#: .\survey\views.py:511
 msgid "Review newly added members"
 msgstr "عرض جميع أفراد الأسرة"
 
-#: .\survey\views.py:500
+#: .\survey\views.py:515
 msgid "Member is could not be added, Something went wrong! "
 msgstr "لا يمكن إضافة فرد"
 
-#: .\survey\views.py:555 .\survey\views.py:577
+#: .\survey\views.py:570 .\survey\views.py:592
 msgid "invalid id or password"
 msgstr "خطأ فى رقم الهوية او كلمة المرور"
 
-#: .\survey\views.py:642
+#: .\survey\views.py:657
 #, fuzzy
 #| msgid "House detail"
 msgid "House added"
 msgstr "مكونات السكن"
 
-#: .\survey\views.py:650
+#: .\survey\views.py:665
 msgid "Cannot add house before complete members"
 msgstr "لا يمكن إضافة بيانات المسكن الا بعد اكتمال بيانات أفراد الأسرة"
 
-#: .\survey\views.py:699
+#: .\survey\views.py:714
 msgid "No death status available for this family"
 msgstr "لا توجد حالة وفاة متاحة لهذه العائلة."
 
-#: .\survey\views.py:778
+#: .\survey\views.py:793
 msgid "Error database"
 msgstr " خطأ من قاعدة البيانات"
 
-#: .\survey\views.py:808 .\survey\views.py:813
+#: .\survey\views.py:831 .\survey\views.py:836
 msgid "Member is deleted"
 msgstr "تم الحذف"
 
-#: .\survey\views.py:828
+#: .\survey\views.py:851
 msgid "value less than members already exists"
 msgstr " العدد المدخل أقل من عدد الأفراد المسجلين من قبل"
 
-#: .\survey\views.py:836
+#: .\survey\views.py:859
 msgid "change done"
 msgstr "تم التغير بنجاح"
 

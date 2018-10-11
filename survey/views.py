@@ -46,7 +46,7 @@ def add_family_member(request):
             #print(type(request.POST['difficulty_1_degree']))
             if form.is_valid():
                 obj = form.save(commit=False)
-                member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
+                member_no = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0))
                 if not member_no:
                     memberNumber = str(1).zfill(2)
                     obj.member_no = memberNumber
@@ -55,8 +55,15 @@ def add_family_member(request):
                     member_num = member_no.count()+1
                     memberNumber = str(member_num).zfill(2)
                     obj.member_no = memberNumber
+
+
+                family = FcpFamilyMemberTab.objects.filter(sample_id=sample_id).last()
+                if family:
+                    family_member_Id = family.f_m_id + 1
+                else:
+                    family_member_Id = (sample_id * 1000) + int(memberNumber);
+
                 obj.sample_id = sample_id
-                family_member_Id = (sample_id * 1000) + int(memberNumber);
                 obj.f_m_id = family_member_Id
                 request.session['fm_id'] = family_member_Id
                 obj.member_status = 1
@@ -459,7 +466,7 @@ def ajax_save_members_data(request):
         }
         return JsonResponse(data)
 
-    member_no = FcpFamilyMemberTab.objects.filter(sample_id=sample_id)
+    member_no = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0))
     if not member_no:
         memberNumber = str(1).zfill(2)
         member_sno = memberNumber
@@ -469,7 +476,12 @@ def ajax_save_members_data(request):
         memberNumber = str(member_num).zfill(2)
         member_sno = memberNumber
 
-    family_member_Id = (sample_id * 1000) + int(memberNumber);
+    family = FcpFamilyMemberTab.objects.filter(sample_id=sample_id).last()
+    if family:
+        family_member_Id = family.f_m_id + 1
+    else:
+        family_member_Id = (sample_id * 1000) + int(memberNumber);
+
     nationality_code = request.GET.get('nationality_code')
     nationality_txt = request.GET.get('nationality_txt')
     fname = request.GET.get('fname')
@@ -805,8 +817,16 @@ def delete_member(request):
     data_type = request.GET.get('data_type', None)
     if data_type == "member":
         member = FcpFamilyMemberTab.objects.get(f_m_id= member_id)
-        member.member_delete_status = 0
-        member.save()
+
+        if member.family_relation == 1700001:
+            all_members = FcpFamilyMemberTab.objects.filter(sample_id=member.sample_id)
+            for mem in all_members:
+                mem.member_delete_status = 0
+                mem.member_no = 0
+                mem.save()
+        else:
+            member.member_delete_status = 0
+            member.save()
         request.session['member_order_count']  -= 1
         messages.success(request, _("Member is deleted"))
     elif data_type == "Death":

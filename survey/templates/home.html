@@ -252,7 +252,7 @@
               {% if not family_status %}
             <a href="/edit-member/{{ query_obj.f_m_id }}" class="btn btn-primary btn-sm"> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
           <!--  <a href="/add-member-info/{{ query_obj.f_m_id }}" class="btn btn-info">{{ _('Complete Info...') }} <i class="fa fa-hand-pointer-o"></i></a>-->
-            <a href="" class="btn btn-danger btn-sm open-modal" data-toggle="modal" data-target="#deleteMemberModal" data-type="member" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
+            <a href="" class="btn btn-danger btn-sm open-modal" data-toggle="modal" data-target="#deleteMemberModal" data-type="member" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" data-relation="{{ query_obj.family_relation }}">{{ _('Delete') }} <i class="fa fa-trash"></i></a>
 {% else %}
              <a href="#" disabled class="btn btn-primary btn-sm"> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
             <!--<a href="#" disabled class="btn btn-info">{{ _('Complete Info...') }} <i class="fa fa-hand-pointer-o"></i></a>-->
@@ -405,12 +405,19 @@ $(document).ready(function() {
    var member_id = button.data('memberid'); // Extract info from data-* attributes
    var member_name = button.data('membername');
    var data_type = button.data('type');
-   var sample_id = button.data('sample_id')
-   console.log(sample_id)
+   var sample_id = button.data('sample_id');
+   var family_relation = button.data('relation');
+   //console.log(sample_id)
    var url = "/delete-member/";
-   console.log(url)
+   //console.log(url)
    var title = "{{ _('Confirm Delete #') }}" + member_name;
-   var content = "{{ _('Are you sure want to delete') }}" + member_name + '؟';
+   var content = "";
+   if (family_relation == 1700001){
+     content = "{{ _('Are you sure you want to delete family head ') }} (" + member_name + ")؟  {{ _('This will also delete all members for this family head') }}.";
+   }
+   else{
+     content = "{{ _('Are you sure want to delete') }}" + member_name + '؟';
+   }
 
    // Update the modal's content.
    var modal = $(this)
