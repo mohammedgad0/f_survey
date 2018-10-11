@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-11 10:38+0300\n"
+"POT-Creation-Date: 2018-10-11 10:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -770,14 +770,14 @@ msgstr "تمت إضافة أفراد العائلة بنجاح ، يرجى إض�
 
 #: .\survey\views.py:509
 msgid "Member is added "
-msgstr "تم الحذف"
+msgstr "تمت إضافة فرد الأسرة."
 
 #: .\survey\views.py:511
 msgid "Review newly added members"
 msgstr "عرض جميع أفراد الأسرة"
 
 #: .\survey\views.py:515
-msgid "Member is could not be added, Something went wrong! "
+msgid "Member could not be added, Something went wrong! "
 msgstr "لا يمكن إضافة فرد"
 
 #: .\survey\views.py:570 .\survey\views.py:592

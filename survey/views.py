@@ -88,7 +88,7 @@ def add_family_member(request):
 
     else:
         raise Http404
-    if request.session.get('member_order_count') is None:
+    if request.session.get('member_order_count') is None or request.session.get('member_order_count') is 0 :
         request.session['member_order_count'] = 1
     #print(request.session.get('member_order_count'))
     return render(request, 'family-member-form-step1.html', context)
@@ -512,7 +512,7 @@ def ajax_save_members_data(request):
         }
     else:
         data = {
-            'error': _("Member is could not be added, Something went wrong! ")
+            'error': _("Member could not be added, Something went wrong! ")
         }
     return JsonResponse(data)
 
