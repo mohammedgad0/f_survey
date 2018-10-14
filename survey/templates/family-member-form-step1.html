@@ -569,7 +569,7 @@ span.loader img {
                       <div class="col-md-12">
                           <div class="form-group">
 
-                            <select class="form-control" id="data-type" required>
+                            <select class="form-control" name="member_type" id="data-type" required>
                               <option value="individual">{{ _('Individual') }}</option>
                               <option value="all">{{ _('All Members') }}</option>
                             </select>
@@ -715,6 +715,7 @@ span.loader img {
 
 // warning action
 $(document).ready(function() {
+
 $('.all-members form input').each(function(){
 	$(this).attr('required');
 });
@@ -755,7 +756,7 @@ $('.all-members form input').each(function(){
     var value = $(this).val();
     if (value == 'individual'){
       $("#individual").show();
-      $("#all-members").hide ();
+      $("#all-members").hide();
 
     }
     else{
@@ -766,6 +767,7 @@ $('.all-members form input').each(function(){
 
   $('.load-individual-data').on('click', function(event){
       event.preventDefault();
+      var data_member_type = $("#data-type").val();
       var fid = $("input[name='FatherID']").val();
 
       // validations
@@ -860,6 +862,7 @@ $('.all-members form input').each(function(){
               var relationshiptype = $(this).closest('tr').data('relationshiptype');
               var gender = $(this).closest('tr').data('gender');
               var maritalstatus = $(this).closest('tr').data('maritalstatus');
+              var redirectURL = "";
               $.ajax({
                   url: '/ajax/save/',
                   data: {
@@ -874,7 +877,13 @@ $('.all-members form input').each(function(){
                   },
                   success: function (data) {
                     if(data.success){
-                      $('.alert').html('<div class="alert alert-success">'+ data.success +' <a href="/">'+ data.link_text +'</div>');
+                      if(data_member_type == 'individual'){
+                        redirectURL = "/edit-member/"+ data.f_m_id +" ";
+                      }
+                      else{
+                        redirectURL = "/";
+                      }
+                      $('.alert').html('<div class="alert alert-success">'+ data.success +' <a href="'+ redirectURL +'">'+ data.link_text +'</div>');
 
                     }
                     else if(data.error){
@@ -1340,7 +1349,7 @@ if( age > 0 && action == 'edit' ) {
 }
 
 
-
+$('.chosen-select').chosen({rtl: true});
 </script>
 
 {% endblock %}

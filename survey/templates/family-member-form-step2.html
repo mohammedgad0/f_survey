@@ -317,6 +317,7 @@
 {% block javascripts %}
   {{ block.super }}
 <script>
+$('.chosen-select').chosen({rtl: true});
 $('[data-toggle="tooltip"]').tooltip();
 $('.tooltip-link').on('click', function(){
   return false;
@@ -355,6 +356,7 @@ $('.tooltip-link').on('click', function(){
           //$('#study-field-child').show();
           $("#study-field-child select").html(data);  // replace the contents of the city input with the data that came from the server
           $("#study-field-child select").attr('required', true);
+          $("#study-field-child select").trigger("chosen:updated");
         }
       });
 
@@ -419,6 +421,7 @@ $('.tooltip-link').on('click', function(){
         success: function (data) {   // `data` is the return of the `load_cities` view function
           //$('#main-job-child').show();
           $("#main-job-child select").html(data);  // replace the contents of the city input with the data that came from the server
+          $("#main-job-child select").trigger("chosen:updated");
           //$("#main-job-child select").attr('required', true);
         }
       });
@@ -444,6 +447,7 @@ $('#economic-activity-parent select').on('change', function(){
           //$('#main-job-child').show();
 
           $("#economic-activity-child select").html(data);  // replace the contents of the city input with the data that came from the server
+          $("#economic-activity-child select").trigger("chosen:updated");
         }
       });
 

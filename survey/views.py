@@ -501,7 +501,8 @@ def ajax_save_members_data(request):
         family_relation = relationshiptype,
         gender= gender,
         nationality=nationality_code,
-        nationality_txt=nationality_txt
+        nationality_txt=nationality_txt,
+        member_delete_status=1
     )
 
     if family_member:
