@@ -256,7 +256,7 @@
 {% else %}
              <a href="#" disabled class="btn btn-primary btn-sm"> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
             <!--<a href="#" disabled class="btn btn-info">{{ _('Complete Info...') }} <i class="fa fa-hand-pointer-o"></i></a>-->
-            <a href="" class="btn btn-danger btn-sm open-modal" disabled data-toggle="modal" data-target="#deleteMemberModal" data-type="member" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
+            <a href="" class="btn btn-danger btn-sm open-modal" disabled data-toggle="modal"  data-type="member" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
               {% endif %}
           </td>
         </tr>
@@ -316,7 +316,7 @@
             <a href="" class="btn btn-danger btn-sm" data-toggle="modal"  data-target="#deleteMemberModal" data-type="Death" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
 {% else %}
 <a href="#" class="btn btn-primary btn-sm" disabled> {{ _('Edit') }} <i class="fa fa-edit"></i></a>
-<a href="#" class="btn btn-danger btn-sm" disabled data-toggle="modal"  data-target="#deleteMemberModal" data-type="Death" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
+<a href="#" class="btn btn-danger btn-sm" disabled data-toggle="modal"   data-type="Death" data-memberid="{{ query_obj.f_m_id }}" data-membername="{{ query_obj.member_name }}" >{{ _('Delete') }} <i class="fa fa-trash"></i></a>
 
               {% endif %}
           </td>

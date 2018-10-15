@@ -34,14 +34,22 @@ def add_family_member(request):
 
         form = FamilyMemberFormStep1()
         #request.session['member_order_count'] = 1
-        context = {'form_step1':form, 'fm_id': sample_id, 'action' : 'add'}
+        memberNo = FcpFamilyMemberTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0))
+        if not memberNo:
+            no_of_member = str(1).zfill(2)
+        else:
+            # count and incrementing by 1 as member number
+            no_of_member = str(memberNo.count()+1).zfill(2)
+
+
+        context = {'form_step1':form, 'fm_id': sample_id, 'action' : 'add', 'member_num':no_of_member}
         CHOICES = dropListOptions(9,27,1)
         form.fields['place_birth'].widget = forms.Select(choices = CHOICES)
         form.fields['place_stay_previous'].widget = forms.Select(choices = CHOICES)
 
         if request.method == 'POST':
             form = FamilyMemberFormStep1(request.POST)
-            context = {'form_step1':form, 'fm_id': sample_id, 'action' : 'add'}
+            context = {'form_step1':form, 'fm_id': sample_id, 'action' : 'add', 'member_num':no_of_member}
 
             #print(type(request.POST['difficulty_1_degree']))
             if form.is_valid():
@@ -549,6 +557,7 @@ def home(request):
 
         death_list = FcpFamilyDeathTab.objects.filter(Q(sample_id=sample_id) & ~Q(member_delete_status=0))
         family_status = True
+        
         if sample_obj.family_status != 2:
             family_status = False
         context = {'members_count':sample_obj.no_of_member, 'members_enter_count':members_enter_count, 'member_status': member_status,

@@ -91,7 +91,7 @@ span.loader img {
                  <legend class="scheduler-border"><i class="fas fa fa-user-plus"></i> {{ _('Add Family Member') }}</legend>
                  <h1 class='text-center'>
                   {% if action != 'edit' %}
-                    {{ _('Member')}}#  {{ request.session.member_order_count }}
+                    {{ _('Member')}}#  {{ member_num }}
                   {% endif %}
                 </h1>
                 {% if request.session.nationality  == 15900001  and action != 'edit' %}
@@ -620,7 +620,7 @@ span.loader img {
                                     <th>{{ _('Relationship') }}</th>
                                     <th>{{ _('Gender') }}</th>
                                     <th>{{ _('Marital Status') }}</th>
-                                    <th>{{ _('Actions') }}</th>
+                                    <th>{{ _('Add') }}</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -684,7 +684,7 @@ span.loader img {
                                     <th>{{ _('Relationship') }}</th>
                                     <th>{{ _('Gender') }}</th>
                                     <th>{{ _('Marital Status') }}</th>
-                                    <th>{{ _('Actions') }}</th>
+                                    <th>{{ _('Add') }}</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -849,49 +849,48 @@ $('.all-members form input').each(function(){
               +'<td>'+ gender[val.Sex] +'</td>'
               +'<td>'+ val.MartialStatustext +'</td>'
               +'<td> <input type="checkbox" class="family-record"  /></td>'
+              +'<td id="edit"></td>'
             +'</tr>');
             //});
 
             $('.family-record').on('change', function(){
-
-              var nationality_code = $(this).closest('tr').data('nationality');
-              var nationality_txt = $(this).closest('tr').data('nationality_txt');
-              var fname = $(this).closest('tr').data('fname');
-              var age = $(this).closest('tr').data('age');
-              var year = $(this).closest('tr').data('year');
-              var relationshiptype = $(this).closest('tr').data('relationshiptype');
-              var gender = $(this).closest('tr').data('gender');
-              var maritalstatus = $(this).closest('tr').data('maritalstatus');
-              var redirectURL = "";
-              $.ajax({
-                  url: '/ajax/save/',
-                  data: {
-                    'nationality_code': nationality_code,
-                    'nationality_txt':nationality_txt,
-                    'fname': fname,
-                    'age' : age,
-                    'year': year,
-                    'relationshiptype':relationshiptype,
-                    'gender': gender,
-                    'maritalstatus': maritalstatus,
-                  },
-                  success: function (data) {
-                    if(data.success){
-                      if(data_member_type == 'individual'){
+              if ($(this).is(':checked')) {
+                var nationality_code = $(this).closest('tr').data('nationality');
+                var nationality_txt = $(this).closest('tr').data('nationality_txt');
+                var fname = $(this).closest('tr').data('fname');
+                var age = $(this).closest('tr').data('age');
+                var year = $(this).closest('tr').data('year');
+                var relationshiptype = $(this).closest('tr').data('relationshiptype');
+                var gender = $(this).closest('tr').data('gender');
+                var maritalstatus = $(this).closest('tr').data('maritalstatus');
+                var redirectURL = "";
+                $.ajax({
+                    url: '/ajax/save/',
+                    data: {
+                      'nationality_code': nationality_code,
+                      'nationality_txt':nationality_txt,
+                      'fname': fname,
+                      'age' : age,
+                      'year': year,
+                      'relationshiptype':relationshiptype,
+                      'gender': gender,
+                      'maritalstatus': maritalstatus,
+                    },
+                    success: function (data) {
+                      if(data.success){
                         redirectURL = "/edit-member/"+ data.f_m_id +" ";
+
+                        $('.alert').html('<div class="alert alert-success">'+ data.success +'</div>');
+                        $("#edit").html('<a href="'+ redirectURL +'">{{ _("Complete Data") }}</a>');
                       }
-                      else{
-                        redirectURL = "/";
+                      else if(data.error){
+                        $('.alert').html('<div class="alert alert-danger">'+ data.error +'</div>');
                       }
-                      $('.alert').html('<div class="alert alert-success">'+ data.success +' <a href="'+ redirectURL +'">'+ data.link_text +'</div>');
 
                     }
-                    else if(data.error){
-                      $('.alert').html('<div class="alert alert-danger">'+ data.error +'</div>');
-                    }
+                  });
+              }
 
-                  }
-                });
             });
             //$('#main-job-child').show();
           //  $(".birth-place select").html(data);  // replace the contents of the city input with the data that came from the server
@@ -985,7 +984,7 @@ $('.all-members form input').each(function(){
             $(obj.Persons).each(function(i, val){
 
               user_input_age = val.Age;
-              console.log(user_input_age)
+              //console.log(user_input_age)
               //if (user_input_age.length <= 3){
               //  console.log(user_input_age.length)
                  dob_year = moment().subtract(user_input_age, 'years').calendar();
@@ -995,56 +994,67 @@ $('.all-members form input').each(function(){
               //}
               $('.result').show();
               html_table += '<tr '
+                +'data-editId='+i+' '
+                +'data-edit_class="edit'+i+'" '
                 +'data-nationality='+ val.Nationality +' '
                 +'data-fname='+ val.FirstName +' '
                 +'data-age='+ val.Age +' '
                 +'data-year='+ hyear +' '
                 +'data-relationshiptype='+ val.RelationshipType +' '
                 +'data-gender='+ val.Sex +' '
-                +'data-maritalstatus='+ val.MaritalStatus +'>'
+                +'data-maritalstatus='+ val.MaritalStatus +' >'
                 +'<td>'+ val.FirstName +'</td>'
                 +'<td>'+ val.Age +'</td>'
                 +'<td>'+ val.nationality_txt +'</td>'
                 +'<td>'+ val.RelationshipTypeTxt +'</td>'
                 +'<td>'+ gender[val.Sex] +'</td>'
                 +'<td>'+ val.MartialStatustext +'</td>'
-                +'<td> <input type="checkbox" class="family-record" value="'+i+'" /></td>'
+                +'<td> <input type="checkbox" class="family-record" /></td>'
+                +'<td id="'+i+'" class="edit'+i+'"></td>'
               +'</tr>'
             });
             $('.result > table > tbody').html(html_table);
             $('.family-record').on('change', function(){
 
-              var nationality_code = $(this).closest('tr').data('nationality');
-              var nationality_txt = $(this).closest('tr').data('nationality_txt');
-              var fname = $(this).closest('tr').data('fname');
-              var age = $(this).closest('tr').data('age');
-              var year = $(this).closest('tr').data('year');
-              var relationshiptype = $(this).closest('tr').data('relationshiptype');
-              var gender = $(this).closest('tr').data('gender');
-              var maritalstatus = $(this).closest('tr').data('maritalstatus');
-              $.ajax({
-                  url: '/ajax/save/',
-                  data: {
-                    'nationality_code': nationality_code,
-                    'nationality_txt':nationality_txt,
-                    'fname': fname,
-                    'age' : age,
-                    'year': year,
-                    'relationshiptype':relationshiptype,
-                    'gender': gender,
-                    'maritalstatus': maritalstatus,
-                  },
-                  success: function (data) {
-                    if(data.success){
-                      $('.alert').html('<div class="alert alert-success">'+ data.success +' <a href="/">'+ data.link_text +'</div>');
+              if ($(this).is(':checked')) {
+                var edit_class = $(this).closest('tr').data('edit_class');
+
+                var nationality_code = $(this).closest('tr').data('nationality');
+                var nationality_txt = $(this).closest('tr').data('nationality_txt');
+                var fname = $(this).closest('tr').data('fname');
+                var age = $(this).closest('tr').data('age');
+                var year = $(this).closest('tr').data('year');
+                var relationshiptype = $(this).closest('tr').data('relationshiptype');
+                var gender = $(this).closest('tr').data('gender');
+                var maritalstatus = $(this).closest('tr').data('maritalstatus');
+
+                $.ajax({
+                    url: '/ajax/save/',
+                    data: {
+                      'nationality_code': nationality_code,
+                      'nationality_txt':nationality_txt,
+                      'fname': fname,
+                      'age' : age,
+                      'year': year,
+                      'relationshiptype':relationshiptype,
+                      'gender': gender,
+                      'maritalstatus': maritalstatus,
+                    },
+                    success: function (data) {
+                      if(data.success){
+                        console.log(data.f_m_id);
+                        $('.'+edit_class).html('<a href="/edit-member/'+ data.f_m_id +'" >{{ _("Complete Data") }}</a>');
+                        $('.alert').html('<div class="alert alert-success">'+ data.success +' <a href="/">'+ data.link_text +'</div>');
+
+                      }
+                      else if(data.error){
+                        $('.alert').html('<div class="alert alert-danger">'+ data.error +'</div>');
+                      }
 
                     }
-                    else if(data.error){
-                      $('.alert').html('<div class="alert alert-danger">'+ data.error +'</div>');
-                    }
+                  });
+              }
 
-                  }
-                });
             });
             //$('#main-job-child').show();
           //  $(".birth-place select").html(data);  // replace the contents of the city input with the data that came from the server
@@ -1057,9 +1067,10 @@ $('.all-members form input').each(function(){
         });
     });
 
-    $('.close-popup').on('click', function(){
+    $('.close').on('click', function(){
         $("#result > table > thead > tr").remove();
       $("#result > table > tbody > tr").remove();
+        window.location.reload(true);
     });
 
     var warning = $('.js-warning').val();
