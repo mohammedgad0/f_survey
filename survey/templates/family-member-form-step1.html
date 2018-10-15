@@ -553,13 +553,13 @@ span.loader img {
                 <!--</fieldset>-->
               </div>
               <!-- Modal -->
-              <div class="modal fade" id="dataModal" role="dialog">
+              <div class="modal fade" id="dataModal" role="dialog" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog">
 
                   <!-- Modal content-->
                   <div class="modal-content">
                     <div class="mmodal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                       <div class="alert">
                       </div>
 
@@ -606,6 +606,10 @@ span.loader img {
                               <input type="hidden" name="OperatorID" value="{{ request.session.user_id }}" />
                               <div class="button-container-form">
                                 <button type="button" class="load-individual-data button"><span>{{ _('Load') }} <i class="fa fas fa-download" aria-hidden="true"></i></span></button>
+                                <button type="button" class="btn-danger button closebtn" data-dismiss="modal"><span>{{ _('Close')}}</span></button>
+                              </div>
+                              <div class="button-container-form">
+
                               </div>
                             </form>
                             <span class="loader"></span>
@@ -1067,7 +1071,7 @@ $('.all-members form input').each(function(){
         });
     });
 
-    $('.close').on('click', function(){
+    $('.closebtn').on('click', function(){
         $("#result > table > thead > tr").remove();
       $("#result > table > tbody > tr").remove();
         window.location.reload(true);
